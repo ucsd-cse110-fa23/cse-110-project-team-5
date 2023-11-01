@@ -1,5 +1,11 @@
 package server;
 import com.sun.net.httpserver.*;
+
+import server.handlers.RequestHandler;
+import server.handlers.recipeRequestHandler;
+import server.handlers.gptRequestHandler;
+import server.handlers.whisperRequestHandler;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
