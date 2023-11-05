@@ -25,10 +25,11 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("BrokeEats");
-        BorderPane root = new BorderPane();
-        ListView<String> recipeList = new ListView<>();
-        root.getChildren().addAll(recipeList);
-        Scene scene = new Scene(root, 500, 600);
+        // BorderPane root = new BorderPane();
+        // ListView<String> recipeList = new ListView<>();
+        // root.getChildren().addAll(recipeList);
+        AppFrame appFrame = new AppFrame();
+        Scene scene = new Scene(appFrame, 500, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
 
