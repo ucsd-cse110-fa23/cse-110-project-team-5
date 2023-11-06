@@ -130,60 +130,13 @@ class Header extends HBox {
     }
 }
 
-// class AppFrame extends BorderPane {
-//     private Header header;
-//     private Footer footer;
-//     private RecipeList recipeList;
-
-//     private Button createButton;
-
-//     AppFrame() {
-//         // Initialise the header Object
-//         header = new Header();
-//         // Create a tasklist Object to hold the tasks
-//         recipeList = new RecipeList();
-//         // Initialise the Footer Object
-//         footer = new Footer();
-//         ScrollPane scrollPane = new ScrollPane(recipeList);
-//         scrollPane.setFitToWidth(true);
-//         scrollPane.setFitToHeight(true);
-//         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-//         // Add header to the top of the BorderPane
-//         this.setTop(header);
-//         // Add scroller to the centre of the BorderPane
-//         this.setCenter(scrollPane);
-//         // Add footer to the bottom of the BorderPane
-//         this.setBottom(footer);
-//         // Initialise Button Variables through the getters in Footer
-//         createButton = footer.getCreateButton();
-//         // Call Event Listeners for the Buttons
-//         addListeners();
-//     }
-
-//     public void addListeners() {
-//         // Add button functionality
-//         createButton.setOnAction(e -> {
-//             // Create a new task
-//             Recipe recipe = new Recipe();
-//             // Add task to tasklist
-//             recipeList.getChildren().add(recipe);
-//             // Update task indices
-//             recipeList.updateTaskIndices();
-//         });
-//     }
-// }
-
 public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
         AppFrame root = new AppFrame();
         // Set the title of the app
         primaryStage.setTitle("Pantry Pal");
-        // BorderPane root = new BorderPane();
-        // ListView<String> recipeList = new ListView<>();
-        // root.getChildren().addAll(recipeList);
         Scene scene = new Scene(root, 500, 600);
         primaryStage.setScene(scene);
         // Make window resizable
@@ -196,17 +149,3 @@ public class Main extends Application{
         launch(args);
     }
 }
-
-// public class Main extends Application {
-
-//     @Override
-//     public void start(Stage primaryStage) throws Exception {
-
-//         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
-//         AppFrame root = new AppFrame();
-
-//         // Create scene of mentioned size with the border pane
-//         primaryStage.setScene(new Scene(root, 500, 600));
-
-//     }
-// }
