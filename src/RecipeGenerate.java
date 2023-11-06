@@ -24,6 +24,7 @@ public class RecipeGenerate extends BorderPane {
     Label recordingLabel = new Label("Recording...");
     private TargetDataLine targetLine;
     private File outputFile;
+    private AudioFormat audioFormat;
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
     public RecipeGenerate() {
         ListView<String> recipeList = new ListView<>();
@@ -46,53 +47,26 @@ public class RecipeGenerate extends BorderPane {
         isRecording = !isRecording;
     }
     private void startRecord() {
-        // try {
-        //     AudioFormat format = new AudioFormat(44100, 16, 2, true, true);
-        //     DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-        //     targetLine = (TargetDataLine) AudioSystem.getLine(info);
-        //     targetLine.open(format);
-        //     targetLine.start();
-        //     recordingLabel.setVisible(true);
-        //     outputFile = new File("/Users/kevinyan/Documents/cse-110-project-team-5/testtoggle.wav");
-        //     Thread recordThread = new Thread(() -> {
-        //         try {
-        //             AudioSystem.write(new AudioInputStream(targetLine), AudioFileFormat.Type.WAVE, outputFile);
-        //         } catch (Throwable e) {
-        //             e.printStackTrace();
-        //         }
-        //     });
-        //     recordThread.setDaemon(true);
-        //     recordThread.start();
-        // } catch (Throwable e) {
-        //     e.printStackTrace();
-        // }
-        
-        Thread t = new Thread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    try {
-            AudioFormat format = new AudioFormat(44100, 16, 2, true, true);
+        try {
+            AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
             targetLine = (TargetDataLine) AudioSystem.getLine(info);
             targetLine.open(format);
             targetLine.start();
             recordingLabel.setVisible(true);
-            AudioInputStream audioInputStream = new AudioInputStream(
-                    targetLine);
-            File audioFile = new File("/Users/kevinyan/Documents/cse-110-project-team-5/testtoe.wav");
-            AudioSystem.write(
-                    audioInputStream,
-                    AudioFileFormat.Type.WAVE,
-                    audioFile);
-            recordingLabel.setVisible(false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            outputFile = new File("voiceinstructions.wav");
+            Thread recordThread = new Thread(() -> {
+                try {
+                    AudioSystem.write(new AudioInputStream(targetLine), AudioFileFormat.Type.WAVE, outputFile);
+                } catch (Throwable e) {
+                    e.printStackTrace();
                 }
-            }
-        );
-        t.start();
+            });
+            recordThread.setDaemon(true);
+            recordThread.start();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
     private void stopRecord() {
         targetLine.stop();
