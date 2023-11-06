@@ -24,11 +24,10 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        RecipeGenerate test = new RecipeGenerate();
         primaryStage.setTitle("BrokeEats");
-        BorderPane root = new BorderPane();
-        ListView<String> recipeList = new ListView<>();
-        root.getChildren().addAll(recipeList);
-        Scene scene = new Scene(root, 500, 600);
+        AppFrame appFrame = new AppFrame();
+        Scene scene = new Scene(test, 500, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
 
