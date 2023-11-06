@@ -106,12 +106,35 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
-            // Create a new task
-            Recipe recipe = new Recipe();
-            // Add task to tasklist
-            recipeList.getChildren().add(recipe);
-            // Update task indices
-            recipeList.updateTaskIndices();
+            // // Create a new task
+            // Recipe recipe = new Recipe();
+            // // Add task to tasklist
+            // recipeList.getChildren().add(recipe);
+            // // Update task indices
+            // recipeList.updateTaskIndices();
+
+            Stage recordingStage = new Stage();
+            BorderPane recordingPane = new BorderPane();
+
+            Button startButton = new Button("Start");
+            startButton.setOnAction(e1 -> {
+
+            });
+
+            Button stopButton = new Button("Stop");
+            stopButton.setOnAction(e2 -> {
+
+            });
+
+            HBox buttonBox = new HBox(10);
+            buttonBox.getChildren().addAll(startButton, stopButton);
+            buttonBox.setAlignment(Pos.CENTER);
+            recordingPane.setCenter(buttonBox);
+
+            Scene recordingScene = new Scene(recordingPane, 400, 300);
+            recordingStage.setScene(recordingScene);
+            recordingStage.setTitle("Recording Window");
+            recordingStage.show(); 
         });
     }
 }
