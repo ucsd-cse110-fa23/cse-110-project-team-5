@@ -1,11 +1,6 @@
 package server;
 import com.sun.net.httpserver.*;
 
-import server.handlers.RequestHandler;
-import server.handlers.recipeRequestHandler;
-import server.handlers.gptRequestHandler;
-import server.handlers.whisperRequestHandler;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -30,9 +25,9 @@ public class Server {
         new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT),
         0);
 
-    HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
-    HttpContext gptContext = server.createContext("/gpt", new RequestHandler(data));
-    HttpContext whisperContext = server.createContext("/whisper", new RequestHandler(data));
+    // HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
+    HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
+    // HttpContext whisperContext = server.createContext("/whisper", new whisperRequestHandler(data));
 
     server.setExecutor(threadPoolExecutor);
     server.start();

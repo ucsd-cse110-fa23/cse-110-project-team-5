@@ -1,4 +1,4 @@
-package server.handlers;
+package server;
 import com.sun.net.httpserver.*;
 import java.io.*;
 import java.net.*;
@@ -10,15 +10,17 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class gptRequestHandler {
+public class GptRequestHandler implements HttpHandler {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
     private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
 
     HttpClient client;
+    private final Map<String, String> data;
 
-    public gptRequestHandler() {
-        client = HttpClient.newHttpClient();
+    public GptRequestHandler(Map<String, String> data) {
+        this.client = HttpClient.newHttpClient();
+        this.data = data;
     }
 
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -36,13 +38,32 @@ public class gptRequestHandler {
             response = e.toString();
             e.printStackTrace();
         }
+        httpExchange.sendResponseHeaders(200, response.length());
+        OutputStream outStream = httpExchange.getResponseBody();
+        outStream.write(response.getBytes());
+        outStream.close();
     }
 
     private String handleGet(HttpExchange httpExchange) throws IOException {
         String response = "Invalid GET request";
         URI uri = httpExchange.getRequestURI();
         String query = uri.getRawQuery();
-
+        if (query != null) {
+            String value = query.substring(query.indexOf("=") + 1);
+            // query will be of the form "query=<tokens>,<message to gpt>"
+            int tokens = Integer.parseInt(value.substring(0, value.indexOf(",")));
+            String message = value.substring(value.indexOf(",") + 1).replaceAll("_", " ");
+            if (message != null) {
+                try {
+                    response = askGPT(tokens, message);
+                } catch (Exception e) {
+                    response = "Error with chatgpt";
+                }                
+            } else {
+                response = "No message query found";
+            }
+        }            
+        return response;
     }
 
     public String askGPT(int maxTokens, String prompt) throws IOException, InterruptedException, URISyntaxException {
