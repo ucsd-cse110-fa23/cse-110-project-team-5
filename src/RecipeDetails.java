@@ -38,16 +38,38 @@ import javafx.scene.control.ScrollPane;
 public class RecipeDetails extends BorderPane {
     private Header header;
     private Footer footer;
-    private Details detail;
+    private Details details;
+    // private RecipeList list;
+
+
+    private Button editButton;
+    private Button deleteButton;
 
     RecipeDetails() {
+        // Initialise the header Object
         header = new Header();
+        // Create a details Object to hold the recipe details
+        details = new Details();
+        // list = new RecipeList();
+        // Initialise the Footer Objectx
         footer = new Footer();
-        detail = new Details();
 
+        ScrollPane scrollPane = new ScrollPane(details);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
+        // Add header to the top of the BorderPane
         this.setTop(header);
-        this.setCenter(detail);
+        // Add scroller to the centre of the BorderPane
+        this.setCenter(scrollPane);
+        // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
+        // Initialise Button Variables through the getters in Footer
+        editButton = footer.getEditButton();
+        deleteButton = footer.getDeleteButton();
+        // Call Event Listeners for the Buttons
+        addListeners();
+
     }
 
     // RecipeDetails Header
@@ -58,13 +80,15 @@ public class RecipeDetails extends BorderPane {
 
             Text titleText = new Text("Recipe Details"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+            this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center
         }
     }
 
     // RecipeDetails Footer
     class Footer extends HBox {
-        private Button createButton;
+        private Button editButton;
+        private Button deleteButton;
 
         Footer() {
             this.setPrefSize(500, 60);
@@ -74,7 +98,31 @@ public class RecipeDetails extends BorderPane {
             // set a default style for buttons - background color, font size, italics
             String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
+            editButton = new Button("Edit Recipe"); // text displayed on add button
+            editButton.setStyle(defaultButtonStyle); // styling the button
+            deleteButton = new Button("Delete Recipe"); // text displayed on add button
+            deleteButton.setStyle(defaultButtonStyle); // styling the button
+
+            this.getChildren().addAll(editButton, deleteButton); // adding buttons to footer
             this.setAlignment(Pos.CENTER); // aligning the buttons to center
         }
+
+        public Button getEditButton() {
+            return editButton;
+        }
+        
+        public Button getDeleteButton() {
+            return deleteButton;
+        }
+    }
+
+    public void addListeners() {
+        // Add button functionality
+        editButton.setOnAction(e -> {
+        });
+
+        // Add button functionality
+        deleteButton.setOnAction(e -> {
+        });
     }
 }
