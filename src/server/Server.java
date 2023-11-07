@@ -27,7 +27,7 @@ public class Server {
 
     // HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
     HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
-    // HttpContext whisperContext = server.createContext("/whisper", new whisperRequestHandler(data));
+    HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
 
     server.setExecutor(threadPoolExecutor);
     server.start();
