@@ -1,4 +1,5 @@
 lib/
+*.class
 
 .vscode
 .DS_Store
