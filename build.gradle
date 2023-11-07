@@ -30,5 +30,5 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml']
 }
 application {
-    mainClassName = 'anything.Main'
+    mainClassName = 'miniproject.Main'
 }
