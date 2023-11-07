@@ -38,8 +38,8 @@ class RecipeList extends VBox {
     public void updateTaskIndices() {
         int index = 1;
         for (int i = 0; i < this.getChildren().size(); i++) {
-            if (this.getChildren().get(i) instanceof Recipe) {
-                ((Recipe) this.getChildren().get(i)).setRecipeIndex(index);
+            if (this.getChildren().get(i) instanceof RecipeDisplay) {
+                ((RecipeDisplay) this.getChildren().get(i)).setRecipeIndex(index);
                 index++;
             }
         }

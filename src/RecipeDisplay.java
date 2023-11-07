@@ -28,13 +28,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// Recipes
-class Recipe extends HBox {
+// Recipes displayed on the recipe list
+class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
     private Button detailButton;
 
-    Recipe() {
+    RecipeDisplay() {
         this.setPrefSize(500, 20); // sets size of task
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
 

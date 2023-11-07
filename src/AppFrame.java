@@ -107,9 +107,9 @@ class AppFrame extends BorderPane {
         // Add button functionality
         createButton.setOnAction(e -> {
             // Create a new task
-            Recipe recipe = new Recipe();
+            RecipeDisplay recipeDisplay = new RecipeDisplay();
             // Add task to tasklist
-            recipeList.getChildren().add(recipe);
+            recipeList.getChildren().add(recipeDisplay);
             // Update task indices
             recipeList.updateTaskIndices();
         });
