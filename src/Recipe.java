@@ -57,9 +57,9 @@ class Recipe extends HBox {
         detailButton.setPrefHeight(Double.MAX_VALUE);
         detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
         detailButton.setOnAction(e -> {
-            RecipeDetails = new RecipeDetails();
+            RecipeDetails recipeDetails = new RecipeDetails();
             Stage viewDetailStage = new Stage();
-            Scene viewDetailScene = new Scene(RecipeDetails);
+            Scene viewDetailScene = new Scene(recipeDetails, 500, 500);
             viewDetailStage.setScene(viewDetailScene);
             viewDetailStage.show();
         });
