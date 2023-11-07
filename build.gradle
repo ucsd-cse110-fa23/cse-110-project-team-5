@@ -1,5 +1,6 @@
 plugins {
-    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 java {
@@ -23,4 +24,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+javafx {
+    version = "21" // use the version compatible with your JDK
+    modules = [ 'javafx.controls', 'javafx.fxml']
+}
+application {
+    mainClassName = 'anything.Main'
 }

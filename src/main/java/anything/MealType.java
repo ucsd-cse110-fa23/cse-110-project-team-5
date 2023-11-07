@@ -1,3 +1,5 @@
+package anything;
+
 public enum MealType {
     BREAKFAST("Breakfast"), 
     LUNCH("Lunch"), 

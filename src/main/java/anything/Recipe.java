@@ -1,3 +1,5 @@
+package anything;
+
 public class Recipe {
     String title;
     String recipe;

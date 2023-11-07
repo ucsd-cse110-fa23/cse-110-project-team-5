@@ -1,3 +1,5 @@
+package anything;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
@@ -27,7 +29,6 @@ import java.awt.BorderLayout;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -36,21 +37,23 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.ScrollPane;
 
-class AppFrame extends BorderPane {
+class RecipeDetails extends BorderPane {
     private Header header;
     private Footer footer;
-    private RecipeList recipeList;
+    private Details details;
 
-    private Button createButton;
+    private Button editButton;
+    private Button deleteButton;
 
-    AppFrame() {
+    RecipeDetails() {
         // Initialise the header Object
         header = new Header();
-        // Create a tasklist Object to hold the tasks
-        recipeList = new RecipeList();
+        // Create a details Object to hold the recipe details
+        details = new Details();
         // Initialise the Footer Object
         footer = new Footer();
-        ScrollPane scrollPane = new ScrollPane(recipeList);
+
+        ScrollPane scrollPane = new ScrollPane(details);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -61,27 +64,30 @@ class AppFrame extends BorderPane {
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
         // Initialise Button Variables through the getters in Footer
-        createButton = footer.getCreateButton();
+        editButton = footer.getEditButton();
+        deleteButton = footer.getDeleteButton();
         // Call Event Listeners for the Buttons
         addListeners();
+
     }
 
-    // App Header
+    // RecipeDetails Header
     class Header extends HBox {
         Header() {
             this.setPrefSize(500, 60); // Size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
-            Text titleText = new Text("Recipe List"); // Text of the Header
+            Text titleText = new Text("Recipe Details"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center
         }
     }
 
-    // App Footer
+    // RecipeDetails Footer
     class Footer extends HBox {
-        private Button createButton;
+        private Button editButton;
+        private Button deleteButton;
 
         Footer() {
             this.setPrefSize(500, 60);
@@ -91,27 +97,31 @@ class AppFrame extends BorderPane {
             // set a default style for buttons - background color, font size, italics
             String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
-            createButton = new Button("New Recipe"); // text displayed on add button
-            createButton.setStyle(defaultButtonStyle); // styling the button
+            editButton = new Button("Edit Recipe"); // text displayed on add button
+            editButton.setStyle(defaultButtonStyle); // styling the button
+            deleteButton = new Button("Delete Recipe"); // text displayed on add button
+            deleteButton.setStyle(defaultButtonStyle); // styling the button
 
-            this.getChildren().addAll(createButton); // adding buttons to footer
+            this.getChildren().addAll(editButton, deleteButton); // adding buttons to footer
             this.setAlignment(Pos.CENTER); // aligning the buttons to center
         }
 
-        public Button getCreateButton() {
-            return createButton;
+        public Button getEditButton() {
+            return editButton;
+        }
+        
+        public Button getDeleteButton() {
+            return deleteButton;
         }
     }
 
     public void addListeners() {
         // Add button functionality
-        createButton.setOnAction(e -> {
-            // Create a new task
-            RecipeDisplay recipeDisplay = new RecipeDisplay();
-            // Add task to tasklist
-            recipeList.getChildren().add(recipeDisplay);
-            // Update task indices
-            recipeList.updateTaskIndices();
+        editButton.setOnAction(e -> {
+        });
+
+        // Add button functionality
+        deleteButton.setOnAction(e -> {
         });
     }
 }
