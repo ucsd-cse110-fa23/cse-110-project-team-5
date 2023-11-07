@@ -39,8 +39,6 @@ public class RecipeDetails extends BorderPane {
     private Header header;
     private Footer footer;
     private Details details;
-    // private RecipeList list;
-
 
     private Button editButton;
     private Button deleteButton;
@@ -50,8 +48,7 @@ public class RecipeDetails extends BorderPane {
         header = new Header();
         // Create a details Object to hold the recipe details
         details = new Details();
-        // list = new RecipeList();
-        // Initialise the Footer Objectx
+        // Initialise the Footer Object
         footer = new Footer();
 
         ScrollPane scrollPane = new ScrollPane(details);
