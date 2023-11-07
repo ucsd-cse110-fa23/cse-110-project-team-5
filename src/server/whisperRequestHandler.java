@@ -1,7 +1,5 @@
 package server;
 
-import java.io.*;
-import java.net.*;
 import com.sun.net.httpserver.*;
 import java.io.*;
 import java.net.*;
@@ -14,7 +12,7 @@ import org.json.*;
 
 import com.sun.net.httpserver.HttpExchange;
 
-public class WhisperRequestHandler implements HttpHandler{
+public class WhisperRequestHandler implements HttpHandler {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";
     private static final String MODEL = "whisper-1";
