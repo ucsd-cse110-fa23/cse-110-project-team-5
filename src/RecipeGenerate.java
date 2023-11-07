@@ -24,7 +24,6 @@ public class RecipeGenerate extends BorderPane {
     Label recordingLabel = new Label("Recording...");
     private TargetDataLine targetLine;
     private File outputFile;
-    private AudioFormat audioFormat;
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
     public RecipeGenerate() {
         ListView<String> recipeList = new ListView<>();
