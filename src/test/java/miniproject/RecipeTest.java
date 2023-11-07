@@ -22,6 +22,11 @@ public class RecipeTest {
     }
     
     @Test
+    public void testGetMealType() {
+        assertEquals(MealType.DINNER.toString(), recipe.getMealType().toString());
+    }
+    
+    @Test
     public void testGetTitle() {
         assertEquals("Recipe Title", recipe.getTitle());
     }
@@ -33,7 +38,18 @@ public class RecipeTest {
 
     @Test
     public void testSetRecipe() {
-        recipe.setRecipe("New Recipe");
-        assertEquals("New Recipe", recipe.getRecipe());
+        String newRecipe = "New Recipe";
+        recipe.setRecipe(newRecipe);
+        assertEquals(newRecipe, recipe.getRecipe());
+    }
+
+    @Test
+    public void testEditRecipe() {
+        Recipe recipeToEdit = new Recipe(MealType.LUNCH, "Chicken Curry", "Chicken Curry Recipe");
+        assertEquals(MealType.LUNCH.toString(), recipeToEdit.getMealType().toString());
+        assertEquals("Chicken Curry", recipeToEdit.getTitle());
+        assertEquals("Chicken Curry Recipe", recipeToEdit.getRecipe());
+        recipeToEdit.setRecipe("Chicken Curry modified");
+        assertEquals("Chicken Curry modified", recipeToEdit.getRecipe());
     }
 }
