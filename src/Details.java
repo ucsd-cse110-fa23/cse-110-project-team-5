@@ -28,7 +28,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Details extends VBox {
+class Details extends VBox {
     private TextField details;
 
     Details() {

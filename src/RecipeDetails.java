@@ -35,7 +35,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.ScrollPane;
 
-public class RecipeDetails extends BorderPane {
+class RecipeDetails extends BorderPane {
     private Header header;
     private Footer footer;
     private Details details;
