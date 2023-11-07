@@ -1,6 +1,10 @@
-package anything;
+package miniproject;
 
 import org.junit.jupiter.api.Test;
+
+import miniproject.MealType;
+import miniproject.Recipe;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

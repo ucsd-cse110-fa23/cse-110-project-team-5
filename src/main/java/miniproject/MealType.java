@@ -1,4 +1,4 @@
-package anything;
+package miniproject;
 
 public enum MealType {
     BREAKFAST("Breakfast"), 

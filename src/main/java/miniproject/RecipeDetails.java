@@ -1,4 +1,4 @@
-package anything;
+package miniproject;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
