@@ -41,7 +41,8 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
-
+    //private RecipeGenerate recipeGen = new RecipeGenerate();
+    RecipeGenerate recipeGen = new RecipeGenerate();
     private Button createButton;
 
     AppFrame() {
@@ -107,12 +108,38 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
-            // Create a new task
-            RecipeDisplay recipeDisplay = new RecipeDisplay();
-            // Add task to tasklist
-            recipeList.getChildren().add(recipeDisplay);
-            // Update task indices
-            recipeList.updateTaskIndices();
+            // // Create a new task
+            // RecipeDisplay recipeDisplay = new RecipeDisplay();
+            // // Add task to tasklist
+            // recipeList.getChildren().add(recipeDisplay);
+            // // Update task indices
+            // recipeList.updateTaskIndices();
+            
+            Stage recordingStage = new Stage();
+            BorderPane recordingPane = new BorderPane();
+        
+            Button recordButton = new Button("Record");
+            recordButton.setOnAction(e1 -> {
+                recipeGen.toggleRecord();
+                recipeGen.getResponse();
+                
+            });
+            
+            
+            
+
+            HBox buttonBox = new HBox(10);
+            
+            buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+            recordingPane.setCenter(buttonBox);
+            buttonBox.getChildren().addAll(recordButton, recipeGen.recordingLabel);
+            Scene recordingScene = new Scene(recordingPane, 400, 300);
+            recordingStage.setScene(recordingScene);
+            recordingStage.setTitle("Recording Window");
+            recordingStage.show(); 
+            
+
+            //System.out.print(recipeGen.getResponse());
         });
     }
 }
