@@ -122,7 +122,10 @@ class AppFrame extends BorderPane {
             Button recordButton = new Button("Record");
             recordButton.setOnAction(e1 -> {
                 recipeGen.toggleRecord();
+                recipeGen.getResponse();
+                
             });
+            
             
             
 
@@ -135,6 +138,9 @@ class AppFrame extends BorderPane {
             recordingStage.setScene(recordingScene);
             recordingStage.setTitle("Recording Window");
             recordingStage.show(); 
+            
+
+            //System.out.print(recipeGen.getResponse());
         });
     }
 }

@@ -43,8 +43,9 @@ public class RecipeGenerate extends BorderPane {
     public void toggleRecord() {
         if(isRecording) {
             stopRecord();
-            getResponse();
-            // System.out.println(getResponse());
+
+            //getResponse();
+            //System.out.println(getResponse());
         }
         else{
             startRecord();
@@ -81,18 +82,23 @@ public class RecipeGenerate extends BorderPane {
     }
     public String getResponse() {
         Model model = new Model();
-        String whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-        System.out.println(whisperResponse);
+        String gptResponse = "";
+         try {
+            String whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
+             //System.out.println(whisperResponse);
         String mod = whisperResponse.replaceAll(" ", "_");
-        System.out.println(mod);
-
-        
-
-        // String gptResponse = model.performRequest("GET", "gpt", "300,".concat(mod));
-        String gptResponse = model.performRequest("GET", "gpt", "300,give_me_a_recipe_for_chicken");
+    
+        //System.out.println(mod);
+            gptResponse = model.performRequest("GET", "gpt", "300," + mod);
+        //gptResponse = model.performRequest("GET", "gpt", "300,give_me_a_recipe_for_chicken");
         System.out.println(gptResponse);
-
-
+        } catch (Exception e) {
+            System.out.println("No input detected");
+        }
+        
+       
+        
+    
         return gptResponse;
     }
     
