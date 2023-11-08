@@ -1,32 +1,33 @@
+// package client;
+
+// public class Recipe {
+//     String title;
+//     String recipe;
+//     MealType mealType;
+
+//     public Recipe(MealType mealType, String title, String recipe) {
+//         this.mealType = mealType;
+//         this.title = title;
+//         this.recipe = recipe;
+//     }
+
+//     public String getMealType() {
+//         return this.mealType.toString();
+//     }
+
+//     public String getTitle() {
+//         return this.title;
+//     }
+
+//     public String getRecipe() {
+//         return this.recipe;
+//     }
+
+//     public void setRecipe(String recipe) {
+//         this.recipe = recipe;
+//     }
+// }
 package client;
-
-public class Recipe {
-    String title;
-    String recipe;
-    MealType mealType;
-
-    public Recipe(MealType mealType, String title, String recipe) {
-        this.mealType = mealType;
-        this.title = title;
-        this.recipe = recipe;
-    }
-
-    public String getMealType() {
-        return this.mealType.toString();
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public String getRecipe() {
-        return this.recipe;
-    }
-
-    public void setRecipe(String recipe) {
-        this.recipe = recipe;
-    }
-}package client;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -63,6 +64,7 @@ class Recipe extends HBox {
     private Label index;
     private TextField recipeName;
     private Button detailButton;
+    MealType mealType;
 
     Recipe() {
         this.setPrefSize(500, 20); // sets size of task
@@ -74,6 +76,8 @@ class Recipe extends HBox {
         index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
         index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the recipe
         this.getChildren().add(index); // add index label to recipe
+        
+        this.mealType = mealType;
 
         recipeName = new TextField(); // create recipe name text field
         recipeName.setPrefSize(380, 20); // set size of text field

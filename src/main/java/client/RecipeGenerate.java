@@ -24,34 +24,36 @@ import javax.sound.sampled.*;
 public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
     Label recordingLabel = new Label("Recording...");
-    
+
     private TargetDataLine targetLine;
     private File outputFile;
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
+
     public RecipeGenerate() {
         ListView<String> recipeList = new ListView<>();
         this.setCenter(recipeList);
         HBox footer = new HBox(10);
         Button recordButton = new Button();
         recordingLabel.setStyle(defaultLabelStyle);
-        
+
         footer.getChildren().addAll(recordButton, recordingLabel);
         this.setBottom(footer);
         recordButton.setOnAction(e -> toggleRecord());
-        
+
     }
+
     public void toggleRecord() {
-        if(isRecording) {
+        if (isRecording) {
             stopRecord();
 
-            //getResponse();
-            //System.out.println(getResponse());
-        }
-        else{
+            // getResponse();
+            // System.out.println(getResponse());
+        } else {
             startRecord();
         }
         isRecording = !isRecording;
     }
+
     public void startRecord() {
         try {
             AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
@@ -60,7 +62,7 @@ public class RecipeGenerate extends BorderPane {
             targetLine.open(format);
             targetLine.start();
             recordingLabel.setVisible(true);
-            
+
             outputFile = new File("src/voiceinstructions.wav");
             Thread recordThread = new Thread(() -> {
                 try {
@@ -75,31 +77,32 @@ public class RecipeGenerate extends BorderPane {
             e.printStackTrace();
         }
     }
+
     public void stopRecord() {
         targetLine.stop();
         targetLine.close();
         recordingLabel.setVisible(false);
     }
+
     public String getResponse() {
         Model model = new Model();
         String gptResponse = "";
-         try {
+        try {
             String whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-             //System.out.println(whisperResponse);
-        String mod = whisperResponse.replaceAll(" ", "_");
-    
-        //System.out.println(mod);
+            // System.out.println(whisperResponse);
+            String mod = whisperResponse.replaceAll(" ", "_");
+
+            // System.out.println(mod);
             gptResponse = model.performRequest("GET", "gpt", "300," + mod);
-        //gptResponse = model.performRequest("GET", "gpt", "300,give_me_a_recipe_for_chicken");
-        System.out.println(gptResponse);
+            // gptResponse = model.performRequest("GET", "gpt",
+            // "300,give_me_a_recipe_for_chicken");
+            System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
-        
-       
-        
-    
-        return gptResponse;
+
+        //return gptResponse;
+        return "this is a test string";     //MOCK
     }
-    
+
 }
