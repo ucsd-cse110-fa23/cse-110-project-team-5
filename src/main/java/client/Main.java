@@ -1,4 +1,4 @@
-package miniproject;
+package client;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,20 +30,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class RecipeList extends VBox {
-    RecipeList() {
-        this.setSpacing(5); // sets spacing between recipes
-        this.setPrefSize(500, 560);
-        this.setStyle("-fx-background-color: #F0F8FF;");
+public class Main extends Application{
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        AppFrame root = new AppFrame();
+        // Set the title of the app
+        primaryStage.setTitle("Pantry Pal");
+        Scene scene = new Scene(root, 500, 600);
+        primaryStage.setScene(scene);
+        // Make window resizable
+        primaryStage.setResizable(true);
+        // Show the app
+        primaryStage.show();
     }
 
-    public void updateTaskIndices() {
-        int index = 1;
-        for (int i = 0; i < this.getChildren().size(); i++) {
-            if (this.getChildren().get(i) instanceof RecipeDisplay) {
-                ((RecipeDisplay) this.getChildren().get(i)).setRecipeIndex(index);
-                index++;
-            }
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

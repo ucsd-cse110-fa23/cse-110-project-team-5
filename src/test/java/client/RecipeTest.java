@@ -1,9 +1,9 @@
-package miniproject;
+package client;
 
 import org.junit.jupiter.api.Test;
 
-import miniproject.MealType;
-import miniproject.Recipe;
+import client.MealType;
+import client.Recipe;
 
 import org.junit.jupiter.api.BeforeEach;
 

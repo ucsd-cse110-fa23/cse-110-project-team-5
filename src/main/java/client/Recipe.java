@@ -1,4 +1,4 @@
-package miniproject;
+package client;
 
 public class Recipe {
     String title;
