@@ -20,10 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import java.awt.BorderLayout;
 import java.io.*;
@@ -61,7 +57,7 @@ class RecipeDisplay extends HBox {
         detailButton.setOnAction(e -> {
             RecipeDetails root = new RecipeDetails();
             Stage viewDetailStage = new Stage();
-            Scene viewDetailScene = new Scene(root, 500, 500);
+            Scene viewDetailScene = new Scene(root, 500, 600);
             viewDetailStage.setScene(viewDetailScene);
             viewDetailStage.show();
         });

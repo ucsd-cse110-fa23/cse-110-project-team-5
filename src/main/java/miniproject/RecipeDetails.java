@@ -42,7 +42,7 @@ class RecipeDetails extends BorderPane {
     private Footer footer;
     private Details details;
 
-    private Button editButton;
+    private Button saveChangesButton;
     private Button deleteButton;
 
     RecipeDetails() {
@@ -64,7 +64,7 @@ class RecipeDetails extends BorderPane {
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
         // Initialise Button Variables through the getters in Footer
-        editButton = footer.getEditButton();
+        saveChangesButton = footer.getSaveChangesButton();
         deleteButton = footer.getDeleteButton();
         // Call Event Listeners for the Buttons
         addListeners();
@@ -86,7 +86,7 @@ class RecipeDetails extends BorderPane {
 
     // RecipeDetails Footer
     class Footer extends HBox {
-        private Button editButton;
+        private Button saveChangesButton;
         private Button deleteButton;
 
         Footer() {
@@ -97,17 +97,17 @@ class RecipeDetails extends BorderPane {
             // set a default style for buttons - background color, font size, italics
             String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
-            editButton = new Button("Edit Recipe"); // text displayed on add button
-            editButton.setStyle(defaultButtonStyle); // styling the button
+            saveChangesButton = new Button("Save Changes"); // text displayed on add button
+            saveChangesButton.setStyle(defaultButtonStyle); // styling the button
             deleteButton = new Button("Delete Recipe"); // text displayed on add button
             deleteButton.setStyle(defaultButtonStyle); // styling the button
 
-            this.getChildren().addAll(editButton, deleteButton); // adding buttons to footer
+            this.getChildren().addAll(saveChangesButton, deleteButton); // adding buttons to footer
             this.setAlignment(Pos.CENTER); // aligning the buttons to center
         }
 
-        public Button getEditButton() {
-            return editButton;
+        public Button getSaveChangesButton() {
+            return saveChangesButton;
         }
         
         public Button getDeleteButton() {
@@ -117,11 +117,12 @@ class RecipeDetails extends BorderPane {
 
     public void addListeners() {
         // Add button functionality
-        editButton.setOnAction(e -> {
+        saveChangesButton.setOnAction(e -> {
         });
 
         // Add button functionality
         deleteButton.setOnAction(e -> {
+            
         });
     }
 }
