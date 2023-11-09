@@ -10,4 +10,9 @@ public enum MealType {
     MealType(String mealType) {
         this.mealType = mealType;
     }
+
+    @Override
+    public String toString() {
+        return (String) this.mealType;
+    }
 }

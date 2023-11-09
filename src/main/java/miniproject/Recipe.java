@@ -11,8 +11,8 @@ public class Recipe {
         this.recipe = recipe;
     }
 
-    public String getMealType() {
-        return this.mealType.toString();
+    public MealType getMealType() {
+        return this.mealType;
     }
 
     public String getTitle() {
