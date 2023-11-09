@@ -42,16 +42,14 @@ public class RecipeGenerate extends BorderPane {
 
     }
 
-    public void toggleRecord() {
+    public boolean toggleRecord() {
         if (isRecording) {
             stopRecord();
-
-            // getResponse();
-            // System.out.println(getResponse());
         } else {
             startRecord();
         }
         isRecording = !isRecording;
+        return isRecording;
     }
 
     public void startRecord() {
@@ -93,16 +91,16 @@ public class RecipeGenerate extends BorderPane {
             String mod = whisperResponse.replaceAll(" ", "_");
 
             // System.out.println(mod);
-            gptResponse = model.performRequest("GET", "gpt", "300," + mod);
-            // gptResponse = model.performRequest("GET", "gpt",
-            // "300,give_me_a_recipe_for_chicken");
+            // gptResponse = model.performRequest("GET", "gpt", "300," + mod); TODO FIX
+            // FRENCH
+            gptResponse = model.performRequest("GET", "gpt", "300,give_me_a_recipe_for_chicken");
             System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
 
-        //return gptResponse;
-        return "this is a test string";     //MOCK
+        return gptResponse;
+        // return "this is a test string"; // MOCK
     }
 
 }

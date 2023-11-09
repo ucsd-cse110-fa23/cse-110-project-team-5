@@ -44,6 +44,10 @@ class Details extends VBox {
         this.getChildren().add(details); // add textlabel to recipe
     }
 
+    public void setDetails(String detailString){
+        details.setText(detailString);
+    }
+
     public TextField getDetails() {
         return this.details;
     }

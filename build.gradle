@@ -20,15 +20,19 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     // This provides the TestEngine to actually run the tests.
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+    implementation 'org.json:json:20211205'
 }
 
 test {
     useJUnitPlatform()
 }
+
 javafx {
     version = "21" // use the version compatible with your JDK
     modules = [ 'javafx.controls', 'javafx.fxml']
 }
+
 application {
-    mainClassName = 'miniproject.Main'
+    mainClassName = 'client.Main'
 }

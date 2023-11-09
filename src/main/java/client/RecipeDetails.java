@@ -45,6 +45,7 @@ class RecipeDetails extends BorderPane {
     private Button editButton;
     private Button deleteButton;
 
+
     RecipeDetails() {
         // Initialise the header Object
         header = new Header();
@@ -123,5 +124,9 @@ class RecipeDetails extends BorderPane {
         // Add button functionality
         deleteButton.setOnAction(e -> {
         });
+    }
+
+    public void setDetails(String detailString){
+        details.setDetails(detailString);
     }
 }

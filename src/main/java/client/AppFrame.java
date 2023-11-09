@@ -1,4 +1,5 @@
 package client;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
@@ -41,15 +42,19 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
-    //private RecipeGenerate recipeGen = new RecipeGenerate();
-    RecipeGenerate recipeGen = new RecipeGenerate();
+    private RecipeDetails recipeDetails;
+    // private RecipeGenerate recipeGen = new RecipeGenerate();
+    private RecipeGenerate recipeGen;
     private Button createButton;
+
+    private Scene scene;
 
     AppFrame() {
         // Initialise the header Object
         header = new Header();
         // Create a tasklist Object to hold the tasks
         recipeList = new RecipeList();
+        recipeGen = new RecipeGenerate();
         // Initialise the Footer Object
         footer = new Footer();
         ScrollPane scrollPane = new ScrollPane(recipeList);
@@ -66,6 +71,7 @@ class AppFrame extends BorderPane {
         createButton = footer.getCreateButton();
         // Call Event Listeners for the Buttons
         addListeners();
+
     }
 
     // App Header
@@ -114,33 +120,34 @@ class AppFrame extends BorderPane {
             // recipeList.getChildren().add(recipeDisplay);
             // // Update task indices
             // recipeList.updateTaskIndices();
-            
+
             Stage recordingStage = new Stage();
             BorderPane recordingPane = new BorderPane();
-        
+
             Button recordButton = new Button("Record");
             recordButton.setOnAction(e1 -> {
-                recipeGen.toggleRecord();
-                
-                recipeGen.getResponse();
-                
+                if (!recipeGen.toggleRecord()) {
+                    recipeDetails = new RecipeDetails();
+                    recipeDetails.setDetails(recipeGen.getResponse());
+                    recordingStage.close();
+                    scene.setRoot(recipeDetails);
+                    Stage recipeDetailStage = new Stage();
+                    recipeDetailStage.setScene(scene);
+                    recipeDetailStage.show();
+                }
             });
-            
-            
-            
 
             HBox buttonBox = new HBox(10);
-            
+
             buttonBox.setAlignment(Pos.BOTTOM_CENTER);
             recordingPane.setCenter(buttonBox);
             buttonBox.getChildren().addAll(recordButton, recipeGen.recordingLabel);
-            Scene recordingScene = new Scene(recordingPane, 400, 300);
-            recordingStage.setScene(recordingScene);
+            scene = new Scene(recordingPane, 400, 300);
+            recordingStage.setScene(scene);
             recordingStage.setTitle("Recording Window");
-            recordingStage.show(); 
-            
+            recordingStage.show();
 
-            //System.out.print(recipeGen.getResponse());
+            // System.out.print(recipeGen.getResponse());
         });
     }
 }
