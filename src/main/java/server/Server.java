@@ -25,7 +25,7 @@ public class Server {
         new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT),
         0);
 
-    // HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
+    HttpContext recipeContext = server.createContext("/recipe", new RecipeRequestHandler(data));
     HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
     HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
 
