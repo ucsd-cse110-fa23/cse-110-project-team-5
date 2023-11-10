@@ -1,4 +1,4 @@
-package miniproject;
+package client;
 
 import javafx.scene.control.TextField;
 import javafx.geometry.Insets;
