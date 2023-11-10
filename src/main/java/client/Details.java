@@ -56,6 +56,16 @@ class Details extends VBox {
         this.getChildren().add(details); // add textlabel to recipe
     }
 
+    public String extractTitle(String recipeString){
+        int firstNewlineInd = recipeString.indexOf("\n");
+        return recipeString.substring(0, firstNewlineInd);
+    }
+
+    public String extractDetails(String recipeString){
+        int firstNewlineInd = recipeString.indexOf("\n");
+        return recipeString.substring(firstNewlineInd+1, recipeString.length());
+    }
+
     public TextArea getDetails() {
         return this.details;
     }
@@ -64,7 +74,11 @@ class Details extends VBox {
         return this.title;
     }
 
-    public void setDetails(String detailString){
-        details.setText(detailString);
+    public void setTitle(String recipeString){
+        title.setText(extractTitle(recipeString));
+    }
+
+    public void setDetails(String recipeString){
+        details.setText(extractDetails(recipeString));
     }
 }

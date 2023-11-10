@@ -35,8 +35,10 @@ public class Model {
             if (route.equals("gpt")) {
                 // String response = in.readLine();
                 StringBuilder content = new StringBuilder();
-                while ((response = in.readLine())  != null){
-                    content.append(response);
+                response = in.readLine();   //get the title of the recipe
+                content.append(response);
+                while ((response = in.readLine())  != null){    //get recipe details
+                    content.append(response);           
                     content.append(System.lineSeparator());
                 }
                 return content.toString();

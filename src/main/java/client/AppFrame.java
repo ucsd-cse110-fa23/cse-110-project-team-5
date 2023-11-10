@@ -128,7 +128,9 @@ class AppFrame extends BorderPane {
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
                     recipeDetails = new RecipeDetails();
-                    recipeDetails.setDetails(recipeGen.getResponse());
+                    String gptResponse = recipeGen.getResponse();
+                    recipeDetails.setTitle(gptResponse);
+                    recipeDetails.setDetails(gptResponse);
                     recordingStage.close();
                     scene.setRoot(recipeDetails);
                     Stage recipeDetailStage = new Stage();
