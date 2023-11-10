@@ -128,9 +128,7 @@ class AppFrame extends BorderPane {
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
                     recipeDetails = new RecipeDetails();
-                    String gptResponse = recipeGen.getResponse();
-                    recipeDetails.setTitle(gptResponse);
-                    recipeDetails.setDetails(gptResponse);
+                    recipeDetails.setTitleAndDetails(recipeGen.getResponse());
                     recordingStage.close();
                     scene.setRoot(recipeDetails);
                     Stage recipeDetailStage = new Stage();
@@ -148,8 +146,6 @@ class AppFrame extends BorderPane {
             recordingStage.setScene(scene);
             recordingStage.setTitle("Recording Window");
             recordingStage.show();
-
-            // System.out.print(recipeGen.getResponse());
         });
     }
 }

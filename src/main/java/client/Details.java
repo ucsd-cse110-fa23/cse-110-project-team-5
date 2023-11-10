@@ -63,7 +63,7 @@ class Details extends VBox {
 
     public String extractDetails(String recipeString){
         int firstNewlineInd = recipeString.indexOf("\n");
-        return recipeString.substring(firstNewlineInd+1, recipeString.length());
+        return recipeString.substring(firstNewlineInd + 1, recipeString.length());
     }
 
     public TextArea getDetails() {

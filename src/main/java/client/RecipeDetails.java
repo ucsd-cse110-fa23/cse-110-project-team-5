@@ -126,11 +126,9 @@ class RecipeDetails extends BorderPane {
         });
     }
 
-    public void setTitle(String recipeString){
+    public void setTitleAndDetails(String recipeString){
         details.setTitle(recipeString);
-    }
-
-    public void setDetails(String recipeString){
         details.setDetails(recipeString);
     }
+
 }
