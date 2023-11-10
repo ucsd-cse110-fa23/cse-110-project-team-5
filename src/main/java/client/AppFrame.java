@@ -129,7 +129,7 @@ class AppFrame extends BorderPane {
             Button recordButton = new Button("Record");       
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
-                    if(recipeGen.getResponse().toLowerCase().contains("breakfast") || recipeGen.getResponse().toLowerCase().contains("lunch") || recipeGen.getResponse().toLowerCase().contains("dinner")) {
+                    if(recipeGen.getWhisperResponse().toLowerCase().contains("breakfast") || recipeGen.getWhisperResponse().toLowerCase().contains("lunch") || recipeGen.getWhisperResponse().toLowerCase().contains("dinner")) {
                         mealType = recipeGen.getResponse();
                         instructions.setText("Tell me your ingredients!");
                         if(!recipeGen.toggleRecord()) {
@@ -150,7 +150,7 @@ class AppFrame extends BorderPane {
 
             HBox buttonBox = new HBox(10);
 
-            buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+            buttonBox.setAlignment(Pos.CENTER_RIGHT);
             recordingPane.setCenter(buttonBox);
             buttonBox.getChildren().addAll(recordButton, recipeGen.recordingLabel);
             scene = new Scene(recordingPane, 500, 600);

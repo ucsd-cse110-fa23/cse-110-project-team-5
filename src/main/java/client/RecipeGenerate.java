@@ -25,6 +25,7 @@ public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
     Label recordingLabel = new Label("Recording...");
     public String mealType;
+    public String whisperResponse;
     private TargetDataLine targetLine;
     private File outputFile;
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
@@ -81,19 +82,32 @@ public class RecipeGenerate extends BorderPane {
         targetLine.close();
         recordingLabel.setVisible(false);
     }
-
+    public String getWhisperResponse() {
+        Model model = new Model();
+        try {
+            whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
+            whisperResponse = "hi";
+            // String mod = whisperResponse.replaceAll(" ", "_");
+        }
+        catch (Exception e) {
+            System.err.println("No input detected");
+        }
+        return whisperResponse;
+    }
     public String getResponse() {
         Model model = new Model();
         String gptResponse = "";
         try {
-            String whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-            // System.out.println(whisperResponse);
-            String mod = whisperResponse.replaceAll(" ", "_");
-
             // System.out.println(mod);
-            // gptResponse = model.performRequest("GET", "gpt", "300," + mod); //TODO FIX
+            // gptResponse = model.performRequest("GET", "gpt", "300," + getWhisperResponse()); //TODO FIX
             // FRENCH
-            gptResponse = model.performRequest("GET", "gpt", "300,dinner");
+            // if(!whisperResponse.toLowerCase().contains("breakfast") && !whisperResponse.toLowerCase().contains("lunch") && !whisperResponse.toLowerCase().contains("dinner")) {
+                gptResponse = model.performRequest("GET", "gpt", "300, frick you");
+                //"300, make me a meal for " + mealType + " " + mod
+            // }
+            // else {
+            //     mealType = gptResponse;
+            // }
             System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
