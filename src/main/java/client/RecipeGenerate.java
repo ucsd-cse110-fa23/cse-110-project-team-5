@@ -24,7 +24,7 @@ import javax.sound.sampled.*;
 public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
     Label recordingLabel = new Label("Recording...");
-
+    public String mealType;
     private TargetDataLine targetLine;
     private File outputFile;
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
@@ -91,9 +91,9 @@ public class RecipeGenerate extends BorderPane {
             String mod = whisperResponse.replaceAll(" ", "_");
 
             // System.out.println(mod);
-            // gptResponse = model.performRequest("GET", "gpt", "300," + mod); TODO FIX
+            // gptResponse = model.performRequest("GET", "gpt", "300," + mod); //TODO FIX
             // FRENCH
-            gptResponse = model.performRequest("GET", "gpt", "300,give_me_a_recipe_for_chicken");
+            gptResponse = model.performRequest("GET", "gpt", "300,dinner");
             System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
