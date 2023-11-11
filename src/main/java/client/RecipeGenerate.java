@@ -1,24 +1,9 @@
 package client;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.geometry.Insets;
-import javafx.concurrent.Task;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import javax.sound.sampled.*;
 
 public class RecipeGenerate extends BorderPane {
@@ -26,7 +11,7 @@ public class RecipeGenerate extends BorderPane {
     Label recordingLabel = new Label("Recording...");
     public String mealType;
     private String recipeIntro = "Give_me_a_recipe_for_";
-    private String recipeIntro2 = "using_the_following_ingredients_";
+    private String recipeIntro2 = "using_only_the_following_ingredients_";
     public String whisperResponse;
     private TargetDataLine targetLine;
     private File outputFile;
@@ -100,7 +85,7 @@ public class RecipeGenerate extends BorderPane {
                 mealType = "dinner";
             }
             mod = whisperResponse.replaceAll(" ", "_");
-            // System.out.println(mod); 
+            System.out.println(mod); 
         }
         catch (Exception e) {
             System.err.println("No input detected");
@@ -111,24 +96,13 @@ public class RecipeGenerate extends BorderPane {
         Model model = new Model();
         String gptResponse = "";
         try {
-            // System.out.println(mod);
-            // gptResponse = model.performRequest("GET", "gpt", "300," + getWhisperResponse()); //TODO FIX
-            // FRENCH
-            // if(!whisperResponse.toLowerCase().contains("breakfast") && !whisperResponse.toLowerCase().contains("lunch") && !whisperResponse.toLowerCase().contains("dinner")) {
-                String ingredients = getWhisperResponse();
-                gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
-                //"300, make me a meal for " + mealType + " " + mod
-            // }
-            // else {
-            //     mealType = gptResponse;
-            // }
-            // System.out.println(gptResponse);
+            String ingredients = getWhisperResponse();
+            gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
+            System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
-
         return gptResponse;
-        // return "this is a test string"; // MOCK
     }
 
 }

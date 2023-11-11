@@ -1,52 +1,21 @@
 package client;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.geometry.Insets;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
-import java.awt.BorderLayout;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.Button;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.ScrollPane;
 
 class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
     private RecipeDetails recipeDetails;
-    // private RecipeGenerate recipeGen = new RecipeGenerate();
     private RecipeGenerate recipeGen;
     private Button createButton;
-    private boolean mealTypeSaved = false;
-    private String mealType = "";
     private Scene scene;
 
     AppFrame() {
@@ -134,7 +103,6 @@ class AppFrame extends BorderPane {
                 if (!recipeGen.toggleRecord()) {
                     String response = recipeGen.getWhisperResponse().toLowerCase();
                     if(response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
-                        mealType = recipeGen.getWhisperResponse();
                         ingredientButton.setDisable(false);
                         instructions.setText("Tell me your ingredients!");
                     }
@@ -154,19 +122,18 @@ class AppFrame extends BorderPane {
                     recipeDetailStage.show();                 
                 }
             });
-        
 
             HBox buttonBox = new HBox(10);
-
-            buttonBox.setAlignment(Pos.CENTER_RIGHT);
+            buttonBox.setAlignment(Pos.CENTER); 
+            HBox buttonContainer = new HBox(10);
+            buttonContainer.setAlignment(Pos.CENTER); 
+            buttonContainer.getChildren().addAll(recordButton, ingredientButton);
+            buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
             recordingPane.setCenter(buttonBox);
-            buttonBox.getChildren().addAll(recordButton, recipeGen.recordingLabel, ingredientButton);
             scene = new Scene(recordingPane, 500, 600);
             recordingStage.setScene(scene);
             recordingStage.setTitle("Recording Window");
             recordingStage.show();
-
-            // System.out.print(recipeGen.getResponse());
         });
     }
 }
