@@ -95,7 +95,7 @@ public class RecipeGenerate extends BorderPane {
             // gptResponse = model.performRequest("GET", "gpt", "300," + mod); TODO FIX
             // FRENCH
             System.out.println(recipeIntro + mod);
-            gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mod);
+            gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + "Chicken");
             //System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");

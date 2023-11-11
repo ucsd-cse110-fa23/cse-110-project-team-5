@@ -1,34 +1,11 @@
 package client;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
 import javafx.geometry.Insets;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.*;
-import java.awt.BorderLayout;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
 
 // Recipes displayed on the recipe list
 class RecipeDisplay extends HBox {
@@ -36,7 +13,7 @@ class RecipeDisplay extends HBox {
     private TextField recipeName;
     private Button detailButton;
 
-    RecipeDisplay() {
+    RecipeDisplay(Recipe recipe) {
         this.setPrefSize(500, 20); // sets size of task
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
 
@@ -61,10 +38,12 @@ class RecipeDisplay extends HBox {
         detailButton.setOnAction(e -> {
             RecipeDetails root = new RecipeDetails();
             Stage viewDetailStage = new Stage();
-            Scene viewDetailScene = new Scene(root, 500, 500);
+            Scene viewDetailScene = new Scene(root, 500, 600);
             viewDetailStage.setScene(viewDetailScene);
             viewDetailStage.show();
         });
+
+        this.setRecipeName(recipe);
 
         this.getChildren().add(detailButton);
     }
@@ -80,5 +59,10 @@ class RecipeDisplay extends HBox {
 
     public Button getDetailButton() {
         return this.detailButton;
+    }
+
+    public void setRecipeName(Recipe recipe){
+        System.out.println(recipe.getRecipeName());
+        this.recipeName.setText(recipe.getRecipeName());
     }
 }
