@@ -37,7 +37,7 @@ class RecipeList extends VBox {
         this.setStyle("-fx-background-color: #F0F8FF;");
     }
 
-    public void updateTaskIndices() {
+    public void updateRecipeIndices() {
         int index = 1;
         for (int i = 0; i < this.getChildren().size(); i++) {
             if (this.getChildren().get(i) instanceof RecipeDisplay) {

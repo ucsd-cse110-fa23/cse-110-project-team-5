@@ -41,18 +41,20 @@ class RecipeDetails extends BorderPane {
     private Header header;
     private Footer footer;
     private Details details;
-
     private Button saveButton;
     private Button deleteButton;
 
-    RecipeDetails() {
+    private RecipeDisplay recipeDisplay;
+
+    RecipeDetails(RecipeDisplay recipeDisplay) {
+        this.recipeDisplay = recipeDisplay;
+
         // Initialise the header Object
         header = new Header();
         // Create a details Object to hold the recipe details
         details = new Details();
         // Initialise the Footer Object
         footer = new Footer();
-
         ScrollPane scrollPane = new ScrollPane(details);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
@@ -66,9 +68,11 @@ class RecipeDetails extends BorderPane {
         // Initialise Button Variables through the getters in Footer
         saveButton = footer.getSaveButton();
         deleteButton = footer.getDeleteButton();
-        // Call Event Listeners for the Buttons
-        addListeners();
 
+        updateTitleAndDetails(recipeDisplay.getRecipe());
+
+        // Call Event Listeners for the Buttons
+        addListeners(recipeDisplay);
     }
 
     // RecipeDetails Header
@@ -115,10 +119,13 @@ class RecipeDetails extends BorderPane {
         }
     }
 
-    public void addListeners() {
+    public void addListeners(RecipeDisplay recipeDisplay) {
         // Add button functionality
         saveButton.setOnAction(e -> {
-
+            recipeDisplay.getRecipe().setRecipeName((details.getTitle()));
+            recipeDisplay.getRecipe().setRecipe((details.getDetails()));
+            updateTitleAndDetails(recipeDisplay.getRecipe());
+            recipeDisplay.setRecipeName(recipeDisplay.getRecipe());
         });
 
         // Add button functionality
@@ -127,9 +134,17 @@ class RecipeDetails extends BorderPane {
         });
     }
 
-    public void setTitleAndDetails(String recipeString) {
-        details.setTitle(recipeString);
-        details.setDetails(recipeString);
+    public void updateTitleAndDetails(Recipe recipe){
+        details.setTitle(recipe.getRecipeName());
+        details.setDetails(recipe.getRecipeDetails());
+    }
+
+    public String getTitle(){
+        return details.getTitle();
+    }
+
+    public String getDetails(){
+        return details.getDetails();
     }
 
 }

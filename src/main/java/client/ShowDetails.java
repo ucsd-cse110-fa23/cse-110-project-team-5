@@ -85,17 +85,16 @@ class ShowDetails extends BorderPane {
     public void addListeners() {
         // Add button functionality
         saveButton.setOnAction(e -> {
-            //RecipeDisplay recipeDisplay = new RecipeDisplay(this);
             recipe = new Recipe(this.getRecipeTitle(),this.getRecipeDetails());
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
             recipeList.getChildren().add(recipeDisplay);
-            recipeList.updateTaskIndices();
+            recipeList.updateRecipeIndices();
         });
     }
 
     public void setTitleAndDetails(String recipeString) {
-        details.setTitle(recipeString);
-        details.setDetails(recipeString);
+        details.setTitle(details.extractTitle(recipeString));
+        details.setDetails(details.extractDetails(recipeString));
     }
 
     public String getRecipeTitle(){

@@ -12,8 +12,10 @@ class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
     private Button detailButton;
+    private Recipe recipe;
 
     RecipeDisplay(Recipe recipe) {
+        this.recipe = recipe;
         this.setPrefSize(500, 20); // sets size of task
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
 
@@ -36,7 +38,7 @@ class RecipeDisplay extends HBox {
         detailButton.setPrefHeight(Double.MAX_VALUE);
         detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
         detailButton.setOnAction(e -> {
-            RecipeDetails root = new RecipeDetails();
+            RecipeDetails root = new RecipeDetails(this);
             Stage viewDetailStage = new Stage();
             Scene viewDetailScene = new Scene(root, 500, 600);
             viewDetailStage.setScene(viewDetailScene);
@@ -53,16 +55,19 @@ class RecipeDisplay extends HBox {
         this.recipeName.setPromptText("Recipe " + num);
     }
 
-    public TextField getRecipeName() {
-        return this.recipeName;
-    }
+    // public TextField getRecipeName() {
+    //     return this.recipeName;
+    // }
 
     public Button getDetailButton() {
         return this.detailButton;
     }
 
     public void setRecipeName(Recipe recipe){
-        System.out.println(recipe.getRecipeName());
         this.recipeName.setText(recipe.getRecipeName());
+    }
+
+    public Recipe getRecipe(){
+        return this.recipe;
     }
 }

@@ -32,6 +32,7 @@ class Details extends VBox {
     }
 
     public String extractTitle(String recipeString) {
+        System.out.println(recipeString);
         int firstNewlineInd = recipeString.indexOf("\n");
         return recipeString.substring(0, firstNewlineInd);
     }
@@ -41,12 +42,12 @@ class Details extends VBox {
         return recipeString.substring(firstNewlineInd + 1, recipeString.length());
     }
 
-    public void setTitle(String recipeString) {
-        title.setText(extractTitle(recipeString));
+    public void setTitle(String newTitle) {
+        title.setText(newTitle);
     }
 
-    public void setDetails(String recipeString) {
-        details.setText(extractDetails(recipeString));
+    public void setDetails(String newDetails) {
+        details.setText(newDetails);
     }
 
     public String getDetails() {
