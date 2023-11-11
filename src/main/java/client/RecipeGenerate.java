@@ -1,24 +1,8 @@
 package client;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.geometry.Insets;
-import javafx.concurrent.Task;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import javax.sound.sampled.*;
 
 public class RecipeGenerate extends BorderPane {
@@ -88,21 +72,13 @@ public class RecipeGenerate extends BorderPane {
         String gptResponse = "";
         try {
             String whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-            // System.out.println(whisperResponse);
             String mod = whisperResponse.replaceAll(" ", "_");
-
-            // System.out.println(mod);
-            // gptResponse = model.performRequest("GET", "gpt", "300," + mod); TODO FIX
-            // FRENCH
-            System.out.println(recipeIntro + mod);
-            gptResponse = model.performRequest("GET", "gpt", "300," + recipeIntro + "Chicken");
-            System.out.println(gptResponse);
+            gptResponse = model.performRequest("GET", "gpt", "300," + recipeIntro + mod);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
 
         return gptResponse;
-        // return "this is a test string"; // MOCK
     }
 
 }

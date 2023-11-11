@@ -3,7 +3,6 @@ package client;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
@@ -14,7 +13,6 @@ class ShowDetails extends BorderPane {
     private Details details;
 
     private Button saveButton;
-    private boolean hasRecipe;
 
     private RecipeList recipeList;
     private Recipe recipe;
