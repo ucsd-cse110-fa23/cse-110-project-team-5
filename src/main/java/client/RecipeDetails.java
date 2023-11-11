@@ -72,7 +72,7 @@ class RecipeDetails extends BorderPane {
         updateTitleAndDetails(recipeDisplay.getRecipe());
 
         // Call Event Listeners for the Buttons
-        addListeners(recipeDisplay);
+        addListeners();
     }
 
     // RecipeDetails Header
@@ -119,7 +119,7 @@ class RecipeDetails extends BorderPane {
         }
     }
 
-    public void addListeners(RecipeDisplay recipeDisplay) {
+    public void addListeners() {
         // Add button functionality
         saveButton.setOnAction(e -> {
             recipeDisplay.getRecipe().setRecipeName((details.getTitle()));
@@ -130,7 +130,8 @@ class RecipeDetails extends BorderPane {
 
         // Add button functionality
         deleteButton.setOnAction(e -> {
-
+            recipeDisplay.getRecipe().isDone();
+            recipeDisplay.getRecipe().getRecipeList().removeRecipe();
         });
     }
 

@@ -85,7 +85,7 @@ class ShowDetails extends BorderPane {
     public void addListeners() {
         // Add button functionality
         saveButton.setOnAction(e -> {
-            recipe = new Recipe(this.getRecipeTitle(),this.getRecipeDetails());
+            recipe = new Recipe(this.getRecipeTitle(),this.getRecipeDetails(), recipeList);
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
             recipeList.getChildren().add(recipeDisplay);
             recipeList.updateRecipeIndices();
