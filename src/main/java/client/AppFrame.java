@@ -16,7 +16,6 @@ class AppFrame extends BorderPane {
     private ShowDetails showDetails;
     private RecipeGenerate recipeGen;
     private Button createButton;
-
     private Scene scene;
 
     AppFrame() {
@@ -87,30 +86,48 @@ class AppFrame extends BorderPane {
 
             Stage recordingStage = new Stage();
             BorderPane recordingPane = new BorderPane();
-
-            Button recordButton = new Button("Record");
+            Text instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
+            instructions.setLayoutX(130); 
+            instructions.setLayoutY(60);
+            recordingPane.getChildren().add(instructions);   
+            Button recordButton = new Button("Record"); 
+            Button ingredientButton = new Button("Record Ingredients"); 
+            ingredientButton.setDisable(true);     
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
-                    showDetails = new ShowDetails(recipeList);
+                    String response = recipeGen.getWhisperResponse().toLowerCase();
+                    if(response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
+                        ingredientButton.setDisable(false);
+                        instructions.setText("Tell me your ingredients!");
+                    }
+                    else{
+                        instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
+                    }
+                }
+            });
+            ingredientButton.setOnAction(e1 -> {
+                if(!recipeGen.toggleRecord()) {
+                    showDetails = new ShowDetails(recipeList);  
                     showDetails.setTitleAndDetails(recipeGen.getResponse());
                     recordingStage.close();
                     scene.setRoot(showDetails);
                     Stage recipeDetailStage = new Stage();
                     recipeDetailStage.setScene(scene);
-                    recipeDetailStage.show();
+                    recipeDetailStage.show();                 
                 }
             });
 
             HBox buttonBox = new HBox(10);
-
-            buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+            buttonBox.setAlignment(Pos.CENTER); 
+            HBox buttonContainer = new HBox(10);
+            buttonContainer.setAlignment(Pos.CENTER); 
+            buttonContainer.getChildren().addAll(recordButton, ingredientButton);
+            buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
             recordingPane.setCenter(buttonBox);
-            buttonBox.getChildren().addAll(recordButton, recipeGen.recordingLabel);
-            scene = new Scene(recordingPane, 400, 300);
+            scene = new Scene(recordingPane, 500, 600);
             recordingStage.setScene(scene);
             recordingStage.setTitle("Recording Window");
             recordingStage.show();
-
         });
     }
 }
