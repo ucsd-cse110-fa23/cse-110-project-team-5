@@ -25,6 +25,8 @@ public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
     Label recordingLabel = new Label("Recording...");
     public String mealType;
+    private String recipeIntro = "Give_me_a_recipe_for_";
+    private String recipeIntro2 = "using_the_following_ingredients_";
     public String whisperResponse;
     private TargetDataLine targetLine;
     private File outputFile;
@@ -62,7 +64,7 @@ public class RecipeGenerate extends BorderPane {
             targetLine.start();
             recordingLabel.setVisible(true);
 
-            outputFile = new File("src/voiceinstructions.wav");
+            outputFile = new File("src/main/java/voiceinstructions.wav");
             Thread recordThread = new Thread(() -> {
                 try {
                     AudioSystem.write(new AudioInputStream(targetLine), AudioFileFormat.Type.WAVE, outputFile);
@@ -84,15 +86,26 @@ public class RecipeGenerate extends BorderPane {
     }
     public String getWhisperResponse() {
         Model model = new Model();
+        String mod = "";
         try {
             whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-            whisperResponse = "hi";
-            // String mod = whisperResponse.replaceAll(" ", "_");
+            String mealTypecheck = whisperResponse.toLowerCase();
+            if(mealTypecheck.contains("breakfast")) {
+                mealType = "breakfast";
+            }
+            else if(mealTypecheck.contains("lunch")) {
+                mealType = "lunch";
+            }
+            else if(mealTypecheck.contains("dinner")) {
+                mealType = "dinner";
+            }
+            mod = whisperResponse.replaceAll(" ", "_");
+            // System.out.println(mod); 
         }
         catch (Exception e) {
             System.err.println("No input detected");
         }
-        return whisperResponse;
+        return mod;
     }
     public String getResponse() {
         Model model = new Model();
@@ -102,13 +115,14 @@ public class RecipeGenerate extends BorderPane {
             // gptResponse = model.performRequest("GET", "gpt", "300," + getWhisperResponse()); //TODO FIX
             // FRENCH
             // if(!whisperResponse.toLowerCase().contains("breakfast") && !whisperResponse.toLowerCase().contains("lunch") && !whisperResponse.toLowerCase().contains("dinner")) {
-                gptResponse = model.performRequest("GET", "gpt", "300, frick you");
+                String ingredients = getWhisperResponse();
+                gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
                 //"300, make me a meal for " + mealType + " " + mod
             // }
             // else {
             //     mealType = gptResponse;
             // }
-            System.out.println(gptResponse);
+            // System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
