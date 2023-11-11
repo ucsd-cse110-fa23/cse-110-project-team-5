@@ -111,7 +111,6 @@ class AppFrame extends BorderPane {
             recordingStage.setTitle("Recording Window");
             recordingStage.show();
 
-
         });
     }
 }
