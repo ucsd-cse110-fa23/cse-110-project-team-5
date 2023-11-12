@@ -79,12 +79,11 @@ class ShowDetails extends BorderPane {
         }
     }
 
-    
     public void addListeners() {
         // Add button functionality
         saveButton.setOnAction(e -> {
             // Create new Recipe Object based on newly created recipe details
-            recipe = new Recipe(this.getRecipeTitle(),this.getRecipeDetails(), recipeList);
+            recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
             recipeList.getChildren().add(recipeDisplay);
@@ -98,19 +97,15 @@ class ShowDetails extends BorderPane {
         details.setDetails(details.extractDetails(recipeString));
     }
 
-    // Return Recipe Title
-    public String getRecipeTitle(){
+    public String getRecipeTitle() {
         return details.getTitle();
     }
 
-    // Return Recipe Details
-    public String getRecipeDetails(){
+    public String getRecipeDetails() {
         return details.getDetails();
     }
 
-    // Return Recipe Object
-    public Recipe getRecipe(){
+    public Recipe getRecipe() {
         return recipe;
     }
-
 }

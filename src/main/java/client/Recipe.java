@@ -2,49 +2,46 @@ package client;
 
 // Recipe Object
 public class Recipe {
+    // Instance variables
     String recipeName;
     String recipeDetails;
-    RecipeList recipeList;
-    boolean isDone;
+    RecipeList recipeList; // Reference to the RecipeList that holds this recipe
+    boolean isDone; // Flag indicating whether the recipe is marked as done
 
-    // Create Recipe Object with its name, details, and RecipeList Object that will hold it
+    // Constructor to create a Recipe object with its name, details, and the
+    // RecipeList that will hold it
     public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {
         this.recipeList = recipeList;
         this.recipeName = recipeName;
         this.recipeDetails = recipeDetails;
-        this.isDone = false;
+        this.isDone = false; // By default, a recipe is not marked as done
     }
 
-    // Return Recipe Name
     public String getRecipeName() {
         return this.recipeName;
     }
 
-    // Return Recipe Details
     public String getRecipeDetails() {
         return this.recipeDetails;
     }
 
-    // Return Recipe List
-    public RecipeList getRecipeList(){
+    public RecipeList getRecipeList() {
         return this.recipeList;
     }
 
-    // Change Recipe Name
-    public void setRecipeName(String newName){
+    public void setRecipeName(String newName) {
         this.recipeName = newName;
     }
 
-    // Change Recipe Details
     public void setRecipe(String newDetails) {
         this.recipeDetails = newDetails;
     }
 
-    public void isDone(){
+    public void markDone() {
         this.isDone = true;
     }
 
-    public boolean MarkedDone(){
+    public boolean isMarkedDone() {
         return this.isDone;
     }
 }

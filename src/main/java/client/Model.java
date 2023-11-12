@@ -7,21 +7,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
 
-
+// Class responsible for making HTTP requests to a server
 public class Model {
+
+    // Method to perform an HTTP request
     public String performRequest(String method, String route, String query) {
         // Implement your HTTP request logic here and return the response
 
         try {
+            // Construct the URL for the HTTP request
             String urlString = "http://localhost:8100/" + route;
             if (query != null) {
                 urlString += "?v=" + query;
             }
             URL url = new URI(urlString).toURL();
+
+            // Open a connection to the specified URL
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod(method);
             conn.setDoOutput(true);
 
+            // If the HTTP method is POST or PUT, write data to the connection's output
+            // stream
             if (method.equals("POST") || method.equals("PUT")) {
                 OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
                 // out.write(language + "," + year);
@@ -29,24 +36,29 @@ public class Model {
                 out.close();
             }
 
+            // Read the response from the server
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String response = in.readLine();
+
+            // If the route is "gpt," parse and concatenate multiple lines of the response
             if (route.equals("gpt")) {
-                // String response = in.readLine();
                 StringBuilder content = new StringBuilder();
-                response = in.readLine();   //get the title of the recipe
+                response = in.readLine(); // Get the title of the recipe
                 content.append(response);
-                while ((response = in.readLine())  != null){    //get recipe details
-                    content.append(response);           
+                while ((response = in.readLine()) != null) { // Get recipe details
+                    content.append(response);
                     content.append(System.lineSeparator());
                 }
                 return content.toString();
-
             }
-            
+
+            // Close the BufferedReader
             in.close();
-            return response; //content.toString();
+
+            // Return the response
+            return response; // content.toString();
         } catch (Exception ex) {
+            // Handle exceptions by printing the stack trace and returning an error message
             ex.printStackTrace();
             return "Error: " + ex.getMessage();
         }

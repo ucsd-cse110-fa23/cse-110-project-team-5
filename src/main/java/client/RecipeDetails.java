@@ -7,7 +7,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
+// Class representing the detailed view of a recipe
 class RecipeDetails extends BorderPane {
+    // Instance variables
     private Header header;
     private Footer footer;
     private Details details;
@@ -16,39 +18,35 @@ class RecipeDetails extends BorderPane {
 
     private RecipeDisplay recipeDisplay;
 
+    // Constructor for RecipeDetails
     RecipeDetails(RecipeDisplay recipeDisplay) {
         this.recipeDisplay = recipeDisplay;
 
-        // Initialise the header Object
+        // Initialize UI components
         header = new Header();
-        // Create a details Object to hold the recipe details
         details = new Details();
-        // Initialise the Footer Object
         footer = new Footer();
         ScrollPane scrollPane = new ScrollPane(details);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        // Add header to the top of the BorderPane
         this.setTop(header);
-        // Add scroller to the centre of the BorderPane
         this.setCenter(scrollPane);
-        // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
-        // Initialise Button Variables through the getters in Footer
         saveButton = footer.getSaveButton();
         deleteButton = footer.getDeleteButton();
 
+        // Update title and details from the current recipe
         updateTitleAndDetails(recipeDisplay.getRecipe());
 
-        // Call Event Listeners for the Buttons
+        // Set up event listeners for buttons
         addListeners();
     }
 
     // RecipeDetails Header
     class Header extends HBox {
         Header() {
-            this.setPrefSize(500, 60); // Size of the header
+            this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
             Text titleText = new Text("Recipe Details"); // Text of the Header
@@ -60,62 +58,67 @@ class RecipeDetails extends BorderPane {
 
     // RecipeDetails Footer
     class Footer extends HBox {
+        // Footer instance variables
         private Button saveButton;
         private Button deleteButton;
 
+        // Footer constructor
         Footer() {
             this.setPrefSize(500, 60);
             this.setStyle("-fx-background-color: #F0F8FF;");
             this.setSpacing(15);
 
-            // set a default style for buttons - background color, font size, italics
+            // Set a default style for buttons - background color, font size, italics
             String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
-            saveButton = new Button("Save Changes"); // text displayed on add button
-            saveButton.setStyle(defaultButtonStyle); // styling the button
-            deleteButton = new Button("Delete Recipe"); // text displayed on add button
-            deleteButton.setStyle(defaultButtonStyle); // styling the button
+            saveButton = new Button("Save Changes"); // Text displayed on save button
+            saveButton.setStyle(defaultButtonStyle); // Styling the save button
+            deleteButton = new Button("Delete Recipe"); // Text displayed on delete button
+            deleteButton.setStyle(defaultButtonStyle); // Styling the delete button
 
-            this.getChildren().addAll(saveButton, deleteButton); // adding buttons to footer
-            this.setAlignment(Pos.CENTER); // aligning the buttons to center
+            this.getChildren().addAll(saveButton, deleteButton); // Adding buttons to the footer
+            this.setAlignment(Pos.CENTER); // Aligning the buttons to center
         }
 
+        // Getter for the saveButton
         public Button getSaveButton() {
             return saveButton;
         }
 
+        // Getter for the deleteButton
         public Button getDeleteButton() {
             return deleteButton;
         }
     }
 
+    // Method to add event listeners to buttons
     public void addListeners() {
-        // Add button functionality
+        // Add button functionality for saveButton
         saveButton.setOnAction(e -> {
-            recipeDisplay.getRecipe().setRecipeName((details.getTitle()));
-            recipeDisplay.getRecipe().setRecipe((details.getDetails()));
+            recipeDisplay.getRecipe().setRecipeName(details.getTitle());
+            recipeDisplay.getRecipe().setRecipe(details.getDetails());
             updateTitleAndDetails(recipeDisplay.getRecipe());
             recipeDisplay.setRecipeDisplayName(recipeDisplay.getRecipe());
         });
 
-        // Add button functionality
+        // Add button functionality for deleteButton
         deleteButton.setOnAction(e -> {
-            recipeDisplay.getRecipe().isDone();
+            recipeDisplay.getRecipe().markDone();
             recipeDisplay.getRecipe().getRecipeList().removeRecipe();
         });
     }
 
-    public void updateTitleAndDetails(Recipe recipe){
+    // Method to update title and details from a given recipe
+    public void updateTitleAndDetails(Recipe recipe) {
         details.setTitle(recipe.getRecipeName());
         details.setDetails(recipe.getRecipeDetails());
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return details.getTitle();
     }
 
-    public String getDetails(){
+    public String getDetails() {
         return details.getDetails();
     }
-
 }

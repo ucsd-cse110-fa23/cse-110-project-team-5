@@ -9,7 +9,7 @@ class RecipeList extends VBox {
     RecipeList() {
         this.setSpacing(5); // sets spacing between recipes
         this.setPrefSize(500, 600);
-        this.setStyle("-fx-background-color: #F0F8FF;");
+        this.setStyle("-fx-background-color: #F0F8FF;"); // sets background color
     }
 
     // Updates Recipe Indices within the Recipe List
@@ -25,7 +25,8 @@ class RecipeList extends VBox {
 
     // Removes Recipes from the Recipe List
     public void removeRecipe() {
-        this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay && ((RecipeDisplay) recipeDisplay).getRecipe().MarkedDone());
-        this.updateRecipeIndices(); 
+        this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay
+                && ((RecipeDisplay) recipeDisplay).getRecipe().isMarkedDone());
+        this.updateRecipeIndices(); // Update recipe indices after removal
     }
 }
