@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
+// Main AppFrame for Pantry Pal App 
 class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
@@ -26,6 +27,7 @@ class AppFrame extends BorderPane {
         recipeGen = new RecipeGenerate();
         // Initialise the Footer Object
         footer = new Footer();
+        // Initialise ScrollPane Object
         ScrollPane scrollPane = new ScrollPane(recipeList);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);

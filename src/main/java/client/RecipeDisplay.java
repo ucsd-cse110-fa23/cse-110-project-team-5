@@ -7,7 +7,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
 import javafx.geometry.Insets;
 
-// Recipes displayed on the recipe list
+// Display Recipe Objects on the RecipeList
 class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
@@ -29,44 +29,43 @@ class RecipeDisplay extends HBox {
         recipeName = new TextField(); // create recipe name text field
         recipeName.setPrefSize(380, 20); // set size of text field
         recipeName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-        index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+        // recipeName.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
         recipeName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
         this.getChildren().add(recipeName); // add textlabel to recipe
 
-        detailButton = new Button("View Details"); // creates a button for viewing recipe details
-        detailButton.setPrefSize(100, 20);
-        detailButton.setPrefHeight(Double.MAX_VALUE);
+        detailButton = new Button("View Details"); // create button for viewing recipe details
+        detailButton.setPrefSize(100, 20); // set size of details button
+        detailButton.setPrefHeight(Double.MAX_VALUE); // 
         detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
-        detailButton.setOnAction(e -> {
+        detailButton.setOnAction(e -> { // add button functionality
             RecipeDetails root = new RecipeDetails(this);
             Stage viewDetailStage = new Stage();
             Scene viewDetailScene = new Scene(root, 500, 600);
             viewDetailStage.setScene(viewDetailScene);
             viewDetailStage.show();
         });
-
-        this.setRecipeName(recipe);
-
         this.getChildren().add(detailButton);
+
+        this.setRecipeDisplayName(recipe);
     }
 
+    // Set Recipe Index
     public void setRecipeIndex(int num) {
         this.index.setText(num + ""); // num to String
         this.recipeName.setPromptText("Recipe " + num);
     }
 
-    // public TextField getRecipeName() {
-    //     return this.recipeName;
-    // }
-
+    // Return Detail button
     public Button getDetailButton() {
         return this.detailButton;
     }
 
-    public void setRecipeName(Recipe recipe){
+    // Set RecipeDisplay Object name
+    public void setRecipeDisplayName(Recipe recipe){
         this.recipeName.setText(recipe.getRecipeName());
     }
 
+    // Return Recipe
     public Recipe getRecipe(){
         return this.recipe;
     }

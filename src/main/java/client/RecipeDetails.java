@@ -95,7 +95,7 @@ class RecipeDetails extends BorderPane {
             recipeDisplay.getRecipe().setRecipeName((details.getTitle()));
             recipeDisplay.getRecipe().setRecipe((details.getDetails()));
             updateTitleAndDetails(recipeDisplay.getRecipe());
-            recipeDisplay.setRecipeName(recipeDisplay.getRecipe());
+            recipeDisplay.setRecipeDisplayName(recipeDisplay.getRecipe());
         });
 
         // Add button functionality
