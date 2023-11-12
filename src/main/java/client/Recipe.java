@@ -1,27 +1,19 @@
 package client;
 
+// The Recipe class represents a recipe with a name, details, and status (if the recipe should be removed)
 public class Recipe {
     String recipeName;
     String recipeDetails;
-    MealType mealType;
     RecipeList recipeList;
     boolean isDone;
 
-    // public Recipe(MealType mealType, String title, String recipe) {
-    // this.mealType = mealType;
-    // this.title = title;
-    // this.recipe = recipe;
-    // }
-
-    // public String getMealType() {
-    // return this.mealType.toString();
-    // }
-
-    public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {        //MOCK Purposes
+    // Constructor for the Recipe class
+    public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {
+        // Initialize the Recipe object with the provided values
         this.recipeList = recipeList;
         this.recipeName = recipeName;
         this.recipeDetails = recipeDetails;
-        this.isDone = false;
+        this.isDone = false; // Default status is not done
     }
 
     public String getRecipeName() {
@@ -32,11 +24,11 @@ public class Recipe {
         return this.recipeDetails;
     }
 
-    public RecipeList getRecipeList(){
+    public RecipeList getRecipeList() {
         return this.recipeList;
     }
 
-    public void setRecipeName(String newName){
+    public void setRecipeName(String newName) {
         this.recipeName = newName;
     }
 
@@ -44,11 +36,11 @@ public class Recipe {
         this.recipeDetails = newDetails;
     }
 
-    public void isDone(){
+    public void markDone() {
         this.isDone = true;
     }
 
-    public boolean MarkedDone(){
+    public boolean isMarkedDone() {
         return this.isDone;
     }
 }

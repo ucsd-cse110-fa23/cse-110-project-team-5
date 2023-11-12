@@ -2,8 +2,8 @@
 package client;
 
 public enum MealType {
-    BREAKFAST("Breakfast"), 
-    LUNCH("Lunch"), 
+    BREAKFAST("Breakfast"),
+    LUNCH("Lunch"),
     DINNER("Dinner");
 
     private final String mealType;

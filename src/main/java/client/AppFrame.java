@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
+// The main application frame
 class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
@@ -18,45 +19,47 @@ class AppFrame extends BorderPane {
     private Button createButton;
     private Scene scene;
 
+    // Constructor for AppFrame
     AppFrame() {
-        // Initialise the header Object
+        // Initialize UI components
         header = new Header();
-        // Create a tasklist Object to hold the tasks
         recipeList = new RecipeList();
         recipeGen = new RecipeGenerate();
-        // Initialise the Footer Object
         footer = new Footer();
+
+        // Set up the ScrollPane for the recipe list
         ScrollPane scrollPane = new ScrollPane(recipeList);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-        // Add header to the top of the BorderPane
-        this.setTop(header);
-        // Add scroller to the centre of the BorderPane
-        this.setCenter(scrollPane);
-        // Add footer to the bottom of the BorderPane
-        this.setBottom(footer);
-        // Initialise Button Variables through the getters in Footer
-        createButton = footer.getCreateButton();
-        // Call Event Listeners for the Buttons
-        addListeners();
 
+        // Add UI components to the BorderPane
+        this.setTop(header);
+        this.setCenter(scrollPane);
+        this.setBottom(footer);
+
+        // Get the "Create" button from the footer
+        createButton = footer.getCreateButton();
+
+        // Add event listeners to the buttons
+        addListeners();
     }
 
-    // App Header
+    // Header section of the application
     class Header extends HBox {
         Header() {
-            this.setPrefSize(500, 60); // Size of the header
+            this.setPrefSize(500, 60);
             this.setStyle("-fx-background-color: #F0F8FF;");
 
-            Text titleText = new Text("Recipe List"); // Text of the Header
+            // Title text for the header
+            Text titleText = new Text("Recipe List");
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             this.getChildren().add(titleText);
-            this.setAlignment(Pos.CENTER); // Align the text to the Center
+            this.setAlignment(Pos.CENTER);
         }
     }
 
-    // App Footer
+    // Footer section of the application
     class Footer extends HBox {
         private Button createButton;
 
@@ -65,14 +68,16 @@ class AppFrame extends BorderPane {
             this.setStyle("-fx-background-color: #F0F8FF;");
             this.setSpacing(15);
 
-            // set a default style for buttons - background color, font size, italics
-            String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
+            // Default style for buttons
+            String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF; -fx-font-weight: bold; -fx-font: 11 arial;";
 
-            createButton = new Button("New Recipe"); // text displayed on add button
-            createButton.setStyle(defaultButtonStyle); // styling the button
+            // Create the "New Recipe" button
+            createButton = new Button("New Recipe");
+            createButton.setStyle(defaultButtonStyle);
 
-            this.getChildren().addAll(createButton); // adding buttons to footer
-            this.setAlignment(Pos.CENTER); // aligning the buttons to center
+            // Add the button to the footer
+            this.getChildren().addAll(createButton);
+            this.setAlignment(Pos.CENTER);
         }
 
         public Button getCreateButton() {
@@ -80,50 +85,59 @@ class AppFrame extends BorderPane {
         }
     }
 
+    // Add event listeners for buttons
     public void addListeners() {
-        // Add button functionality
+        // Event listener for the "New Recipe" button
         createButton.setOnAction(e -> {
-
+            // Create a new stage for recording
             Stage recordingStage = new Stage();
             BorderPane recordingPane = new BorderPane();
             Text instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
-            instructions.setLayoutX(130); 
+            instructions.setLayoutX(130);
             instructions.setLayoutY(60);
-            recordingPane.getChildren().add(instructions);   
-            Button recordButton = new Button("Record"); 
-            Button ingredientButton = new Button("Record Ingredients"); 
-            ingredientButton.setDisable(true);     
+            recordingPane.getChildren().add(instructions);
+
+            // Create buttons for recording and recording ingredients
+            Button recordButton = new Button("Record");
+            Button ingredientButton = new Button("Record Ingredients");
+            ingredientButton.setDisable(true);
+
+            // Event listener for the recording button
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
                     String response = recipeGen.getWhisperResponse().toLowerCase();
-                    if(response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
+                    if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
                         ingredientButton.setDisable(false);
                         instructions.setText("Tell me your ingredients!");
-                    }
-                    else{
+                    } else {
                         instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
                     }
                 }
             });
+
+            // Event listener for the ingredient recording button
             ingredientButton.setOnAction(e1 -> {
-                if(!recipeGen.toggleRecord()) {
-                    showDetails = new ShowDetails(recipeList);  
+                if (!recipeGen.toggleRecord()) {
+                    showDetails = new ShowDetails(recipeList);
                     showDetails.setTitleAndDetails(recipeGen.getResponse());
                     recordingStage.close();
                     scene.setRoot(showDetails);
                     Stage recipeDetailStage = new Stage();
                     recipeDetailStage.setScene(scene);
-                    recipeDetailStage.show();                 
+                    recipeDetailStage.show();
                 }
             });
 
+            // Set up button layout
             HBox buttonBox = new HBox(10);
-            buttonBox.setAlignment(Pos.CENTER); 
+            buttonBox.setAlignment(Pos.CENTER);
             HBox buttonContainer = new HBox(10);
-            buttonContainer.setAlignment(Pos.CENTER); 
+            buttonContainer.setAlignment(Pos.CENTER);
             buttonContainer.getChildren().addAll(recordButton, ingredientButton);
             buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
             recordingPane.setCenter(buttonBox);
+
+            // Set up the scene and stage for recording
             scene = new Scene(recordingPane, 500, 600);
             recordingStage.setScene(scene);
             recordingStage.setTitle("Recording Window");

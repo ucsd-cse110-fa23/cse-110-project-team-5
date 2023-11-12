@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
+// The ShowDetails class represents a window for displaying initial recipe details
 class ShowDetails extends BorderPane {
     private Header header;
     private Footer footer;
@@ -17,14 +18,15 @@ class ShowDetails extends BorderPane {
     private RecipeList recipeList;
     private Recipe recipe;
 
+    // Constructor for ShowDetails
     ShowDetails(RecipeList recipeList) {
         this.recipeList = recipeList;
 
-        // Initialise the header Object
+        // Initialize the header Object
         header = new Header();
         // Create a details Object to hold the recipe details
         details = new Details();
-        // Initialise the Footer Object
+        // Initialize the Footer Object
         footer = new Footer();
 
         ScrollPane scrollPane = new ScrollPane(details);
@@ -37,7 +39,7 @@ class ShowDetails extends BorderPane {
         this.setCenter(scrollPane);
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
-        // Initialise Button Variables through the getters in Footer
+        // Initialize Button Variables through the getters in Footer
         saveButton = footer.getSaveButton();
         // Call Event Listeners for the Buttons
         addListeners();
@@ -80,10 +82,11 @@ class ShowDetails extends BorderPane {
         }
     }
 
+    // Add button functionality
     public void addListeners() {
-        // Add button functionality
         saveButton.setOnAction(e -> {
-            recipe = new Recipe(this.getRecipeTitle(),this.getRecipeDetails(), recipeList);
+            // Create a new recipe with the title and details from the window
+            recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
             recipeList.getChildren().add(recipeDisplay);
             recipeList.updateRecipeIndices();
@@ -95,16 +98,15 @@ class ShowDetails extends BorderPane {
         details.setDetails(details.extractDetails(recipeString));
     }
 
-    public String getRecipeTitle(){
+    public String getRecipeTitle() {
         return details.getTitle();
     }
 
-    public String getRecipeDetails(){
+    public String getRecipeDetails() {
         return details.getDetails();
     }
 
-    public Recipe getRecipe(){
+    public Recipe getRecipe() {
         return recipe;
     }
-
 }
