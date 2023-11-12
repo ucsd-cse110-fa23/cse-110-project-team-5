@@ -1,4 +1,4 @@
-##INSTRUCTIONS FOR RUNNING THE PANTRY PAL APP##
+##INSTRUCTIONS FOR RUNNING THE PANTRY PAL APP## <br>
 Run the Server using debugger. <br>
 Run the Main using debugger. <br>
 The Pantry Pal App will open with the main window titled "Recipe List". <br>
