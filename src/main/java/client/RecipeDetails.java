@@ -87,16 +87,6 @@ class RecipeDetails extends BorderPane {
 
     // Add event listeners for buttons
     public void addListeners() {
-        // Event listener for the "Save Changes" button
-        saveButton.setOnAction(e -> {
-            // Update the recipe details and name with the values from the Details view
-            recipeDisplay.getRecipe().setRecipeName(details.getTitle());
-            recipeDisplay.getRecipe().setRecipe(details.getDetails());
-            // Update the displayed details in RecipeDetails
-            updateTitleAndDetails(recipeDisplay.getRecipe());
-            // Update the recipe name in RecipeDisplay
-            recipeDisplay.setRecipeName(recipeDisplay.getRecipe());
-        });
     }
 
     // Update the title and details displayed in the Details view
