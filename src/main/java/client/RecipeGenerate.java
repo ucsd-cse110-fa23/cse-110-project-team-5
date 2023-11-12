@@ -31,15 +31,15 @@ public class RecipeGenerate extends BorderPane {
 
     public boolean toggleRecord() {
         if (isRecording) {
-            stopRecord();
+            stopAudioRecording();
         } else {
-            startRecord();
+            startAudioRecording();
         }
         isRecording = !isRecording;
         return isRecording;
     }
 
-    public void startRecord() {
+    public void startAudioRecording() {
         try {
             AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -63,12 +63,12 @@ public class RecipeGenerate extends BorderPane {
         }
     }
 
-    public void stopRecord() {
+    public void stopAudioRecording() {
         targetLine.stop();
         targetLine.close();
         recordingLabel.setVisible(false);
     }
-    public String getWhisperResponse() {
+    public String retrieveVoiceCommandResponse() {
         Model model = new Model();
         String mod = "";
         try {
@@ -84,20 +84,18 @@ public class RecipeGenerate extends BorderPane {
                 mealType = "dinner";
             }
             mod = whisperResponse.replaceAll(" ", "_");
-            System.out.println(mod); 
         }
         catch (Exception e) {
             System.err.println("No input detected");
         }
         return mod;
     }
-    public String getResponse() {
+    public String fetchGeneratedRecipe() {
         Model model = new Model();
         String gptResponse = "";
         try {
-            String ingredients = getWhisperResponse();
+            String ingredients = retrieveVoiceCommandResponse();
             gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
-            System.out.println(gptResponse);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
