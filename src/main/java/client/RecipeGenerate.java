@@ -5,19 +5,21 @@ import javafx.scene.control.*;
 import java.io.File;
 import javax.sound.sampled.*;
 
+// Represents the generation and handling of recipes through voice commands
 public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
-    Label recordingLabel = new Label("Recording...");
-    public String mealType;
-    private String recipeIntro = "Give_me_a_recipe_for_";
-    private String recipeIntro2 = "using_only_the_following_ingredients_";
-    public String whisperResponse;
-    private TargetDataLine targetLine;
-    private File outputFile;
+    Label recordingLabel = new Label("Recording..."); // Label indicating recording status
+    public String mealType; // Meal type determined from voice command
+    private String recipeIntro = "Give_me_a_recipe_for_"; // Introductory text for recipe request
+    private String recipeIntro2 = "using_only_the_following_ingredients_"; // Additional text for recipe request
+    public String whisperResponse; // Response from the 'Whisper' API
+    private TargetDataLine targetLine; // Target data line for audio recording
+    private File outputFile; // File to store the recorded audio
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
 
+    // Constructor for RecipeGenerate
     public RecipeGenerate() {
-        ListView<String> recipeList = new ListView<>();
+        ListView<String> recipeList = new ListView<>(); // List view for displaying recipes
         this.setCenter(recipeList);
         HBox footer = new HBox(10);
         Button recordButton = new Button();
@@ -25,26 +27,21 @@ public class RecipeGenerate extends BorderPane {
 
         footer.getChildren().addAll(recordButton, recordingLabel);
         this.setBottom(footer);
-        recordButton.setOnAction(e -> toggleRecord());
-
+        recordButton.setOnAction(e -> toggleRecord()); // Toggle recording when the button is pressed
     }
 
+    // Toggle audio recording on/off
     public boolean toggleRecord() {
         if (isRecording) {
-            stopAudioRecording();
+            stopAudioRecording(); // Stop recording if already recording
         } else {
-            startAudioRecording();
+            startAudioRecording(); // Start recording if not already recording
         }
         isRecording = !isRecording;
         return isRecording;
     }
-    /**
-     * Initializes and starts the audio recording process.
-     * This method sets up audio recording as well as creates the file to write to
-     * and starts a new thread to handle the audio input stream. The input stream is
-     * written to "voiceinstructions.wav".
-     * The label on the UI is also updated to indicate that recording has started.
-     */
+
+    // Initialize and start the audio recording process
     public void startAudioRecording() {
         try {
             // Define the audio format with sample rate of 44100 Hz, 16 bits per sample,
@@ -73,7 +70,8 @@ public class RecipeGenerate extends BorderPane {
                 }
             });
 
-            // Set the thread as a daemon so it does not prevent the application from exiting
+            // Set the thread as a daemon so it does not prevent the application from
+            // exiting
             recordThread.setDaemon(true);
             // Start the recording thread
             recordThread.start();
@@ -82,19 +80,14 @@ public class RecipeGenerate extends BorderPane {
         }
     }
 
+    // Stop audio recording
     public void stopAudioRecording() {
         targetLine.stop();
         targetLine.close();
-        recordingLabel.setVisible(false);
+        recordingLabel.setVisible(false); // Make the recording label invisible on the UI
     }
-    /**
-     * Retrieves the response from user voice command by recording voice input to an audio file.
-     * Method sends a request to the 'whisper' API to process the 'voiceinstructions.wav' file, 
-     * while simultaneously determines the meal type. 
-     *
-     * @return The voice input as a String from the 'Whisper' API, with spaces replaced
-     * by underscores.
-     */
+
+    // Retrieve the response from the 'Whisper' API based on user voice command
     public String retrieveVoiceCommandResponse() {
         Model model = new Model();
         String mod = "";
@@ -103,41 +96,32 @@ public class RecipeGenerate extends BorderPane {
             whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
             String mealTypecheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
-            if(mealTypecheck.contains("breakfast")) {
+            if (mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
-            }
-            else if(mealTypecheck.contains("lunch")) {
+            } else if (mealTypecheck.contains("lunch")) {
                 mealType = "lunch";
-            }
-            else if(mealTypecheck.contains("dinner")) {
+            } else if (mealTypecheck.contains("dinner")) {
                 mealType = "dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
             mod = whisperResponse.replaceAll(" ", "_");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("No input detected");
         }
         return mod;
     }
 
-    /**
-     * Generates a recipe based on the voice input from the user by
-     * passing voice input to the 'GPT' API, which generates a recipe.
-     * The meal type and ingredients from the voice command response
-     * are included in the request.
-     *
-     * @return The recipe generated from the 'GPT' API, or an empty string
-     * if an exception occurs.
-     */
+    // Generate a recipe based on the voice input from the user
     public String fetchGeneratedRecipe() {
         Model model = new Model();
         String gptResponse = "";
         try {
             // Retrieve ingredients from the voice command response
             String ingredients = retrieveVoiceCommandResponse();
-            // Construct and perform a GET request to the 'gpt' endpoint with the necessary parameters
-            gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
+            // Construct and perform a GET request to the 'gpt' endpoint with the necessary
+            // parameters
+            gptResponse = model.performRequest("GET", "gpt",
+                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
