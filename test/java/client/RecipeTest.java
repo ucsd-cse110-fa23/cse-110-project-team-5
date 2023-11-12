@@ -13,24 +13,23 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RecipeTest {
-
     Recipe recipe;
     RecipeList recipeList;
 
     @BeforeEach
     public void setUp(){
         recipeList = null;
-        recipe = new Recipe("Recipe Name", "Recipe Details", recipeList);
+        recipe = new Recipe("Fried Rice", "Mix old rice, eggs, and spam", recipeList);
     }
 
     @Test
     public void testGetRecipeName() {
-        assertEquals("Recipe Name", recipe.getRecipeName());
+        assertEquals("Fried Rice", recipe.getRecipeName());
     }
 
     @Test 
     public void testGetRecipeDetails() {
-        assertEquals("Recipe Details", recipe.getRecipeDetails());
+        assertEquals("Mix old rice, eggs, and spam", recipe.getRecipeDetails());
     }
 
     @Test
@@ -40,9 +39,9 @@ public class RecipeTest {
 
     @Test
     public void testSetRecipeName() {
-        String newRecipeName = "New Recipe Name";
+        String newRecipeName = "Fried Rice and carrots";
         recipe.setRecipeName(newRecipeName);
-        assertEquals(newRecipeName, recipe.getRecipeName());
+        assertEquals("Fried Rice and carrots", recipe.getRecipeName());
     }
 
     @Test
@@ -64,14 +63,14 @@ public class RecipeTest {
         String name = "Beef Curry";
         String details = "Make beef curry with carrots";
         Recipe recipeToEdit = new Recipe(name, details, recipeList);
-        assertEquals(name, recipeToEdit.getRecipeName());
-        assertEquals(details, recipeToEdit.getRecipeDetails());
+        assertEquals("Beef Curry", recipeToEdit.getRecipeName());
+        assertEquals("Make beef curry with carrots", recipeToEdit.getRecipeDetails());
 
-        String newName = "Not Beef Curry";
-        String newDetails = "don't make beef curry";
-        recipeToEdit.setRecipe(newDetails);
+        String newName = "Beef Curry with Salad";
+        String newDetails = "Make beef curry with carrots along with a side of salad";
         recipeToEdit.setRecipeName(newName);
-        assertEquals(newName, recipeToEdit.getRecipeName());
-        assertEquals(newDetails, recipeToEdit.getRecipeDetails());
+        recipeToEdit.setRecipe(newDetails);
+        assertEquals("Beef Curry with Salad", recipeToEdit.getRecipeName());
+        assertEquals("Make beef curry with carrots along with a side of salad", recipeToEdit.getRecipeDetails());
     }
 }
