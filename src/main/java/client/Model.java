@@ -44,12 +44,6 @@ public class Model {
 
             }
             
-            // String all = response;
-            // while (response != null){
-            //     all += response;
-            //     response = in.readLine();
-            // }
-            
             in.close();
             return response; //content.toString();
         } catch (Exception ex) {

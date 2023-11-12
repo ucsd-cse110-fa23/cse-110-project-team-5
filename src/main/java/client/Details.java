@@ -4,6 +4,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.Insets;
 
+// VBox within RecipeDetails that stores the details of a recipe
 class Details extends VBox {
     private TextArea title;
     private TextArea details;
