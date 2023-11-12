@@ -1,3 +1,4 @@
+INSTRUCTIONS FOR RUNNING THE PANTRY PAL APP
 Run the Server using debugger.
 Run the Main using debugger.
 The Pantry Pal App will open with the main window titled "Recipe List".
