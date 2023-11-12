@@ -13,7 +13,6 @@ import javafx.scene.layout.HBox;
 class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
-    private RecipeList recipeList;
     private ShowDetails showDetails;
     private RecipeGenerate recipeGen;
     private Button createButton;
@@ -23,12 +22,11 @@ class AppFrame extends BorderPane {
     AppFrame() {
         // Initialize UI components
         header = new Header();
-        recipeList = new RecipeList();
         recipeGen = new RecipeGenerate();
         footer = new Footer();
 
         // Set up the ScrollPane for the recipe list
-        ScrollPane scrollPane = new ScrollPane(recipeList);
+        ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -118,7 +116,7 @@ class AppFrame extends BorderPane {
             // Event listener for the ingredient recording button
             ingredientButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
-                    showDetails = new ShowDetails(recipeList);
+                    showDetails = new ShowDetails();
                     showDetails.setTitleAndDetails(recipeGen.getResponse());
                     recordingStage.close();
                     scene.setRoot(showDetails);

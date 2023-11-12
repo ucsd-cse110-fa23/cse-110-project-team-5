@@ -4,13 +4,11 @@ package client;
 public class Recipe {
     String recipeName;
     String recipeDetails;
-    RecipeList recipeList;
     boolean isDone;
 
     // Constructor for the Recipe class
-    public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {
+    public Recipe(String recipeName, String recipeDetails) {
         // Initialize the Recipe object with the provided values
-        this.recipeList = recipeList;
         this.recipeName = recipeName;
         this.recipeDetails = recipeDetails;
         this.isDone = false; // Default status is not done
@@ -22,10 +20,6 @@ public class Recipe {
 
     public String getRecipeDetails() {
         return this.recipeDetails;
-    }
-
-    public RecipeList getRecipeList() {
-        return this.recipeList;
     }
 
     public void setRecipeName(String newName) {

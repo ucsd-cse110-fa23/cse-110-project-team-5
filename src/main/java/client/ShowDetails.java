@@ -13,14 +13,10 @@ class ShowDetails extends BorderPane {
     private Footer footer;
     private Details details;
 
-    private Button saveButton;
-
-    private RecipeList recipeList;
     private Recipe recipe;
 
     // Constructor for ShowDetails
-    ShowDetails(RecipeList recipeList) {
-        this.recipeList = recipeList;
+    ShowDetails() {
 
         // Initialize the header Object
         header = new Header();
@@ -39,10 +35,6 @@ class ShowDetails extends BorderPane {
         this.setCenter(scrollPane);
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
-        // Initialize Button Variables through the getters in Footer
-        saveButton = footer.getSaveButton();
-        // Call Event Listeners for the Buttons
-        addListeners();
     }
 
     // RecipeDetails Header
@@ -60,37 +52,11 @@ class ShowDetails extends BorderPane {
 
     // RecipeDetails Footer
     class Footer extends HBox {
-        private Button saveButton;
-
         Footer() {
             this.setPrefSize(500, 60);
             this.setStyle("-fx-background-color: #F0F8FF;");
             this.setSpacing(15);
-
-            // set a default style for buttons - background color, font size, italics
-            String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
-
-            saveButton = new Button("Save Recipe"); // text displayed on add button
-            saveButton.setStyle(defaultButtonStyle); // styling the button
-
-            this.getChildren().add(saveButton); // adding buttons to footer
-            this.setAlignment(Pos.CENTER); // aligning the buttons to center
         }
-
-        public Button getSaveButton() {
-            return saveButton;
-        }
-    }
-
-    // Add button functionality
-    public void addListeners() {
-        saveButton.setOnAction(e -> {
-            // Create a new recipe with the title and details from the window
-            recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
-            RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
-            recipeList.getChildren().add(recipeDisplay);
-            recipeList.updateRecipeIndices();
-        });
     }
 
     public void setTitleAndDetails(String recipeString) {
