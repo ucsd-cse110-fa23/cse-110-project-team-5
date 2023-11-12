@@ -16,7 +16,6 @@ public class WhisperRequestHandler implements HttpHandler {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";
     private static final String MODEL = "whisper-1";
-    private static final String FILE_PATH = "../audio.mp3"; //MODIFY THIS
 
     HttpClient client;
     private final Map<String, String> data;

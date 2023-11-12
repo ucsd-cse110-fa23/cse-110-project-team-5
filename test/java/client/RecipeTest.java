@@ -1,7 +1,9 @@
+package client;
+
 import org.junit.jupiter.api.Test;
 
-import client.MealType;
 import client.Recipe;
+import client.RecipeList;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -11,43 +13,64 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RecipeTest {
-
     Recipe recipe;
+    RecipeList recipeList;
 
     @BeforeEach
     public void setUp(){
-        recipe = new Recipe(MealType.DINNER, "Recipe Title", "Recipe Content");
-    }
-    
-    @Test
-    public void testGetMealType() {
-        assertEquals(MealType.DINNER.toString(), recipe.getMealType().toString());
-    }
-    
-    @Test
-    public void testGetTitle() {
-        assertEquals("Recipe Title", recipe.getTitle());
+        recipeList = null;
+        recipe = new Recipe("Fried Rice", "Mix old rice, eggs, and spam", recipeList);
     }
 
     @Test
-    public void testGetRecipe() {
-        assertEquals("Recipe Content", recipe.getRecipe());
+    public void testGetRecipeName() {
+        assertEquals("Fried Rice", recipe.getRecipeName());
+    }
+
+    @Test 
+    public void testGetRecipeDetails() {
+        assertEquals("Mix old rice, eggs, and spam", recipe.getRecipeDetails());
+    }
+
+    @Test
+    public void testGetRecipeList() {
+        assertEquals(recipeList, recipe.getRecipeList());
+    }
+
+    @Test
+    public void testSetRecipeName() {
+        String newRecipeName = "Fried Rice and carrots";
+        recipe.setRecipeName(newRecipeName);
+        assertEquals("Fried Rice and carrots", recipe.getRecipeName());
     }
 
     @Test
     public void testSetRecipe() {
         String newRecipe = "New Recipe";
         recipe.setRecipe(newRecipe);
-        assertEquals(newRecipe, recipe.getRecipe());
+        assertEquals(newRecipe, recipe.getRecipeDetails());
+    }
+
+    @Test
+    public void testIsDone() {
+        assertEquals(false, recipe.MarkedDone());
+        recipe.isDone();
+        assertEquals(true, recipe.MarkedDone());
     }
 
     @Test
     public void testEditRecipe() {
-        Recipe recipeToEdit = new Recipe(MealType.LUNCH, "Chicken Curry", "Chicken Curry Recipe");
-        assertEquals(MealType.LUNCH.toString(), recipeToEdit.getMealType().toString());
-        assertEquals("Chicken Curry", recipeToEdit.getTitle());
-        assertEquals("Chicken Curry Recipe", recipeToEdit.getRecipe());
-        recipeToEdit.setRecipe("Chicken Curry modified");
-        assertEquals("Chicken Curry modified", recipeToEdit.getRecipe());
+        String name = "Beef Curry";
+        String details = "Make beef curry with carrots";
+        Recipe recipeToEdit = new Recipe(name, details, recipeList);
+        assertEquals("Beef Curry", recipeToEdit.getRecipeName());
+        assertEquals("Make beef curry with carrots", recipeToEdit.getRecipeDetails());
+
+        String newName = "Beef Curry with Salad";
+        String newDetails = "Make beef curry with carrots along with a side of salad";
+        recipeToEdit.setRecipeName(newName);
+        recipeToEdit.setRecipe(newDetails);
+        assertEquals("Beef Curry with Salad", recipeToEdit.getRecipeName());
+        assertEquals("Make beef curry with carrots along with a side of salad", recipeToEdit.getRecipeDetails());
     }
 }
