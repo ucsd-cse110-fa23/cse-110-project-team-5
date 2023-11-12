@@ -23,6 +23,7 @@ public class GptRequestHandler implements HttpHandler {
         this.data = data;
     }
 
+    // Handle incoming HTTP requests
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request Received";
         String method = httpExchange.getRequestMethod();
@@ -66,6 +67,7 @@ public class GptRequestHandler implements HttpHandler {
         return response;
     }
 
+    // Ask ChatGPT for response using prompt
     public String askGPT(int maxTokens, String prompt) throws IOException, InterruptedException, URISyntaxException {
         // Create a request body which you will pass into request object
         JSONObject requestBody = new JSONObject();

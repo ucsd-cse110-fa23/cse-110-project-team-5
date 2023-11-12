@@ -26,6 +26,7 @@ public class WhisperRequestHandler implements HttpHandler {
         this.data = data;
     }
 
+    // Handle incoming HTTP requests
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request received";
         String method = httpExchange.getRequestMethod();
@@ -154,6 +155,7 @@ public class WhisperRequestHandler implements HttpHandler {
         fileInputStream.close();
     }
 
+    // Helper method to handle a successful response
     private static String handleSuccessResponse(HttpURLConnection connection)
         throws IOException, JSONException {
         BufferedReader in = new BufferedReader(
@@ -172,7 +174,8 @@ public class WhisperRequestHandler implements HttpHandler {
 
         return generatedText;
     }
-
+    
+    // Helper method to handle an error response
     private static void handleErrorResponse(HttpURLConnection connection)
         throws IOException, JSONException {
         BufferedReader errorReader = new BufferedReader(
