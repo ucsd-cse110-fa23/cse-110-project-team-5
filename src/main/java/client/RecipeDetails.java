@@ -13,7 +13,6 @@ class RecipeDetails extends BorderPane {
     private Footer footer;
     private Details details;
     private Button saveButton;
-    private Button deleteButton;
 
     private RecipeDisplay recipeDisplay;
 
@@ -37,8 +36,6 @@ class RecipeDetails extends BorderPane {
 
         // Get button references from the footer
         saveButton = footer.getSaveButton();
-        deleteButton = footer.getDeleteButton();
-
         // Update title and details with the recipe from RecipeDisplay
         updateTitleAndDetails(recipeDisplay.getRecipe());
 
@@ -63,7 +60,6 @@ class RecipeDetails extends BorderPane {
     // RecipeDetails Footer
     class Footer extends HBox {
         private Button saveButton;
-        private Button deleteButton;
 
         Footer() {
             this.setPrefSize(500, 60);
@@ -77,12 +73,8 @@ class RecipeDetails extends BorderPane {
             saveButton = new Button("Save Changes");
             saveButton.setStyle(defaultButtonStyle);
 
-            // Create "Delete Recipe" button
-            deleteButton = new Button("Delete Recipe");
-            deleteButton.setStyle(defaultButtonStyle);
-
             // Add buttons to the footer
-            this.getChildren().addAll(saveButton, deleteButton);
+            this.getChildren().addAll(saveButton);
             this.setAlignment(Pos.CENTER);
         }
 
@@ -91,10 +83,6 @@ class RecipeDetails extends BorderPane {
             return saveButton;
         }
 
-        // Getter method for the "Delete Recipe" button
-        public Button getDeleteButton() {
-            return deleteButton;
-        }
     }
 
     // Add event listeners for buttons
@@ -108,13 +96,6 @@ class RecipeDetails extends BorderPane {
             updateTitleAndDetails(recipeDisplay.getRecipe());
             // Update the recipe name in RecipeDisplay
             recipeDisplay.setRecipeName(recipeDisplay.getRecipe());
-        });
-
-        // Event listener for the "Delete Recipe" button
-        deleteButton.setOnAction(e -> {
-            // Mark the recipe as done and remove it from the associated RecipeList
-            recipeDisplay.getRecipe().markDone();
-            recipeDisplay.getRecipe().getRecipeList().removeRecipe();
         });
     }
 
