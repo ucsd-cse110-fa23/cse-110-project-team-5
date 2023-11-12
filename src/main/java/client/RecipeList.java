@@ -1,5 +1,4 @@
 package client;
-
 import javafx.scene.layout.*;
 
 class RecipeList extends VBox {

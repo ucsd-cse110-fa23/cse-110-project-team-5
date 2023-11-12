@@ -1,5 +1,4 @@
 package client;
-
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
@@ -11,10 +10,8 @@ import javafx.geometry.Insets;
 class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
-    private String mealType;
 
-    RecipeDisplay(String mealType) {
-        this.mealType = mealType;
+    RecipeDisplay() {
         this.setPrefSize(500, 20); // sets size of task
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
 
@@ -30,17 +27,13 @@ class RecipeDisplay extends HBox {
         recipeName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
         index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
         recipeName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
-        recipeName.setText(mealType);
+        recipeName.setText("New Recipe");
         this.getChildren().add(recipeName); // add textlabel to recipe
     }
 
     public void setRecipeIndex(int num) {
         this.index.setText(num + ""); // num to String
         this.recipeName.setPromptText("Recipe " + num);
-        recipeName.setText(mealType + " " + num);
-    }
-
-    public String getMealType(){
-        return this.mealType;
+        recipeName.setText("Recipe " + num);
     }
 }

@@ -1,5 +1,4 @@
 package client;
-
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
@@ -13,7 +12,6 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
-    private RecipeGenerate recipeGen;
     private Button createButton;
     private Scene scene;
 
@@ -22,7 +20,6 @@ class AppFrame extends BorderPane {
         header = new Header();
         // Create a tasklist Object to hold the tasks
         recipeList = new RecipeList();
-        recipeGen = new RecipeGenerate();
         // Initialise the Footer Object
         footer = new Footer();
         ScrollPane scrollPane = new ScrollPane(recipeList);
@@ -82,49 +79,8 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
-
-            Stage recordingStage = new Stage();
-            BorderPane recordingPane = new BorderPane();
-            Text instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
-            instructions.setLayoutX(130); 
-            instructions.setLayoutY(60);
-            recordingPane.getChildren().add(instructions);   
-            Button recordButton = new Button("Record");  
-            recordButton.setOnAction(e1 -> {
-                if (!recipeGen.toggleRecord()) {
-                    String response = recipeGen.retrieveVoiceCommandResponse().toLowerCase();
-                    if(response.contains("breakfast")) {
-                        recipeList.getChildren().add(new RecipeDisplay("breakfast"));
-                        recipeList.updateRecipeIndices();
-                        recordingStage.close();
-                    }
-                    else if (response.contains("lunch")) {
-                        recipeList.getChildren().add(new RecipeDisplay("lunch"));
-                        recipeList.updateRecipeIndices();
-                        recordingStage.close();
-                    }
-                    else if (response.contains("dinner")) {
-                        recipeList.getChildren().add(new RecipeDisplay("dinner"));
-                        recipeList.updateRecipeIndices();
-                        recordingStage.close();
-                    }
-                    else{
-                        instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
-                    }
-                }
-            });
-
-            HBox buttonBox = new HBox(10);
-            buttonBox.setAlignment(Pos.CENTER); 
-            HBox buttonContainer = new HBox(10);
-            buttonContainer.setAlignment(Pos.CENTER); 
-            buttonContainer.getChildren().add(recordButton);
-            buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
-            recordingPane.setCenter(buttonBox);
-            scene = new Scene(recordingPane, 500, 600);
-            recordingStage.setScene(scene);
-            recordingStage.setTitle("Recording Window");
-            recordingStage.show();
+            recipeList.getChildren().add(new RecipeDisplay());
+            recipeList.updateRecipeIndices();
         });
     }
 }
