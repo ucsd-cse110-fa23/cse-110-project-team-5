@@ -3,7 +3,6 @@ package client;
 public class Recipe {
     String recipeName;
     String recipeDetails;
-    MealType mealType;
     RecipeList recipeList;
     boolean isDone;
 

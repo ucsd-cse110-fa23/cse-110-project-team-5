@@ -18,9 +18,4 @@ class RecipeList extends VBox {
             }
         }
     }
-
-    public void removeRecipe() {
-        this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay && ((RecipeDisplay) recipeDisplay).getRecipe().MarkedDone());
-        this.updateRecipeIndices();
-    }
 }

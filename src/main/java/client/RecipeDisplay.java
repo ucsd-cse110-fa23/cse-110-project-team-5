@@ -11,7 +11,6 @@ import javafx.geometry.Insets;
 class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
-    private Button detailButton;
     private Recipe recipe;
 
     RecipeDisplay(Recipe recipe) {
@@ -33,21 +32,7 @@ class RecipeDisplay extends HBox {
         recipeName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
         this.getChildren().add(recipeName); // add textlabel to recipe
 
-        detailButton = new Button("View Details"); // creates a button for viewing recipe details
-        detailButton.setPrefSize(100, 20);
-        detailButton.setPrefHeight(Double.MAX_VALUE);
-        detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
-        detailButton.setOnAction(e -> {
-            RecipeDetails root = new RecipeDetails(this);
-            Stage viewDetailStage = new Stage();
-            Scene viewDetailScene = new Scene(root, 500, 600);
-            viewDetailStage.setScene(viewDetailScene);
-            viewDetailStage.show();
-        });
-
         this.setRecipeName(recipe);
-
-        this.getChildren().add(detailButton);
     }
 
     public void setRecipeIndex(int num) {
@@ -58,10 +43,6 @@ class RecipeDisplay extends HBox {
     // public TextField getRecipeName() {
     //     return this.recipeName;
     // }
-
-    public Button getDetailButton() {
-        return this.detailButton;
-    }
 
     public void setRecipeName(Recipe recipe){
         this.recipeName.setText(recipe.getRecipeName());
