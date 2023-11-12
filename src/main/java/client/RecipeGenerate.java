@@ -9,8 +9,6 @@ public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
     Label recordingLabel = new Label("Recording...");
     public String mealType;
-    private String recipeIntro = "Give_me_a_recipe_for_";
-    private String recipeIntro2 = "using_only_the_following_ingredients_";
     public String whisperResponse;
     private TargetDataLine targetLine;
     private File outputFile;
@@ -119,28 +117,5 @@ public class RecipeGenerate extends BorderPane {
             System.err.println("No input detected");
         }
         return mod;
-    }
-
-    /**
-     * Generates a recipe based on the voice input from the user by
-     * passing voice input to the 'GPT' API, which generates a recipe.
-     * The meal type and ingredients from the voice command response
-     * are included in the request.
-     *
-     * @return The recipe generated from the 'GPT' API, or an empty string
-     * if an exception occurs.
-     */
-    public String fetchGeneratedRecipe() {
-        Model model = new Model();
-        String gptResponse = "";
-        try {
-            // Retrieve ingredients from the voice command response
-            String ingredients = retrieveVoiceCommandResponse();
-            // Construct and perform a GET request to the 'gpt' endpoint with the necessary parameters
-            gptResponse = model.performRequest("GET", "gpt", "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
-        } catch (Exception e) {
-            System.out.println("No input detected");
-        }
-        return gptResponse;
     }
 }

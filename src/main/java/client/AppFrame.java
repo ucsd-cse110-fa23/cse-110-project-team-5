@@ -13,7 +13,6 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
-    private ShowDetails showDetails;
     private RecipeGenerate recipeGen;
     private Button createButton;
     private Scene scene;
@@ -90,30 +89,28 @@ class AppFrame extends BorderPane {
             instructions.setLayoutX(130); 
             instructions.setLayoutY(60);
             recordingPane.getChildren().add(instructions);   
-            Button recordButton = new Button("Record"); 
-            Button ingredientButton = new Button("Record Ingredients"); 
-            ingredientButton.setDisable(true);     
+            Button recordButton = new Button("Record");  
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
                     String response = recipeGen.retrieveVoiceCommandResponse().toLowerCase();
-                    if(response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
-                        ingredientButton.setDisable(false);
-                        instructions.setText("Tell me your ingredients!");
+                    if(response.contains("breakfast")) {
+                        recipeList.getChildren().add(new RecipeDisplay("breakfast"));
+                        recipeList.updateRecipeIndices();
+                        recordingStage.close();
+                    }
+                    else if (response.contains("lunch")) {
+                        recipeList.getChildren().add(new RecipeDisplay("lunch"));
+                        recipeList.updateRecipeIndices();
+                        recordingStage.close();
+                    }
+                    else if (response.contains("dinner")) {
+                        recipeList.getChildren().add(new RecipeDisplay("dinner"));
+                        recipeList.updateRecipeIndices();
+                        recordingStage.close();
                     }
                     else{
                         instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
                     }
-                }
-            });
-            ingredientButton.setOnAction(e1 -> {
-                if(!recipeGen.toggleRecord()) {
-                    showDetails = new ShowDetails(recipeList);  
-                    showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe());
-                    recordingStage.close();
-                    scene.setRoot(showDetails);
-                    Stage recipeDetailStage = new Stage();
-                    recipeDetailStage.setScene(scene);
-                    recipeDetailStage.show();                 
                 }
             });
 
@@ -121,7 +118,7 @@ class AppFrame extends BorderPane {
             buttonBox.setAlignment(Pos.CENTER); 
             HBox buttonContainer = new HBox(10);
             buttonContainer.setAlignment(Pos.CENTER); 
-            buttonContainer.getChildren().addAll(recordButton, ingredientButton);
+            buttonContainer.getChildren().add(recordButton);
             buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
             recordingPane.setCenter(buttonBox);
             scene = new Scene(recordingPane, 500, 600);

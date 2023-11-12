@@ -31,18 +31,6 @@ public class Model {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String response = in.readLine();
-            if (route.equals("gpt")) {
-                // String response = in.readLine();
-                StringBuilder content = new StringBuilder();
-                response = in.readLine();   //get the title of the recipe
-                content.append(response);
-                while ((response = in.readLine())  != null){    //get recipe details
-                    content.append(response);           
-                    content.append(System.lineSeparator());
-                }
-                return content.toString();
-
-            }
             
             // String all = response;
             // while (response != null){
