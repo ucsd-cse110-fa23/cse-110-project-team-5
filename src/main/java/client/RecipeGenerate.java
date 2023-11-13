@@ -107,9 +107,9 @@ public class RecipeGenerate extends BorderPane {
             // Determine the meal type based on the response content
             if(mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
-            } else if (mealTypeCheck.contains("lunch")) {
+            } else if (mealTypecheck.contains("lunch")) {
                 mealType = "lunch";
-            } else if (mealTypeCheck.contains("dinner")) {
+            } else if (mealTypecheck.contains("dinner")) {
                 mealType = "dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
