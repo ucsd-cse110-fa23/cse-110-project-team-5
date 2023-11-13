@@ -14,6 +14,7 @@ class RecipeDetails extends BorderPane {
     private Footer footer;
     private Details details;
     private Button saveButton;
+    private Button deleteButton;
 
     private RecipeDisplay recipeDisplay;
 
@@ -45,6 +46,7 @@ class RecipeDetails extends BorderPane {
     class Header extends HBox {
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
+            this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
             Text titleText = new Text("Recipe Details"); // Text of the Header
@@ -58,6 +60,8 @@ class RecipeDetails extends BorderPane {
     class Footer extends HBox {
         // Footer instance variables
         private Button saveButton;
+        private Button deleteButton;
+
         // Footer constructor
         Footer() {
             this.setPrefSize(500, 60);
@@ -69,16 +73,20 @@ class RecipeDetails extends BorderPane {
 
             saveButton = new Button("Save Changes"); // Text displayed on save button
             saveButton.setStyle(defaultButtonStyle); // Styling the save button
-           
-            this.getChildren().addAll(saveButton); // Adding buttons to the footer
+            deleteButton = new Button("Delete Recipe"); // Text displayed on delete button
+            deleteButton.setStyle(defaultButtonStyle); // Styling the delete button
+
+            this.getChildren().addAll(saveButton, deleteButton); // Adding buttons to the footer
             this.setAlignment(Pos.CENTER); // Aligning the buttons to center
         }
 
-        // Getter for the saveButton
         public Button getSaveButton() {
             return saveButton;
         }
 
+        public Button getDeleteButton() {
+            return deleteButton;
+        }
     }
 
     // Method to add event listeners to buttons
@@ -87,8 +95,16 @@ class RecipeDetails extends BorderPane {
         saveButton.setOnAction(e -> {
             recipeDisplay.getRecipe().setRecipeName(details.getTitle());
             recipeDisplay.getRecipe().setRecipe(details.getDetails());
+            recipeDisplay.getRecipe().setRecipeName(details.getTitle());
+            recipeDisplay.getRecipe().setRecipe(details.getDetails());
             updateTitleAndDetails(recipeDisplay.getRecipe());
             recipeDisplay.setRecipeDisplayName(recipeDisplay.getRecipe());
+        });
+
+        // Add button functionality for deleteButton
+        deleteButton.setOnAction(e -> {
+            recipeDisplay.getRecipe().markDone();
+            recipeDisplay.getRecipe().getRecipeList().removeRecipe();
         });
     }
 

@@ -4,56 +4,65 @@ import com.sun.net.httpserver.*;
 import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+
 import java.util.*;
 
-import org.json.*;
+// HTTP handler for processing mock Whisper requests
+public class MockWhisperRequestHandler implements HttpHandler {
 
-public class MockWhisperRequestHandler implements HttpHandler{
+    // HTTP client for making requests
     HttpClient client;
-    private final Map<String, String> data;
 
+    // Constructor to initialize the handler with data
     public MockWhisperRequestHandler(Map<String, String> data) {
         this.client = HttpClient.newHttpClient();
-        this.data = data;
     }
 
+    // Handle incoming HTTP requests
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request received";
         String method = httpExchange.getRequestMethod();
 
         try {
+            // Check the request method
             if (method.equals("GET")) {
                 response = handleGet(httpExchange);
             } else {
                 throw new Exception("Not a valid request method");
             }
         } catch (Exception e) {
-            System.out.println("error");
+            System.out.println("Error");
             response = e.toString();
             e.printStackTrace();
         }
+
+        // Send the HTTP response
         httpExchange.sendResponseHeaders(200, response.length());
         OutputStream outStream = httpExchange.getResponseBody();
         outStream.write(response.getBytes());
         outStream.close();
     }
 
+    // Handle GET requests
     public String handleGet(HttpExchange httpExchange) {
         String response = "Invalid GET request";
         URI uri = httpExchange.getRequestURI();
         String query = uri.getRawQuery();
+
+        // Parse the query parameters
         if (query != null) {
             String value = query.substring(query.indexOf("=") + 1);
-            String currentDir = System.getProperty("user.dir");                     // NEED TO FIX TO RIGHT FILEPATH
+
+            // Construct the file path (This needs fixing based on requirements)
+            String currentDir = System.getProperty("user.dir");
             value = currentDir + "/" + value;
-            // System.out.println("Current dir using System:" + currentDir);
+
             if (value != null) {
+                // Check if the file exists and provide a default response for testing
                 File file = new File(value);
                 response = "default response for testing";
             } else {
-                response = "no message query found";
+                response = "No message query found";
             }
         }
         return response;
