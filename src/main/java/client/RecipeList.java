@@ -18,4 +18,6 @@ class RecipeList extends VBox {
             }
         }
     }
+
+    
 }

@@ -8,7 +8,7 @@ public class Recipe {
     boolean isDone;
 
     // Constructor for the Recipe class
-    public Recipe(String recipeName, String recipeDetails) {
+    public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {
         // Initialize the Recipe object with the provided values
         this.recipeName = recipeName;
         this.recipeDetails = recipeDetails;
@@ -21,6 +21,10 @@ public class Recipe {
 
     public String getRecipeDetails() {
         return this.recipeDetails;
+    }
+
+    public RecipeList getRecipeList(){
+        return this.recipeList;
     }
 
     public void setRecipeName(String newName) {
