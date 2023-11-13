@@ -14,6 +14,7 @@ class RecipeDetails extends BorderPane {
     private Footer footer;
     private Details details;
     private Button saveButton;
+    private Button deleteButton;
 
     private RecipeDisplay recipeDisplay;
 
@@ -59,6 +60,7 @@ class RecipeDetails extends BorderPane {
     class Footer extends HBox {
         // Footer instance variables
         private Button saveButton;
+        private Button deleteButton;
 
         // Footer constructor
         Footer() {
