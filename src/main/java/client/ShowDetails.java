@@ -8,6 +8,7 @@ import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
 // Window that shows newly created Recipes
+// Window that shows newly created Recipes
 class ShowDetails extends BorderPane {
     private Header header;
     private Footer footer;
@@ -18,6 +19,7 @@ class ShowDetails extends BorderPane {
 
     ShowDetails(RecipeList recipeList) {
         // Recipe List to add newly created Recipe Object to
+        // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
         // Initialise the header Object
         header = new Header();
@@ -25,6 +27,7 @@ class ShowDetails extends BorderPane {
         details = new Details();
         // Initialise the Footer Object
         footer = new Footer();
+        // Initialise ScrollPane Object
         // Initialise ScrollPane Object
         ScrollPane scrollPane = new ScrollPane(details);
         scrollPane.setFitToWidth(true);
@@ -37,11 +40,13 @@ class ShowDetails extends BorderPane {
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
         // Initialise Save Button through the getters in Footer
+        // Initialise Save Button through the getters in Footer
         saveButton = footer.getSaveButton();
         // Call Event Listeners for the Buttons
         addListeners();
     }
 
+    // ShowDetails Header
     // ShowDetails Header
     class Header extends HBox {
         Header() {
@@ -55,6 +60,7 @@ class ShowDetails extends BorderPane {
         }
     }
 
+    // ShowDetails Footer
     // ShowDetails Footer
     class Footer extends HBox {
         private Button saveButton;
@@ -85,12 +91,16 @@ class ShowDetails extends BorderPane {
             // Create new Recipe Object based on newly created recipe details
             recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
             // Create RecipeDisplay Object to show Recipe in the Recipe List
+            // Create new Recipe Object based on newly created recipe details
+            recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
+            // Create RecipeDisplay Object to show Recipe in the Recipe List
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
             recipeList.getChildren().add(recipeDisplay);
             recipeList.updateRecipeIndices();
         });
     }
 
+    // Set Title and Details of Details VBox
     // Set Title and Details of Details VBox
     public void setTitleAndDetails(String recipeString) {
         details.setTitle(details.extractTitle(recipeString));
