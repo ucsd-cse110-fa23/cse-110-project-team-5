@@ -3,6 +3,9 @@ package client;
 import java.io.File;
 import javax.sound.sampled.*;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+
 // The RecipeGenerate class handles voice recording, user input processing, and API requests
 public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
@@ -109,7 +112,7 @@ public class RecipeGenerate extends BorderPane {
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = model.performRequest("GET", "gpt",
-                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients + recipeFormat);
+                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
