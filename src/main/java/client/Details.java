@@ -11,6 +11,7 @@ class Details extends VBox {
     private TextArea details;
 
     // Constructor for Details class
+    // Constructor for Details class
     Details() {
         this.setPrefSize(500, 500); // Set preferred size of the VBox
         this.setStyle("-fx-background-color: #F0F8FF;"); // Set background color of the VBox
@@ -64,3 +65,4 @@ class Details extends VBox {
         return this.title.getText();
     }
 }
+

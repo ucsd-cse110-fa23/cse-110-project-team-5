@@ -8,20 +8,23 @@ import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
 // Class representing the detailed view of a recipe
+// Class representing the detailed view of a recipe
 class RecipeDetails extends BorderPane {
+    // Instance variables
     // Instance variables
     private Header header;
     private Footer footer;
     private Details details;
     private Button saveButton;
-    private Button deleteButton;
 
     private RecipeDisplay recipeDisplay;
 
     // Constructor for RecipeDetails
+    // Constructor for RecipeDetails
     RecipeDetails(RecipeDisplay recipeDisplay) {
         this.recipeDisplay = recipeDisplay;
 
+        // Initialize UI components
         // Initialize UI components
         header = new Header();
         details = new Details();
@@ -34,11 +37,12 @@ class RecipeDetails extends BorderPane {
         this.setCenter(scrollPane);
         this.setBottom(footer);
         saveButton = footer.getSaveButton();
-        deleteButton = footer.getDeleteButton();
 
+        // Update title and details from the current recipe
         // Update title and details from the current recipe
         updateTitleAndDetails(recipeDisplay.getRecipe());
 
+        // Set up event listeners for buttons
         // Set up event listeners for buttons
         addListeners();
     }
@@ -46,6 +50,7 @@ class RecipeDetails extends BorderPane {
     // RecipeDetails Header
     class Header extends HBox {
         Header() {
+            this.setPrefSize(500, 60); // Set size of the header
             this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
@@ -59,6 +64,7 @@ class RecipeDetails extends BorderPane {
     // RecipeDetails Footer
     class Footer extends HBox {
         // Footer instance variables
+        // Footer instance variables
         private Button saveButton;
         private Button deleteButton;
 
@@ -68,6 +74,7 @@ class RecipeDetails extends BorderPane {
             this.setStyle("-fx-background-color: #F0F8FF;");
             this.setSpacing(15);
 
+            // Set a default style for buttons - background color, font size, italics
             // Set a default style for buttons - background color, font size, italics
             String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
@@ -81,6 +88,7 @@ class RecipeDetails extends BorderPane {
         }
 
         // Getter for the saveButton
+        // Getter for the saveButton
         public Button getSaveButton() {
             return saveButton;
         }
@@ -92,9 +100,13 @@ class RecipeDetails extends BorderPane {
     }
 
     // Method to add event listeners to buttons
+    // Method to add event listeners to buttons
     public void addListeners() {
         // Add button functionality for saveButton
+        // Add button functionality for saveButton
         saveButton.setOnAction(e -> {
+            recipeDisplay.getRecipe().setRecipeName(details.getTitle());
+            recipeDisplay.getRecipe().setRecipe(details.getDetails());
             recipeDisplay.getRecipe().setRecipeName(details.getTitle());
             recipeDisplay.getRecipe().setRecipe(details.getDetails());
             updateTitleAndDetails(recipeDisplay.getRecipe());
@@ -115,9 +127,11 @@ class RecipeDetails extends BorderPane {
     }
 
     public String getTitle() {
+    public String getTitle() {
         return details.getTitle();
     }
 
+    public String getDetails() {
     public String getDetails() {
         return details.getDetails();
     }

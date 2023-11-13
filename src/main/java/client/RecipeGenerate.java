@@ -83,7 +83,9 @@ public class RecipeGenerate {
             if (mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
             } else if (mealTypecheck.contains("lunch")) {
+            } else if (mealTypecheck.contains("lunch")) {
                 mealType = "lunch";
+            } else if (mealTypecheck.contains("dinner")) {
             } else if (mealTypecheck.contains("dinner")) {
                 mealType = "dinner";
             }
