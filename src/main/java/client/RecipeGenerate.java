@@ -9,6 +9,7 @@ public class RecipeGenerate {
     public String mealType; // Meal type determined from voice command
     private String recipeIntro = "Add_a_one_line_title_at_the_start_,_add_a_new_line_,_and_give_me_a_recipe_for_"; // Introductory text for recipe request
     private String recipeIntro2 = "and_only_use_the_following_ingredients_and_nothing_else_other_than_simple_ingredients:"; // Additional text for recipe request
+    private String recipeFormat = "_and_format_the_output_like_a_recipe";
     public String whisperResponse; // Response from the 'Whisper' API
     private TargetDataLine targetLine; // Target data line for audio recording
     private File outputFile; // File to store the recorded audio
@@ -76,7 +77,6 @@ public class RecipeGenerate {
             // Perform a GET request to the 'whisper' endpoint with the audio file
             whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
             String mealTypecheck = whisperResponse.toLowerCase();
-            System.out.println(mealTypecheck);
             // Determine the meal type based on the response content
             if (mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
@@ -100,11 +100,10 @@ public class RecipeGenerate {
         try {
             // Retrieve ingredients from the voice command response
             String ingredients = retrieveVoiceCommandResponse();
-            System.out.println(ingredients);
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = model.performRequest("GET", "gpt",
-                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
+                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients + recipeFormat);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
