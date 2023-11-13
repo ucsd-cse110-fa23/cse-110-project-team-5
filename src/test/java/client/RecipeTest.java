@@ -27,9 +27,7 @@ public class RecipeTest {
     public void testGetRecipeName() {
         assertEquals("Recipe Name", recipe.getRecipeName());
     }
-
-    @Test
-    public void testTest() {assertEquals(1, 1);}
+    
     @Test 
     public void testGetRecipeDetails() {
         assertEquals("Recipe Details", recipe.getRecipeDetails());

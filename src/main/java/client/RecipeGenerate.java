@@ -65,8 +65,10 @@ public class RecipeGenerate {
 
     // Stop audio recording
     public void stopAudioRecording() {
-        targetLine.stop();
-        targetLine.close();
+        if(targetLine != null) {
+            targetLine.stop();
+            targetLine.close();
+        }
     }
 
     // Retrieve the response from the 'Whisper' API based on user voice command
