@@ -103,9 +103,9 @@ public class RecipeGenerate extends BorderPane {
         try {
             // Perform a GET request to the 'whisper' endpoint with the audio file
             whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-            String mealTypecheck = whisperResponse.toLowerCase();
+            String mealTypeCheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
-            if(mealTypecheck.contains("breakfast")) {
+            if(mealTypeCheck.contains("breakfast")) {
                 mealType = "breakfast";
             } else if (mealTypeCheck.contains("lunch")) {
                 mealType = "lunch";

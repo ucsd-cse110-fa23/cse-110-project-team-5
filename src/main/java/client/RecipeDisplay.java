@@ -38,8 +38,6 @@ class RecipeDisplay extends HBox {
         // Set the recipe name in the display
         this.setRecipeName(recipe);
 
-        // Add components to the RecipeDisplay
-        this.getChildren().add(detailButton);
     }
 
     // Set the index and prompt text for the recipe
@@ -49,7 +47,7 @@ class RecipeDisplay extends HBox {
     }
 
     // public TextField getRecipeName() {
-    //     return this.recipeName;
+    // return this.recipeName;
     // }
 
     public Recipe getRecipe() {
