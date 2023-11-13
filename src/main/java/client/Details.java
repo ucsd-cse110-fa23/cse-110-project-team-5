@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 
 // The Details class represents a VBox containing TextArea components for title and details of a recipe
 class Details extends VBox {
+    // Declare instance variables
     private TextArea title;
     private TextArea details;
 

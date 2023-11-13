@@ -2,6 +2,7 @@ package client;
 
 // The Recipe class represents a recipe with a name, details, and status (if the recipe should be removed)
 public class Recipe {
+    // Instance variables
     String recipeName;
     String recipeDetails;
     RecipeList recipeList;
@@ -23,10 +24,11 @@ public class Recipe {
         return this.recipeDetails;
     }
 
-    public RecipeList getRecipeList(){
+    public RecipeList getRecipeList() {
         return this.recipeList;
     }
 
+    public void setRecipeName(String newName) {
     public void setRecipeName(String newName) {
         this.recipeName = newName;
     }
@@ -36,10 +38,13 @@ public class Recipe {
     }
 
     public void markDone() {
+    public void markDone() {
         this.isDone = true;
     }
 
     public boolean isMarkedDone() {
+    public boolean isMarkedDone() {
         return this.isDone;
     }
 }
+

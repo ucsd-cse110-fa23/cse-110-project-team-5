@@ -1,7 +1,5 @@
 package client;
 
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
 import java.io.File;
 import javax.sound.sampled.*;
 
@@ -18,35 +16,19 @@ public class RecipeGenerate extends BorderPane {
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
 
     // Constructor for RecipeGenerate
-    public RecipeGenerate() {
-        ListView<String> recipeList = new ListView<>();
-        this.setCenter(recipeList);
-        HBox footer = new HBox(10);
-        Button recordButton = new Button();
-        recordingLabel.setStyle(defaultLabelStyle);
 
-        footer.getChildren().addAll(recordButton, recordingLabel);
-        this.setBottom(footer);
-        recordButton.setOnAction(e -> toggleRecord());
-    }
-
-    // Toggles the recording state and returns the new state
+    // Toggle audio recording on/off
     public boolean toggleRecord() {
         if (isRecording) {
-            stopAudioRecording();
+            stopAudioRecording(); // Stop recording if already recording
         } else {
-            startAudioRecording();
+            startAudioRecording(); // Start recording if not already recording
         }
         isRecording = !isRecording;
         return isRecording;
     }
-    /**
-     * Initializes and starts the audio recording process.
-     * This method sets up audio recording as well as creates the file to write to
-     * and starts a new thread to handle the audio input stream. The input stream is
-     * written to "voiceinstructions.wav".
-     * The label on the UI is also updated to indicate that recording has started.
-     */
+
+    // Initialize and start the audio recording process
     public void startAudioRecording() {
         try {
             // Define the audio format with sample rate of 44100 Hz, 16 bits per sample,
@@ -59,11 +41,8 @@ public class RecipeGenerate extends BorderPane {
             targetLine.open(format);
             // Start capturing audio data
             targetLine.start();
-            // Make the recording label visible on the UI
-            recordingLabel.setVisible(true);
-
             // Create the output file where the audio data will be saved
-            outputFile = new File("voiceinstructions.wav");
+            outputFile = new File("src/main/java/voiceinstructions.wav");
 
             // Create and start a new thread to write the audio data to a file
             Thread recordThread = new Thread(() -> {
@@ -75,7 +54,8 @@ public class RecipeGenerate extends BorderPane {
                 }
             });
 
-            // Set the thread as a daemon so it does not prevent the application from exiting
+            // Set the thread as a daemon so it does not prevent the application from
+            // exiting
             recordThread.setDaemon(true);
             // Start the recording thread
             recordThread.start();
@@ -84,40 +64,55 @@ public class RecipeGenerate extends BorderPane {
         }
     }
 
+    // Stop audio recording
     public void stopAudioRecording() {
-        targetLine.stop();
-        targetLine.close();
-        recordingLabel.setVisible(false);
+        if(targetLine != null) {
+            targetLine.stop();
+            targetLine.close();
+        }
     }
-    /**
-     * Retrieves the response from user voice command by recording voice input to an audio file.
-     * Method sends a request to the 'whisper' API to process the 'voiceinstructions.wav' file, 
-     * while simultaneously determines the meal type. 
-     *
-     * @return The voice input as a String from the 'Whisper' API, with spaces replaced
-     * by underscores.
-     */
-    public String retrieveVoiceCommandResponse() {
+
+    // Retrieve the response from the 'Whisper' API based on user voice command
+    public String retrieveVoiceCommandResponse(String fileString) {
         Model model = new Model();
         String mod = "";
         try {
             // Perform a GET request to the 'whisper' endpoint with the audio file
-            whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
+            whisperResponse = model.performRequest("GET", "whisper", fileString);
             String mealTypecheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
-            if(mealTypecheck.contains("breakfast")) {
+            if (mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
             } else if (mealTypecheck.contains("lunch")) {
+            } else if (mealTypecheck.contains("lunch")) {
                 mealType = "lunch";
+            } else if (mealTypecheck.contains("dinner")) {
             } else if (mealTypecheck.contains("dinner")) {
                 mealType = "dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
             mod = whisperResponse.replaceAll(" ", "_");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("No input detected");
         }
+        System.out.println(mod);
         return mod;
+    }
+
+    // Generate a recipe based on the voice input from the user
+    public String fetchGeneratedRecipe(String transcription) {
+        Model model = new Model();
+        String gptResponse = "";
+        try {
+            // Retrieve ingredients from the voice command response
+            String ingredients = retrieveVoiceCommandResponse(transcription);
+            // Construct and perform a GET request to the 'gpt' endpoint with the necessary
+            // parameters
+            gptResponse = model.performRequest("GET", "gpt",
+                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients + recipeFormat);
+        } catch (Exception e) {
+            System.out.println("No input detected");
+        }
+        return gptResponse;
     }
 }
