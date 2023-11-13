@@ -3,16 +3,19 @@ package client;
 import java.io.File;
 import javax.sound.sampled.*;
 
-// Represents the generation and handling of recipes through voice commands
-public class RecipeGenerate {
-    boolean isRecording = false;
-    public String mealType; // Meal type determined from voice command
-    private String recipeIntro = "Add_a_one_line_title_at_the_start_,_add_a_new_line_,_and_give_me_a_recipe_for_"; // Introductory text for recipe request
-    private String recipeIntro2 = "and_only_use_the_following_ingredients_and_nothing_else_other_than_simple_ingredients:"; // Additional text for recipe request
-    private String recipeFormat = "_and_format_the_output_like_a_recipe";
-    public String whisperResponse; // Response from the 'Whisper' API
-    private TargetDataLine targetLine; // Target data line for audio recording
-    private File outputFile; // File to store the recorded audio
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+
+// The RecipeGenerate class handles voice recording, user input processing, and API requests
+public class RecipeGenerate extends BorderPane {
+    public boolean isRecording = false;
+    public String mealType; // The determined meal type from the user's voice command
+    private String recipeIntro = "Give_me_a_recipe_for_";
+    private String recipeIntro2 = "using_only_the_following_ingredients_";
+    public String whisperResponse; // The response from the 'Whisper' API
+    private TargetDataLine targetLine; // Audio input line for recording
+    private File outputFile; // File to write the recorded audio to
+    String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
 
     // Constructor for RecipeGenerate
 
@@ -108,7 +111,7 @@ public class RecipeGenerate {
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = model.performRequest("GET", "gpt",
-                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients + recipeFormat);
+                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
         } catch (Exception e) {
             System.out.println("No input detected");
         }
