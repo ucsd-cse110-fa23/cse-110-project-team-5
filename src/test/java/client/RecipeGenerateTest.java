@@ -3,6 +3,7 @@ package client;
 import org.junit.jupiter.api.Test;
 
 import mock.MockModel;
+import mock.MockRecipeGenerate;
 import mock.MockServer;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,8 @@ public class RecipeGenerateTest {
      */
     @Test
     public void testBreakfastRecipe() {
-        String actual = recipeGen.retrieveVoiceCommandResponse("breakfasttest.wav");
+        MockRecipeGenerate mockRecipeGen = new MockRecipeGenerate();
+        String actual = mockRecipeGen.retrieveVoiceCommandResponse("breakfasttest.wav");
         String expected = "breakfast";
         if(actual.length() == 9) {
             assertEquals(expected, actual.toLowerCase());
@@ -49,7 +51,7 @@ public class RecipeGenerateTest {
         else{
             assertEquals(expected + ".", actual.toLowerCase());
         }
-        assertEquals(expected, recipeGen.mealType);
+        assertEquals(expected, mockRecipeGen.getMealType());
     }
     /*
      * Testing a full BDD scenario where the user doesn't specify a meal type and mealtype is null

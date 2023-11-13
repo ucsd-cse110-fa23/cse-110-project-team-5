@@ -31,7 +31,7 @@ public class ServerTest {
     @Test
     public void WhisperTest() {
         String response = model.performRequest("GET", "whisper", "voiceinstructions.wav");
-        final String correctResponse = "default success response for testing";
+        final String correctResponse = "breakfast";
         assertEquals(response, correctResponse);
     }
 }

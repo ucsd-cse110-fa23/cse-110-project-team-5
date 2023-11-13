@@ -11,7 +11,7 @@ public class MockWhisperRequestHandler {
             value = currentDir + "/" + value;
             // System.out.println("Current dir using System:" + currentDir);
             if (value != null) {
-                response = "default success response for testing";
+                response = "breakfast";
             } else {
                 response = "no message query found";
             }
