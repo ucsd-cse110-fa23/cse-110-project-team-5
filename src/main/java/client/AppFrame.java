@@ -119,7 +119,7 @@ class AppFrame extends BorderPane {
             ingredientButton.setOnAction(e1 -> {
                 if(!recipeGen.toggleRecord()) {
                     showDetails = new ShowDetails(recipeList);  
-                    showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe());
+                    showDetails.setTitleAndDetails(recipeGen.retrieveVoiceCommandResponse());
                     recordingStage.close();
                     scene.setRoot(showDetails);
                     Stage recipeDetailStage = new Stage();
