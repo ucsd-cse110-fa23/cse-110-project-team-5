@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
-// Main AppFrame for Pantry Pal App 
+// The main AppFrame for Pantry Pal App 
 class AppFrame extends BorderPane {
     // Declare instance variables
     private Header header;
