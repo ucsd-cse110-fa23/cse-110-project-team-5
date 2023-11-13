@@ -7,7 +7,7 @@ import javax.sound.sampled.*;
 
 // Represents the generation and handling of recipes through voice commands
 public class RecipeGenerate extends BorderPane {
-    private boolean isRecording = false;
+    boolean isRecording = false;
     Label recordingLabel = new Label("Recording..."); // Label indicating recording status
     public String mealType; // Meal type determined from voice command
     private String recipeIntro = "Give_me_a_recipe_for_"; // Introductory text for recipe request
