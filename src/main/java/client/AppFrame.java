@@ -17,6 +17,7 @@ class AppFrame extends BorderPane {
     private RecipeGenerate recipeGen;
     private Button createButton;
     private Scene scene;
+    private RecipeList recipeList;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -24,6 +25,8 @@ class AppFrame extends BorderPane {
         header = new Header();
         recipeGen = new RecipeGenerate();
         footer = new Footer();
+
+        recipeList = new RecipeList();
 
         // Set up the ScrollPane for the recipe list
         ScrollPane scrollPane = new ScrollPane();
