@@ -11,7 +11,6 @@ import javafx.geometry.Insets;
 class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
-    private Button detailButton;
     private Recipe recipe;
 
     // Constructor for RecipeDisplay
@@ -23,49 +22,29 @@ class RecipeDisplay extends HBox {
 
         // Index label for displaying the recipe number
         index = new Label();
-        index.setText("");
-        index.setPrefSize(40, 20);
-        index.setTextAlignment(TextAlignment.CENTER);
-        index.setPadding(new Insets(10, 0, 10, 0));
-        this.getChildren().add(index);
+        index.setText(""); // create index label
+        index.setPrefSize(40, 20); // set size of Index label
+        index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
+        index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the recipe
+        this.getChildren().add(index); // add index label to recipe
 
-        // TextField for displaying/editing the recipe name
-        recipeName = new TextField();
-        recipeName.setPrefSize(380, 20);
-        recipeName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;");
-        index.setTextAlignment(TextAlignment.LEFT);
-        recipeName.setPadding(new Insets(10, 0, 10, 0));
-        this.getChildren().add(recipeName);
-
-        // Button for viewing recipe details
-        detailButton = new Button("View Details");
-        detailButton.setPrefSize(100, 20);
-        detailButton.setPrefHeight(Double.MAX_VALUE);
-        detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;");
-        detailButton.setOnAction(e -> {
-            // Open a new stage to display recipe details
-            RecipeDetails root = new RecipeDetails(this);
-            Stage viewDetailStage = new Stage();
-            Scene viewDetailScene = new Scene(root, 500, 600);
-            viewDetailStage.setScene(viewDetailScene);
-            viewDetailStage.show();
-        });
+        recipeName = new TextField(); // create recipe name text field
+        recipeName.setPrefSize(380, 20); // set size of text field
+        recipeName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
+        index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+        recipeName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
+        this.getChildren().add(recipeName); // add textlabel to recipe
 
         // Set the recipe name in the display
         this.setRecipeName(recipe);
 
         // Add components to the RecipeDisplay
-        this.getChildren().add(detailButton);
     }
 
     // Set the index and prompt text for the recipe
     public void setRecipeIndex(int num) {
         this.index.setText(num + ""); // Convert num to String
         this.recipeName.setPromptText("Recipe " + num);
-    }
-
-    public Button getDetailButton() {
-        return this.detailButton;
     }
 
     public Recipe getRecipe() {

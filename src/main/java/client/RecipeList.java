@@ -23,13 +23,4 @@ class RecipeList extends VBox {
             }
         }
     }
-
-    // Remove recipes marked as done from the RecipeList
-    public void removeRecipe() {
-        // Remove RecipeDisplays marked as done from the RecipeList
-        this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay
-                && ((RecipeDisplay) recipeDisplay).getRecipe().isMarkedDone());
-        // Update the indices after removing recipes
-        this.updateRecipeIndices();
-    }
 }
