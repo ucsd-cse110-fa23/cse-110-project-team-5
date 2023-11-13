@@ -10,7 +10,6 @@ public class Recipe {
     // Constructor for the Recipe class
     public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {
         // Initialize the Recipe object with the provided values
-        this.recipeList = recipeList;
         this.recipeName = recipeName;
         this.recipeDetails = recipeDetails;
         this.isDone = false; // Default status is not done
@@ -24,7 +23,7 @@ public class Recipe {
         return this.recipeDetails;
     }
 
-    public RecipeList getRecipeList() {
+    public RecipeList getRecipeList(){
         return this.recipeList;
     }
 

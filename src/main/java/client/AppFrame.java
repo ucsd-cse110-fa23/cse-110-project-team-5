@@ -13,22 +13,23 @@ import javafx.scene.layout.HBox;
 class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
-    private RecipeList recipeList;
     private ShowDetails showDetails;
     private RecipeGenerate recipeGen;
     private Button createButton;
     private Scene scene;
+    private RecipeList recipeList;
 
     // Constructor for AppFrame
     AppFrame() {
         // Initialize UI components
         header = new Header();
-        recipeList = new RecipeList();
         recipeGen = new RecipeGenerate();
         footer = new Footer();
 
+        recipeList = new RecipeList();
+
         // Set up the ScrollPane for the recipe list
-        ScrollPane scrollPane = new ScrollPane(recipeList);
+        ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);

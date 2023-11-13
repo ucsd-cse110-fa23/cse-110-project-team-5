@@ -105,11 +105,11 @@ public class RecipeGenerate extends BorderPane {
             whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
             String mealTypeCheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
-            if(mealTypeCheck.contains("breakfast")) {
+            if(mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
-            } else if (mealTypeCheck.contains("lunch")) {
+            } else if (mealTypecheck.contains("lunch")) {
                 mealType = "lunch";
-            } else if (mealTypeCheck.contains("dinner")) {
+            } else if (mealTypecheck.contains("dinner")) {
                 mealType = "dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
