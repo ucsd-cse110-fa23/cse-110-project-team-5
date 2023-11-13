@@ -53,7 +53,7 @@ public class WhisperRequestHandler implements HttpHandler {
         String query = uri.getRawQuery();
         if (query != null) {
             String value = query.substring(query.indexOf("=") + 1);
-            String currentDir = System.getProperty("user.dir");                     // NEED TO FIX TO RIGHT FILEPATH
+            String currentDir = System.getProperty("user.dir");
             value = currentDir + "/" + value;
             // System.out.println("Current dir using System:" + currentDir);
             if (value != null) {

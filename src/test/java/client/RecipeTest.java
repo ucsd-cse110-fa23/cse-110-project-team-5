@@ -54,9 +54,9 @@ public class RecipeTest {
 
     @Test
     public void testIsDone() {
-        assertEquals(false, recipe.MarkedDone());
-        recipe.isDone();
-        assertEquals(true, recipe.MarkedDone());
+        assertEquals(false, recipe.isMarkedDone());
+        recipe.markDone();
+        assertEquals(true, recipe.isMarkedDone());
     }
 
     @Test
