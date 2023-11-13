@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
 
-
 public class Model {
     public String performRequest(String method, String route, String query) {
         // Implement your HTTP request logic here and return the response
@@ -31,15 +30,21 @@ public class Model {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String response = in.readLine();
-            
-            // String all = response;
-            // while (response != null){
-            //     all += response;
-            //     response = in.readLine();
-            // }
-            
+            if (route.equals("gpt")) {
+                // String response = in.readLine();
+                StringBuilder content = new StringBuilder();
+                response = in.readLine(); // get the title of the recipe
+                content.append(response);
+                while ((response = in.readLine()) != null) { // get recipe details
+                    content.append(response);
+                    content.append(System.lineSeparator());
+                }
+                return content.toString();
+
+            }
+
             in.close();
-            return response; //content.toString();
+            return response;
         } catch (Exception ex) {
             ex.printStackTrace();
             return "Error: " + ex.getMessage();
