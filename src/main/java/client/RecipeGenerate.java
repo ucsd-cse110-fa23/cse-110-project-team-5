@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 // The RecipeGenerate class handles voice recording, user input processing, and API requests
 public class RecipeGenerate extends BorderPane {
     public boolean isRecording = false;
-    Label recordingLabel = new Label("Recording...");
     public String mealType; // The determined meal type from the user's voice command
     private String recipeIntro = "Give_me_a_recipe_for_";
     private String recipeIntro2 = "using_only_the_following_ingredients_";
