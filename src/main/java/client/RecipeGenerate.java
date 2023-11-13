@@ -3,7 +3,6 @@ package client;
 import java.io.File;
 import javax.sound.sampled.*;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 // The RecipeGenerate class handles voice recording, user input processing, and API requests
@@ -16,8 +15,6 @@ public class RecipeGenerate extends BorderPane {
     private TargetDataLine targetLine; // Audio input line for recording
     private File outputFile; // File to write the recorded audio to
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
-
-    // Constructor for RecipeGenerate
 
     // Toggle audio recording on/off
     public boolean toggleRecord() {
