@@ -10,17 +10,20 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// HTTP handler for processing GPT requests
 public class GptRequestHandler implements HttpHandler {
+    
+    // OpenAI GPT-3 API endpoint and authentication details
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
     private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
 
+    // HTTP client for making requests
     HttpClient client;
-    private final Map<String, String> data;
 
+    // Constructor to initialize the handler with data
     public GptRequestHandler(Map<String, String> data) {
         this.client = HttpClient.newHttpClient();
-        this.data = data;
     }
 
     // Handle incoming HTTP requests
@@ -29,6 +32,7 @@ public class GptRequestHandler implements HttpHandler {
         String method = httpExchange.getRequestMethod();
 
         try {
+            // Check the request method
             if (method.equals("GET")) {
                 response = handleGet(httpExchange);
             } else {
@@ -39,23 +43,31 @@ public class GptRequestHandler implements HttpHandler {
             response = e.toString();
             e.printStackTrace();
         }
+
+        // Send the HTTP response
         httpExchange.sendResponseHeaders(200, response.length());
         OutputStream outStream = httpExchange.getResponseBody();
         outStream.write(response.getBytes());
         outStream.close();
     }
 
+    // Handle GET requests
     private String handleGet(HttpExchange httpExchange) throws IOException {
         String response = "Invalid GET request";
         URI uri = httpExchange.getRequestURI();
         String query = uri.getRawQuery();
+
+        // Parse the query parameters
         if (query != null) {
             String value = query.substring(query.indexOf("=") + 1);
-            // query will be of the form "query=<tokens>,<message to gpt>"
+            
+            // Extract tokens and message from the query
             int tokens = Integer.parseInt(value.substring(0, value.indexOf(",")));
             String message = value.substring(value.indexOf(",") + 1).replaceAll("_", " ");
+
             if (message != null) {
                 try {
+                    // Call the askGPT method to get a response
                     response = askGPT(tokens, message);
                 } catch (Exception e) {
                     response = "Error with chatgpt";
@@ -67,35 +79,33 @@ public class GptRequestHandler implements HttpHandler {
         return response;
     }
 
-    // Ask ChatGPT for response using prompt
+    // Ask ChatGPT for a response using a prompt
     public String askGPT(int maxTokens, String prompt) throws IOException, InterruptedException, URISyntaxException {
-        // Create a request body which you will pass into request object
+        // Create a JSON request body with model details and prompt
         JSONObject requestBody = new JSONObject();
         requestBody.put("model", MODEL);
         requestBody.put("prompt", prompt);
         requestBody.put("max_tokens", maxTokens);
         requestBody.put("temperature", 1.0);
 
-        // Create the request object
+        // Create the HTTP request object
         HttpRequest request = HttpRequest
-        .newBuilder()
-        .uri(new URI(API_ENDPOINT))
-        .header("Content-Type", "application/json")
-        .header("Authorization", String.format("Bearer %s", API_KEY))
-        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
-        .build();
+            .newBuilder()
+            .uri(new URI(API_ENDPOINT))
+            .header("Content-Type", "application/json")
+            .header("Authorization", String.format("Bearer %s", API_KEY))
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+            .build();
 
         // Send the request and receive the response
         HttpResponse<String> response = client.send(
-        request,
-        HttpResponse.BodyHandlers.ofString()
+            request,
+            HttpResponse.BodyHandlers.ofString()
         );
 
-        // Process the response
+        // Process the response from ChatGPT
         String responseBody = response.body();
-
         JSONObject responseJson = new JSONObject(responseBody);
-
         JSONArray choices = responseJson.getJSONArray("choices");
         String generatedText = choices.getJSONObject(0).getString("text");
 

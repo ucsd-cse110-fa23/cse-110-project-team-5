@@ -92,6 +92,7 @@ public class RecipeGenerate {
         } catch (Exception e) {
             System.err.println("No input detected");
         }
+        System.out.println(mod);
         return mod;
     }
 

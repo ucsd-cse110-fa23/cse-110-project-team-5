@@ -17,7 +17,7 @@ public class RecipeTest {
     RecipeList recipeList;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         recipeList = null;
         recipe = new Recipe("Fried Rice", "Mix old rice, eggs, and spam", recipeList);
     }
@@ -27,7 +27,7 @@ public class RecipeTest {
         assertEquals("Fried Rice", recipe.getRecipeName());
     }
 
-    @Test 
+    @Test
     public void testGetRecipeDetails() {
         assertEquals("Mix old rice, eggs, and spam", recipe.getRecipeDetails());
     }
