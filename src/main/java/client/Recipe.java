@@ -4,6 +4,7 @@ package client;
 public class Recipe {
     String recipeName;
     String recipeDetails;
+    RecipeList recipeList;
     boolean isDone;
 
     // Constructor for the Recipe class

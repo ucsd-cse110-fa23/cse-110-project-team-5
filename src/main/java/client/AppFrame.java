@@ -103,8 +103,8 @@ class AppFrame extends BorderPane {
             // Event listener for the recording button
             recordButton.setOnAction(e1 -> {
                 if (!recipeGen.toggleRecord()) {
-                    String response = recipeGen.getWhisperResponse().toLowerCase();
-                    if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
+                    String response = recipeGen.retrieveVoiceCommandResponse().toLowerCase();
+                    if(response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
                         ingredientButton.setDisable(false);
                         instructions.setText("Tell me your ingredients!");
                     } else {
@@ -115,9 +115,9 @@ class AppFrame extends BorderPane {
 
             // Event listener for the ingredient recording button
             ingredientButton.setOnAction(e1 -> {
-                if (!recipeGen.toggleRecord()) {
-                    showDetails = new ShowDetails();
-                    showDetails.setTitleAndDetails(recipeGen.getResponse());
+                if(!recipeGen.toggleRecord()) {
+                    showDetails = new ShowDetails(recipeList);  
+                    showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe());
                     recordingStage.close();
                     scene.setRoot(showDetails);
                     Stage recipeDetailStage = new Stage();
