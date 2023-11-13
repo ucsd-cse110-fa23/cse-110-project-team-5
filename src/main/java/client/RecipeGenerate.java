@@ -1,34 +1,19 @@
 package client;
 
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
 import java.io.File;
 import javax.sound.sampled.*;
 
 // Represents the generation and handling of recipes through voice commands
-public class RecipeGenerate extends BorderPane {
+public class RecipeGenerate {
     boolean isRecording = false;
-    Label recordingLabel = new Label("Recording..."); // Label indicating recording status
     public String mealType; // Meal type determined from voice command
-    private String recipeIntro = "Give_me_a_recipe_for_"; // Introductory text for recipe request
-    private String recipeIntro2 = "using_only_the_following_ingredients_"; // Additional text for recipe request
+    private String recipeIntro = "Add_a_one_line_title_at_the_start_,_add_a_new_line_,_and_give_me_a_recipe_for_"; // Introductory text for recipe request
+    private String recipeIntro2 = "and_only_use_the_following_ingredients_and_nothing_else_other_than_simple_ingredients:"; // Additional text for recipe request
     public String whisperResponse; // Response from the 'Whisper' API
     private TargetDataLine targetLine; // Target data line for audio recording
     private File outputFile; // File to store the recorded audio
-    String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
 
     // Constructor for RecipeGenerate
-    public RecipeGenerate() {
-        ListView<String> recipeList = new ListView<>(); // List view for displaying recipes
-        this.setCenter(recipeList);
-        HBox footer = new HBox(10);
-        Button recordButton = new Button();
-        recordingLabel.setStyle(defaultLabelStyle);
-
-        footer.getChildren().addAll(recordButton, recordingLabel);
-        this.setBottom(footer);
-        recordButton.setOnAction(e -> toggleRecord()); // Toggle recording when the button is pressed
-    }
 
     // Toggle audio recording on/off
     public boolean toggleRecord() {
@@ -54,11 +39,8 @@ public class RecipeGenerate extends BorderPane {
             targetLine.open(format);
             // Start capturing audio data
             targetLine.start();
-            // Make the recording label visible on the UI
-            recordingLabel.setVisible(true);
-
             // Create the output file where the audio data will be saved
-            outputFile = new File("voiceinstructions.wav");
+            outputFile = new File("src/main/java/voiceinstructions.wav");
 
             // Create and start a new thread to write the audio data to a file
             Thread recordThread = new Thread(() -> {
@@ -84,7 +66,6 @@ public class RecipeGenerate extends BorderPane {
     public void stopAudioRecording() {
         targetLine.stop();
         targetLine.close();
-        recordingLabel.setVisible(false); // Make the recording label invisible on the UI
     }
 
     // Retrieve the response from the 'Whisper' API based on user voice command
@@ -95,6 +76,7 @@ public class RecipeGenerate extends BorderPane {
             // Perform a GET request to the 'whisper' endpoint with the audio file
             whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
             String mealTypecheck = whisperResponse.toLowerCase();
+            System.out.println(mealTypecheck);
             // Determine the meal type based on the response content
             if (mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
@@ -118,6 +100,7 @@ public class RecipeGenerate extends BorderPane {
         try {
             // Retrieve ingredients from the voice command response
             String ingredients = retrieveVoiceCommandResponse();
+            System.out.println(ingredients);
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = model.performRequest("GET", "gpt",

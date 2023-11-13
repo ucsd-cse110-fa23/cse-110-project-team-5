@@ -10,7 +10,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 // Main AppFrame for Pantry Pal App 
 class AppFrame extends BorderPane {
@@ -93,55 +92,6 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> { showRecordingWindow();
-
-            // Create a new stage for recording
-            // Stage recordingStage = new Stage();
-            // BorderPane recordingPane = new BorderPane();
-            // Text instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
-            // instructions.setLayoutX(130);
-            // instructions.setLayoutY(60);
-            // recordingPane.getChildren().add(instructions);
-            // Button recordButton = new Button("Record");
-            // Button ingredientButton = new Button("Record Ingredients");
-            // ingredientButton.setDisable(true);
-
-            // // Set up event handler for recordButton
-            // recordButton.setOnAction(e1 -> {
-            //     if (!recipeGen.toggleRecord()) {
-            //         String response = recipeGen.retrieveVoiceCommandResponse().toLowerCase();
-            //         if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
-            //             ingredientButton.setDisable(false);
-            //             instructions.setText("Tell me your ingredients!");
-            //         } else {
-            //             instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
-            //         }
-            //     }
-            // });
-
-            // Set up event handler for ingredientButton
-            // ingredientButton.setOnAction(e1 -> {
-            //     if (!recipeGen.toggleRecord()) {
-            //         showDetails = new ShowDetails(recipeList);
-            //         showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe());
-            //         recordingStage.close();
-            //         scene.setRoot(showDetails);
-            //         Stage recipeDetailStage = new Stage();
-            //         recipeDetailStage.setScene(scene);
-            //         recipeDetailStage.show();
-            //     }
-            // });
-
-            // HBox buttonBox = new HBox(10);
-            // buttonBox.setAlignment(Pos.CENTER);
-            // HBox buttonContainer = new HBox(10);
-            // buttonContainer.setAlignment(Pos.CENTER);
-            // buttonContainer.getChildren().addAll(recordButton, ingredientButton);
-            // buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
-            // recordingPane.setCenter(buttonBox);
-            // scene = new Scene(recordingPane, 500, 600);
-            // recordingStage.setScene(scene);
-            // recordingStage.setTitle("Recording Window");
-            // recordingStage.show();
         });
     }
     private void showRecordingWindow() {
@@ -166,7 +116,7 @@ class AppFrame extends BorderPane {
         HBox buttonContainer = new HBox(10);
         buttonContainer.setAlignment(Pos.CENTER);
         buttonContainer.getChildren().addAll(recordButton, ingredientButton);
-        buttonBox.getChildren().addAll(buttonContainer, recipeGen.recordingLabel);
+        buttonBox.getChildren().addAll(buttonContainer, recordingLabel);
         recordingPane.setCenter(buttonBox);
         scene = new Scene(recordingPane, 500, 600);
         recordingStage.setScene(scene);
@@ -197,17 +147,11 @@ class AppFrame extends BorderPane {
                 showDetails = new ShowDetails(recipeList);
                 showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe());
                 recordingStage.close();
-                // Assuming you have a way to switch scenes or update the current scene's root
-                updateSceneRoot(showDetails);
+                scene.setRoot(showDetails);
+                Stage recipeDetailStage = new Stage();
+                recipeDetailStage.setScene(scene);
+                recipeDetailStage.show();
             }
         });
-    }
-
-    private void updateSceneRoot(Pane newRoot) {
-        // Implement scene switching logic here
-        // For example, if you have access to the main stage:
-        Stage mainStage = (Stage) this.getScene().getWindow();
-        mainStage.getScene().setRoot(newRoot);
-        mainStage.show();
     }
 }
