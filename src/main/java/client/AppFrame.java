@@ -128,7 +128,7 @@ class AppFrame extends BorderPane {
             boolean isRecording = recipeGen.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                String response = recipeGen.retrieveVoiceCommandResponse().toLowerCase();
+                String response = recipeGen.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
                 if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
                     ingredientButton.setDisable(false);
                     instructions.setText("Tell me your ingredients!");
@@ -145,7 +145,7 @@ class AppFrame extends BorderPane {
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
                 showDetails = new ShowDetails(recipeList);
-                showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe());
+                showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe("voiceinstructions.wav"));
                 recordingStage.close();
                 scene.setRoot(showDetails);
                 Stage recipeDetailStage = new Stage();

@@ -72,12 +72,12 @@ public class RecipeGenerate {
     }
 
     // Retrieve the response from the 'Whisper' API based on user voice command
-    public String retrieveVoiceCommandResponse() {
+    public String retrieveVoiceCommandResponse(String fileString) {
         Model model = new Model();
         String mod = "";
         try {
             // Perform a GET request to the 'whisper' endpoint with the audio file
-            whisperResponse = model.performRequest("GET", "whisper", "voiceinstructions.wav");
+            whisperResponse = model.performRequest("GET", "whisper", fileString);
             String mealTypecheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
             if (mealTypecheck.contains("breakfast")) {
@@ -96,12 +96,12 @@ public class RecipeGenerate {
     }
 
     // Generate a recipe based on the voice input from the user
-    public String fetchGeneratedRecipe() {
+    public String fetchGeneratedRecipe(String transcription) {
         Model model = new Model();
         String gptResponse = "";
         try {
             // Retrieve ingredients from the voice command response
-            String ingredients = retrieveVoiceCommandResponse();
+            String ingredients = retrieveVoiceCommandResponse(transcription);
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = model.performRequest("GET", "gpt",
