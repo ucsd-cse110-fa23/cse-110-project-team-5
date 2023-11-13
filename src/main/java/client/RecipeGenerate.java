@@ -5,17 +5,19 @@ import javafx.scene.control.*;
 import java.io.File;
 import javax.sound.sampled.*;
 
+// The RecipeGenerate class handles voice recording, user input processing, and API requests
 public class RecipeGenerate extends BorderPane {
     private boolean isRecording = false;
     Label recordingLabel = new Label("Recording...");
-    public String mealType;
+    public String mealType; // The determined meal type from the user's voice command
     private String recipeIntro = "Give_me_a_recipe_for_";
     private String recipeIntro2 = "using_only_the_following_ingredients_";
-    public String whisperResponse;
-    private TargetDataLine targetLine;
-    private File outputFile;
+    public String whisperResponse; // The response from the 'Whisper' API
+    private TargetDataLine targetLine; // Audio input line for recording
+    private File outputFile; // File to write the recorded audio to
     String defaultLabelStyle = "-fx-font: 13 arial; -fx-pref-width: 175px; -fx-pref-height: 50px; -fx-text-fill: red; visibility: hidden";
 
+    // Constructor for RecipeGenerate
     public RecipeGenerate() {
         ListView<String> recipeList = new ListView<>();
         this.setCenter(recipeList);
@@ -26,9 +28,9 @@ public class RecipeGenerate extends BorderPane {
         footer.getChildren().addAll(recordButton, recordingLabel);
         this.setBottom(footer);
         recordButton.setOnAction(e -> toggleRecord());
-
     }
 
+    // Toggles the recording state and returns the new state
     public boolean toggleRecord() {
         if (isRecording) {
             stopAudioRecording();
@@ -105,11 +107,9 @@ public class RecipeGenerate extends BorderPane {
             // Determine the meal type based on the response content
             if(mealTypecheck.contains("breakfast")) {
                 mealType = "breakfast";
-            }
-            else if(mealTypecheck.contains("lunch")) {
+            } else if (mealTypecheck.contains("lunch")) {
                 mealType = "lunch";
-            }
-            else if(mealTypecheck.contains("dinner")) {
+            } else if (mealTypecheck.contains("dinner")) {
                 mealType = "dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
