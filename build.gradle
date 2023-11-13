@@ -15,22 +15,39 @@ repositories {
 
 dependencies {
     def junitVersion = '5.8.1'
+    def testFxVersion = '4.0.16-alpha'
 
-    // This provides the JUnit API.
+    // JUnit dependencies
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    // This provides the TestEngine to actually run the tests.
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    implementation 'org.json:json:20211205'
 
+    // TestFX dependencies for JavaFX testing
+    testImplementation "org.testfx:testfx-core:$testFxVersion"
+    testImplementation "org.testfx:testfx-junit5:$testFxVersion"
+
+    // JavaFX dependencies
+    implementation "org.openjfx:javafx-controls:$javafx.version"
+    implementation "org.openjfx:javafx-fxml:$javafx.version"
+
+    // Other dependencies
+    implementation 'org.json:json:20211205'
 }
 
 test {
     useJUnitPlatform()
+    // Set up system properties for headless mode
+    systemProperty "testfx.robot", "glass"
+    systemProperty "testfx.headless", "true"
+    systemProperty "java.awt.headless", "true"
+    systemProperty "prism.order", "sw"
+    systemProperty "prism.text", "t2k"
 }
+
 javafx {
-    version = "21" // use the version compatible with your JDK
+    version = "17"
     modules = [ 'javafx.controls', 'javafx.fxml']
 }
+
 application {
-    mainClassName = 'miniproject.Main'
+    mainClassName = 'client.Main'
 }

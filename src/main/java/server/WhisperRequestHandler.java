@@ -4,28 +4,30 @@ import com.sun.net.httpserver.*;
 import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.*;
 
 import org.json.*;
 
 import com.sun.net.httpserver.HttpExchange;
 
+// HTTP handler for processing Whisper requests
 public class WhisperRequestHandler implements HttpHandler {
+    
+    // OpenAI Whisper API endpoint and authentication details
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";
     private static final String MODEL = "whisper-1";
-    private static final String FILE_PATH = "../audio.mp3"; //MODIFY THIS
 
     HttpClient client;
     private final Map<String, String> data;
 
+    // Constructor to initialize the handler with data
     public WhisperRequestHandler(Map<String, String> data) {
         this.client = HttpClient.newHttpClient();
         this.data = data;
     }
 
+    // Handle incoming HTTP requests
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request received";
         String method = httpExchange.getRequestMethod();
@@ -37,35 +39,42 @@ public class WhisperRequestHandler implements HttpHandler {
                 throw new Exception("Not a valid request method");
             }
         } catch (Exception e) {
-            System.out.println("error");
+            System.out.println("Error");
             response = e.toString();
             e.printStackTrace();
         }
+
+        // Send the HTTP response
         httpExchange.sendResponseHeaders(200, response.length());
         OutputStream outStream = httpExchange.getResponseBody();
         outStream.write(response.getBytes());
         outStream.close();
     }
 
+    // Handle GET requests
     public String handleGet(HttpExchange httpExchange) throws IOException, InterruptedException, URISyntaxException {
         String response = "Invalid GET request";
         URI uri = httpExchange.getRequestURI();
         String query = uri.getRawQuery();
+
+        // Parse the query parameters
         if (query != null) {
             String value = query.substring(query.indexOf("=") + 1);
-            String currentDir = System.getProperty("user.dir");                     // NEED TO FIX TO RIGHT FILEPATH
+            String currentDir = System.getProperty("user.dir"); // NEED TO FIX TO RIGHT FILEPATH
             value = currentDir + "/" + value;
-            // System.out.println("Current dir using System:" + currentDir);
+
             if (value != null) {
+                // Check if the file exists and call askWhisper to get the transcribed text
                 File file = new File(value);
                 response = askWhisper(file);
             } else {
-                response = "no message query found";
+                response = "No message query found";
             }
         }
         return response;
     }
 
+    // Ask Whisper for transcribed text using the provided audio file
     public String askWhisper(File file) throws IOException, InterruptedException, URISyntaxException {        
         // Set up HTTP connection
         URL url = new URI(API_ENDPOINT).toURL();
@@ -121,28 +130,30 @@ public class WhisperRequestHandler implements HttpHandler {
         String parameterName,
         String parameterValue,
         String boundary
-        ) throws IOException {
+    ) throws IOException {
         outputStream.write(("--" + boundary + "\r\n").getBytes());
         outputStream.write(
-        (
-            "Content-Disposition: form-data; name=\"" + parameterName + "\"\r\n\r\n"
-        ).getBytes()
+            (
+                "Content-Disposition: form-data; name=\"" + parameterName + "\"\r\n\r\n"
+            ).getBytes()
         );
         outputStream.write((parameterValue + "\r\n").getBytes());
     }
+
+    // Helper method to write a file to the output stream in multipart form data format
     private static void writeFileToOutputStream(
         OutputStream outputStream,
         File file,
         String boundary
-        ) throws IOException {
+    ) throws IOException {
         outputStream.write(("--" + boundary + "\r\n").getBytes());
         outputStream.write(
-        (
-        "Content-Disposition: form-data; name=\"file\"; filename=\"" +
-        file.getName() +
-        "\"\r\n"
-        ).getBytes()
-            );
+            (
+                "Content-Disposition: form-data; name=\"file\"; filename=\"" +
+                file.getName() +
+                "\"\r\n"
+            ).getBytes()
+        );
         outputStream.write(("Content-Type: audio/mpeg\r\n\r\n").getBytes());
 
         FileInputStream fileInputStream = new FileInputStream(file);
@@ -154,6 +165,7 @@ public class WhisperRequestHandler implements HttpHandler {
         fileInputStream.close();
     }
 
+    // Helper method to handle a successful response
     private static String handleSuccessResponse(HttpURLConnection connection)
         throws IOException, JSONException {
         BufferedReader in = new BufferedReader(
@@ -168,11 +180,12 @@ public class WhisperRequestHandler implements HttpHandler {
 
         JSONObject responseJson = new JSONObject(response.toString());
 
-        String generatedText = responseJson.getString("text");
+        String transcribedText = responseJson.getString("text");
 
-        return generatedText;
+        return transcribedText;
     }
 
+    // Helper method to handle an error response
     private static void handleErrorResponse(HttpURLConnection connection)
         throws IOException, JSONException {
         BufferedReader errorReader = new BufferedReader(

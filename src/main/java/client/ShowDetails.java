@@ -7,28 +7,28 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
-// The ShowDetails class represents a window for displaying initial recipe details
+// Window that shows newly created Recipes
+// Window that shows newly created Recipes
 class ShowDetails extends BorderPane {
     private Header header;
     private Footer footer;
     private Details details;
-
     private Button saveButton;
-
     private RecipeList recipeList;
     private Recipe recipe;
 
-    // Constructor for ShowDetails
     ShowDetails(RecipeList recipeList) {
+        // Recipe List to add newly created Recipe Object to
+        // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
-
-        // Initialize the header Object
+        // Initialise the header Object
         header = new Header();
         // Create a details Object to hold the recipe details
         details = new Details();
-        // Initialize the Footer Object
+        // Initialise the Footer Object
         footer = new Footer();
-
+        // Initialise ScrollPane Object
+        // Initialise ScrollPane Object
         ScrollPane scrollPane = new ScrollPane(details);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
@@ -39,26 +39,29 @@ class ShowDetails extends BorderPane {
         this.setCenter(scrollPane);
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
-        // Initialize Button Variables through the getters in Footer
+        // Initialise Save Button through the getters in Footer
+        // Initialise Save Button through the getters in Footer
         saveButton = footer.getSaveButton();
         // Call Event Listeners for the Buttons
         addListeners();
     }
 
-    // RecipeDetails Header
+    // ShowDetails Header
+    // ShowDetails Header
     class Header extends HBox {
         Header() {
             this.setPrefSize(500, 60); // Size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
-            Text titleText = new Text("Recipe Details"); // Text of the Header
+            Text titleText = new Text("New Recipe Details"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center
         }
     }
 
-    // RecipeDetails Footer
+    // ShowDetails Footer
+    // ShowDetails Footer
     class Footer extends HBox {
         private Button saveButton;
 
@@ -82,17 +85,23 @@ class ShowDetails extends BorderPane {
         }
     }
 
-    // Add button functionality
     public void addListeners() {
+        // Add button functionality
         saveButton.setOnAction(e -> {
-            // Create a new recipe with the title and details from the window
+            // Create new Recipe Object based on newly created recipe details
             recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
+            // Create RecipeDisplay Object to show Recipe in the Recipe List
+            // Create new Recipe Object based on newly created recipe details
+            recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), recipeList);
+            // Create RecipeDisplay Object to show Recipe in the Recipe List
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipe);
             recipeList.getChildren().add(recipeDisplay);
             recipeList.updateRecipeIndices();
         });
     }
 
+    // Set Title and Details of Details VBox
+    // Set Title and Details of Details VBox
     public void setTitleAndDetails(String recipeString) {
         details.setTitle(details.extractTitle(recipeString));
         details.setDetails(details.extractDetails(recipeString));

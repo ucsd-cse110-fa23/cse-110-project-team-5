@@ -1,35 +1,31 @@
 package client;
-
 import javafx.scene.layout.*;
 
-// The RecipeList class represents a list of recipes displayed in a VBox
+// VBox within AppFrame that holds the list of Recipe objects
 class RecipeList extends VBox {
 
-    // Constructor for RecipeList
+    // Recipe List Constructor
     RecipeList() {
-        this.setSpacing(5); // Set spacing between recipes
-        this.setPrefSize(500, 560); // Set preferred size for the RecipeList
-        this.setStyle("-fx-background-color: #F0F8FF;"); // Set background color
+        this.setSpacing(5); // sets spacing between recipes
+        this.setPrefSize(500, 600);
+        this.setStyle("-fx-background-color: #F0F8FF;"); // sets background color
     }
 
-    // Update the indices of displayed recipes in the RecipeList
+    // Updates Recipe Indices within the Recipe List
     public void updateRecipeIndices() {
         int index = 1;
         for (int i = 0; i < this.getChildren().size(); i++) {
             if (this.getChildren().get(i) instanceof RecipeDisplay) {
-                // Set the index for each RecipeDisplay in the RecipeList
                 ((RecipeDisplay) this.getChildren().get(i)).setRecipeIndex(index);
                 index++;
             }
         }
     }
 
-    // Remove recipes marked as done from the RecipeList
+    // Removes Recipes from the Recipe List
     public void removeRecipe() {
-        // Remove RecipeDisplays marked as done from the RecipeList
         this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay
                 && ((RecipeDisplay) recipeDisplay).getRecipe().isMarkedDone());
-        // Update the indices after removing recipes
-        this.updateRecipeIndices();
+        this.updateRecipeIndices(); // Update recipe indices after removal
     }
 }

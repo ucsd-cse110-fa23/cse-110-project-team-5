@@ -1,19 +1,20 @@
 package client;
 
-// The Recipe class represents a recipe with a name, details, and status (if the recipe should be removed)
+// Recipe Object
 public class Recipe {
+    // Instance variables
     String recipeName;
     String recipeDetails;
-    RecipeList recipeList;
-    boolean isDone;
+    RecipeList recipeList; // Reference to the RecipeList that holds this recipe
+    boolean isDone; // Flag indicating whether the recipe is marked as done
 
-    // Constructor for the Recipe class
+    // Constructor to create a Recipe object with its name, details, and the
+    // RecipeList that will hold it
     public Recipe(String recipeName, String recipeDetails, RecipeList recipeList) {
-        // Initialize the Recipe object with the provided values
         this.recipeList = recipeList;
         this.recipeName = recipeName;
         this.recipeDetails = recipeDetails;
-        this.isDone = false; // Default status is not done
+        this.isDone = false; // By default, a recipe is not marked as done
     }
 
     public String getRecipeName() {
@@ -44,3 +45,4 @@ public class Recipe {
         return this.isDone;
     }
 }
+

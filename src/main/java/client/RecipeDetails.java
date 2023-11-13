@@ -7,8 +7,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 
-// The RecipeDetails class represents the details view for a recipe
+// Class representing the detailed view of a recipe
 class RecipeDetails extends BorderPane {
+    // Instance variables
     private Header header;
     private Footer footer;
     private Details details;
@@ -28,78 +29,84 @@ class RecipeDetails extends BorderPane {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        // Add UI components to the BorderPane
         this.setTop(header);
         this.setCenter(scrollPane);
         this.setBottom(footer);
-
-        // Get button references from the footer
         saveButton = footer.getSaveButton();
-        // Update title and details with the recipe from RecipeDisplay
+
+        // Update title and details from the current recipe
         updateTitleAndDetails(recipeDisplay.getRecipe());
 
-        // Add event listeners to the buttons
+        // Set up event listeners for buttons
         addListeners();
     }
 
     // RecipeDetails Header
     class Header extends HBox {
         Header() {
-            this.setPrefSize(500, 60);
+            this.setPrefSize(500, 60); // Set size of the header
+            this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
-            // Text for the header
-            Text titleText = new Text("Recipe Details");
+            Text titleText = new Text("Recipe Details"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             this.getChildren().add(titleText);
-            this.setAlignment(Pos.CENTER);
+            this.setAlignment(Pos.CENTER); // Align the text to the Center
         }
     }
 
     // RecipeDetails Footer
     class Footer extends HBox {
+        // Footer instance variables
         private Button saveButton;
 
+        // Footer constructor
         Footer() {
             this.setPrefSize(500, 60);
             this.setStyle("-fx-background-color: #F0F8FF;");
             this.setSpacing(15);
 
-            // Default style for buttons
+            // Set a default style for buttons - background color, font size, italics
             String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
-            // Create "Save Changes" button
-            saveButton = new Button("Save Changes");
-            saveButton.setStyle(defaultButtonStyle);
+            saveButton = new Button("Save Changes"); // Text displayed on save button
+            saveButton.setStyle(defaultButtonStyle); // Styling the save button
+            deleteButton = new Button("Delete Recipe"); // Text displayed on delete button
+            deleteButton.setStyle(defaultButtonStyle); // Styling the delete button
 
-            // Add buttons to the footer
-            this.getChildren().addAll(saveButton);
-            this.setAlignment(Pos.CENTER);
+            this.getChildren().addAll(saveButton, deleteButton); // Adding buttons to the footer
+            this.setAlignment(Pos.CENTER); // Aligning the buttons to center
         }
 
-        // Getter method for the "Save Changes" button
         public Button getSaveButton() {
             return saveButton;
         }
 
+        public Button getDeleteButton() {
+            return deleteButton;
+        }
     }
 
-    // Add event listeners for buttons
+    // Method to add event listeners to buttons
     public void addListeners() {
-        // Event listener for the "Save Changes" button
+        // Add button functionality for saveButton
         saveButton.setOnAction(e -> {
-            // Update the recipe details and name with the values from the Details view
             recipeDisplay.getRecipe().setRecipeName(details.getTitle());
             recipeDisplay.getRecipe().setRecipe(details.getDetails());
-            // Update the displayed details in RecipeDetails
+            recipeDisplay.getRecipe().setRecipeName(details.getTitle());
+            recipeDisplay.getRecipe().setRecipe(details.getDetails());
             updateTitleAndDetails(recipeDisplay.getRecipe());
-            // Update the recipe name in RecipeDisplay
-            recipeDisplay.setRecipeName(recipeDisplay.getRecipe());
+            recipeDisplay.setRecipeDisplayName(recipeDisplay.getRecipe());
+        });
+
+        // Add button functionality for deleteButton
+        deleteButton.setOnAction(e -> {
+            recipeDisplay.getRecipe().markDone();
+            recipeDisplay.getRecipe().getRecipeList().removeRecipe();
         });
     }
 
-    // Update the title and details displayed in the Details view
+    // Method to update title and details from a given recipe
     public void updateTitleAndDetails(Recipe recipe) {
         details.setTitle(recipe.getRecipeName());
         details.setDetails(recipe.getRecipeDetails());
