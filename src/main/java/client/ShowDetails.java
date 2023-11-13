@@ -54,7 +54,6 @@ class ShowDetails extends BorderPane {
             this.setStyle("-fx-background-color: #F0F8FF;");
 
             Text titleText = new Text("New Recipe Details"); // Text of the Header
-            Text titleText = new Text("New Recipe Details"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center
@@ -109,16 +108,13 @@ class ShowDetails extends BorderPane {
     }
 
     public String getRecipeTitle() {
-    public String getRecipeTitle() {
         return details.getTitle();
     }
 
     public String getRecipeDetails() {
-    public String getRecipeDetails() {
         return details.getDetails();
     }
 
-    public Recipe getRecipe() {
     public Recipe getRecipe() {
         return recipe;
     }
