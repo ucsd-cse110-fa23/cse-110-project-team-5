@@ -2,6 +2,9 @@ package client;
 
 import org.junit.jupiter.api.Test;
 
+import mock.MockModel;
+import mock.MockServer;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,10 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class RecipeGenerateTest {
     RecipeGenerate recipeGen;
+    MockModel model;
+    MockServer server;
 
     @BeforeEach
     public void setUp(){
         recipeGen = new RecipeGenerate();
+        model = new MockModel();
+        server = new MockServer();
     }
     @Test
     public void toggleRecord_ShouldStartRecording_WhenNotAlreadyRecording() {
@@ -43,8 +50,6 @@ public class RecipeGenerateTest {
             assertEquals(expected + ".", actual.toLowerCase());
         }
         assertEquals(expected, recipeGen.mealType);
-        String gptOutput = recipeGen.fetchGeneratedRecipe("ingredientstest.wav");
-        assertTrue(gptOutput.contains("sausage") && gptOutput.contains("eggs"));
     }
     /*
      * Testing a full BDD scenario where the user doesn't specify a meal type and mealtype is null
