@@ -2,7 +2,9 @@ package client;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +22,7 @@ class AppFrame extends BorderPane {
     private ShowDetails showDetails;
     private Label recordingLabel;
     private RecipeGenerate recipeGen;
+    private boolean isRecording;
     private Text instructions;
     private Button createButton;
     private Scene scene;
@@ -105,7 +108,14 @@ class AppFrame extends BorderPane {
         Button recordButton = new Button("Record");
         Button ingredientButton = new Button("Record Ingredients");
         ingredientButton.setDisable(true);
-
+        recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent event) {
+                recordingLabel.setVisible(false);
+                if(isRecording) {
+                    recipeGen.toggleRecord();
+                }
+            }
+        });
         // Set up event handler for recordButton
         recordButton.setOnAction(e1 -> toggleRecording(instructions, ingredientButton));
 
@@ -126,7 +136,7 @@ class AppFrame extends BorderPane {
     }
         private void toggleRecording(Text instructions, Button ingredientButton) {
         Platform.runLater(() -> {
-            boolean isRecording = recipeGen.toggleRecord();
+            isRecording = recipeGen.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
                 String response = recipeGen.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();

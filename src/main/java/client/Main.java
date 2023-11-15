@@ -13,7 +13,7 @@ public class Main extends Application{
         Scene scene = new Scene(root, 500, 600);
         primaryStage.setScene(scene);
         // Make window resizable
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         // Show the app
         primaryStage.show();
     }
