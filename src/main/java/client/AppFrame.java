@@ -20,6 +20,7 @@ class AppFrame extends BorderPane {
     private ShowDetails showDetails;
     private Label recordingLabel;
     private RecipeGenerate recipeGen;
+    private Text instructions;
     private Button createButton;
     private Scene scene;
 
@@ -97,7 +98,7 @@ class AppFrame extends BorderPane {
     private void showRecordingWindow() {
         Stage recordingStage = new Stage();
         BorderPane recordingPane = new BorderPane();
-        Text instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
+        instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
         instructions.setLayoutX(130);
         instructions.setLayoutY(60);
         recordingPane.getChildren().add(instructions);
@@ -145,12 +146,18 @@ class AppFrame extends BorderPane {
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
                 showDetails = new ShowDetails(recipeList);
-                showDetails.setTitleAndDetails(recipeGen.fetchGeneratedRecipe("voiceinstructions.wav"));
-                recordingStage.close();
-                scene.setRoot(showDetails);
-                Stage recipeDetailStage = new Stage();
-                recipeDetailStage.setScene(scene);
-                recipeDetailStage.show();
+                String gptOutput = recipeGen.fetchGeneratedRecipe("voiceinstructions.wav");
+                if(gptOutput == "NO INPUT") {
+                    instructions.setText("Please Repeat Ingredients");
+                }
+                else {
+                    showDetails.setTitleAndDetails(gptOutput);
+                    recordingStage.close();
+                    scene.setRoot(showDetails);
+                    Stage recipeDetailStage = new Stage();
+                    recipeDetailStage.setScene(scene);
+                    recipeDetailStage.show();
+                }
             }
         });
     }

@@ -103,6 +103,9 @@ public class RecipeGenerate {
         try {
             // Retrieve ingredients from the voice command response
             String ingredients = retrieveVoiceCommandResponse(transcription);
+            if(ingredients.length() == 0) {
+                return "NO INPUT";
+            }
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = mealType + ": " + model.performRequest("GET", "gpt",
