@@ -81,11 +81,11 @@ public class RecipeGenerate {
             String mealTypecheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
             if (mealTypecheck.contains("breakfast")) {
-                mealType = "breakfast";
+                mealType = "Breakfast";
             } else if (mealTypecheck.contains("lunch")) {
-                mealType = "lunch";
+                mealType = "Lunch";
             } else if (mealTypecheck.contains("dinner")) {
-                mealType = "dinner";
+                mealType = "Dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
             mod = whisperResponse.replaceAll(" ", "_");
@@ -105,7 +105,7 @@ public class RecipeGenerate {
             String ingredients = retrieveVoiceCommandResponse(transcription);
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
-            gptResponse = model.performRequest("GET", "gpt",
+            gptResponse = mealType + ": " + model.performRequest("GET", "gpt",
                     "500," + recipeIntro + mealType + recipeIntro2 + ingredients + recipeFormat);
         } catch (Exception e) {
             System.out.println("No input detected");
