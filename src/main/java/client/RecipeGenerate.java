@@ -41,7 +41,8 @@ public class RecipeGenerate {
             // Start capturing audio data
             targetLine.start();
             // Create the output file where the audio data will be saved
-            outputFile = new File("src/main/java/voiceinstructions.wav");
+            String filePath = "src" + File.separator + "main" + File.separator + "java" + File.separator + "voiceinstructions.wav";
+            outputFile = new File(filePath);
 
             // Create and start a new thread to write the audio data to a file
             Thread recordThread = new Thread(() -> {
