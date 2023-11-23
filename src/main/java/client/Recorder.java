@@ -35,6 +35,7 @@ public class Recorder {
     private String whisperResponse; // Response from the 'Whisper' API
 
     private String mealType;
+    private String mealTypeCheck;
     private boolean isRecording;
 
     public Recorder(RecipeList recipeList) {
@@ -88,11 +89,11 @@ public class Recorder {
             isRecording = this.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                this.mealType = this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
-                if (mealType.contains("breakfast") || mealType.contains("lunch") || mealType.contains("dinner")) {
+                this.mealTypeCheck = this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+                if (mealTypeCheck.contains("breakfast") || mealTypeCheck.contains("lunch")
+                        || mealTypeCheck.contains("dinner")) {
                     ingredientButton.setDisable(false);
                     instructions.setText("Tell me your ingredients!");
-                    this.setMealType(mealType);
                 } else {
                     instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
                 }
@@ -194,13 +195,13 @@ public class Recorder {
         try {
             // Perform a GET request to the 'whisper' endpoint with the audio file
             whisperResponse = model.performRequest("GET", "whisper", fileString);
-            String mealTypecheck = whisperResponse.toLowerCase();
+            mealTypeCheck = whisperResponse.toLowerCase();
             // Determine the meal type based on the response content
-            if (mealTypecheck.contains("breakfast")) {
+            if (mealTypeCheck.contains("breakfast")) {
                 mealType = "Breakfast";
-            } else if (mealTypecheck.contains("lunch")) {
+            } else if (mealTypeCheck.contains("lunch")) {
                 mealType = "Lunch";
-            } else if (mealTypecheck.contains("dinner")) {
+            } else if (mealTypeCheck.contains("dinner")) {
                 mealType = "Dinner";
             }
             // Replace spaces with underscores for subsequent API request formatting
@@ -210,10 +211,6 @@ public class Recorder {
         }
         System.out.println(mod);
         return mod;
-    }
-
-    private void setMealType(String mealType) {
-        this.mealType = mealType;
     }
 
 }

@@ -3,11 +3,11 @@ package client;
 // Recipe Object
 public class Recipe {
     // Instance variables
-    String recipeName;
-    String recipeDetails;
-    String mealType;
+    private String recipeName;
+    private String recipeDetails;
+    private String mealType;
 
-    boolean isDone; // Flag indicating whether the recipe is marked as done
+    private boolean isDone; // Flag indicating whether the recipe is marked as done
 
     // Constructor to create a Recipe object with its name, details, and the
     // RecipeList that will hold it
