@@ -1,13 +1,7 @@
 package client;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
@@ -19,13 +13,7 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
-    private RecipeDetails recipeDetails;
-    private Label recordingLabel;
-    private RecipeGenerate recipeGen;
-    private boolean isRecording;
-    private Text instructions;
     private Button createButton;
-    private Scene scene;
     private Recorder recorder;
 
     // Constructor for AppFrame
@@ -33,11 +21,10 @@ class AppFrame extends BorderPane {
         // Initialize UI components
         header = new Header();
         recipeList = new RecipeList();
-        recipeGen = new RecipeGenerate();
-        recordingLabel = new Label("Recording...");
-        recordingLabel.setVisible(false); 
         footer = new Footer();
-        recorder = new Recorder();
+
+        recorder = new Recorder(recipeList);
+
         ScrollPane scrollPane = new ScrollPane(recipeList);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
@@ -97,81 +84,8 @@ class AppFrame extends BorderPane {
     // Method to add event listeners to buttons
     public void addListeners() {
         // Add button functionality
-        createButton.setOnAction(e -> { showRecordingWindow();
-        });
-    }
-    private void showRecordingWindow() {
-        Stage recordingStage = new Stage();
-        BorderPane recordingPane = new BorderPane();
-        instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
-        instructions.setLayoutX(130);
-        instructions.setLayoutY(60);
-        recordingPane.getChildren().add(instructions);
-        Button recordButton = new Button("Record");
-        Button ingredientButton = new Button("Record Ingredients");
-        ingredientButton.setDisable(true);
-        recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                recordingLabel.setVisible(false);
-                if(isRecording) {
-                    recorder.toggleRecord();
-                }
-            }
-        });
-        // Set up event handler for recordButton
-        recordButton.setOnAction(e1 -> toggleRecording(instructions, ingredientButton));
-
-        // Set up event handler for ingredientButton
-        ingredientButton.setOnAction(e1 -> processIngredients(recordingStage));
-
-        HBox buttonBox = new HBox(10);
-        buttonBox.setAlignment(Pos.CENTER);
-        HBox buttonContainer = new HBox(10);
-        buttonContainer.setAlignment(Pos.CENTER);
-        buttonContainer.getChildren().addAll(recordButton, ingredientButton);
-        buttonBox.getChildren().addAll(buttonContainer, recordingLabel);
-        recordingPane.setCenter(buttonBox);
-        scene = new Scene(recordingPane, 500, 600);
-        recordingStage.setScene(scene);
-        recordingStage.setTitle("Recording Window");
-        recordingStage.show();
-    }
-        private void toggleRecording(Text instructions, Button ingredientButton) {
-        Platform.runLater(() -> {
-            isRecording = recorder.toggleRecord();
-            recordingLabel.setVisible(isRecording);
-            if (!isRecording) {
-                String response = recorder.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
-                if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
-                    ingredientButton.setDisable(false);
-                    instructions.setText("Tell me your ingredients!");
-                } else {
-                    instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
-                }
-            }
-        });
-    }
-
-    private void processIngredients(Stage recordingStage) {
-        Platform.runLater(() -> {
-            boolean isRecording = recorder.toggleRecord();
-            recordingLabel.setVisible(isRecording);
-            if (!isRecording) {
-                recipeDetails = new RecipeDetails(recipeList);
-                String ingredients = recorder.retrieveVoiceCommandResponse("voiceinstructions.wav");
-                String gptOutput = recipeGen.fetchGeneratedRecipe(ingredients);
-                if(gptOutput == "NO INPUT") {
-                    instructions.setText("Please Repeat Ingredients");
-                }
-                else {
-                    recipeDetails.setTitleAndDetails(gptOutput);
-                    recordingStage.close();
-                    scene.setRoot(recipeDetails);
-                    Stage recipeDetailStage = new Stage();
-                    recipeDetailStage.setScene(scene);
-                    recipeDetailStage.show();
-                }
-            }
+        createButton.setOnAction(e -> {
+            recorder.showRecordingWindow();
         });
     }
 }

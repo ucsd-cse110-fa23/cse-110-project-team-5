@@ -1,20 +1,15 @@
 package client;
 
-import java.io.File;
-import javax.sound.sampled.*;
-
 // Represents the generation and handling of recipes through voice commands
 public class RecipeGenerate {
-    boolean isRecording = false;
-    public String mealType; // Meal type determined from voice command
     private String recipeIntro = "Add_a_one_line_title_at_the_start_,_add_a_new_line_,_and_give_me_a_recipe_for_"; // Introductory text for recipe request
     private String recipeIntro2 = "and_only_use_the_following_ingredients_and_nothing_else_other_than_simple_ingredients:"; // Additional text for recipe request
     private String recipeFormat = "_and_format_the_output_like_a_recipe";
-    
-    // Constructor for RecipeGenerate
 
+    RecipeGenerate(){}
+    
     // Generate a recipe based on the voice input from the user
-    public String fetchGeneratedRecipe(String ingredients) {
+    public String fetchGeneratedRecipe(String ingredients, String mealType) {
         Model model = new Model();
         String gptResponse = "";
         try {

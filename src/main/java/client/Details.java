@@ -11,7 +11,6 @@ class Details extends VBox {
     private TextArea mealType;
     private TextArea details;
 
-
     // Constructor for Details class
     Details() {
         this.setPrefSize(500, 500); // Set preferred size of the VBox
@@ -29,7 +28,7 @@ class Details extends VBox {
 
         // Create and configure title TextArea
         mealType = new TextArea();
-        mealType.setPrefSize(475, 50); // Set size of the title text field
+        mealType.setPrefSize(475, 20); // Set size of the title text field
         mealType.setStyle(
                 "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
         mealType.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
@@ -52,6 +51,7 @@ class Details extends VBox {
 
     // Method to extract title from a recipe string
     public String extractTitle(String recipeString) {
+        System.out.println(recipeString);
         int firstNewlineInd = recipeString.indexOf("\n");
         return recipeString.substring(0, firstNewlineInd);
     }
@@ -67,12 +67,16 @@ class Details extends VBox {
         details.setEditable(true);
     }
 
-    public void setTitle(String newTitle) {
-        title.setText(newTitle);
+    public void setTitle(String titleString) {
+        title.setText(titleString);
     }
 
-    public void setDetails(String newDetails) {
-        details.setText(newDetails);
+    public void setDetails(String detailsString) {
+        details.setText(detailsString);
+    }
+
+    public void setMealType(String mealTypeString) {
+        mealType.setText(mealTypeString);
     }
 
     public String getTitle() {

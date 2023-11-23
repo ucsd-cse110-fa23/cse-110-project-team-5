@@ -143,6 +143,7 @@ class RecipeDetails extends BorderPane {
     }
 
     public void setMealtype(String mealType) {
+        details.setMealType(mealType);
     }
 
     // Method to update title and details from a given recipe

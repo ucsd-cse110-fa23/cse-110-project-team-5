@@ -2,9 +2,11 @@ package client;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 
 // Represents the graphical display of a single recipe in the RecipeList
@@ -49,6 +51,12 @@ class RecipeDisplay extends HBox {
             Scene viewDetailScene = new Scene(root, 500, 600);
             viewDetailStage.setScene(viewDetailScene);
             viewDetailStage.show();
+            viewDetailStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent event) {
+                    viewDetailScene.setRoot(new BorderPane());
+                    viewDetailStage.close();
+                }
+            });
         });
         this.getChildren().add(detailButton); // Add "View Details" button to the RecipeDisplay
     }
@@ -68,7 +76,7 @@ class RecipeDisplay extends HBox {
         this.recipeName.setText(recipe.getRecipeName());
     }
 
-    public Recipe getRecipe(){
+    public Recipe getRecipe() {
         return this.recipeDetails.getRecipe();
     }
 }

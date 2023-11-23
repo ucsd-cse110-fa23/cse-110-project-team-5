@@ -9,18 +9,127 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
 public class Recorder {
 
-    private String mealType;
-    private boolean isRecording = false;
+    private RecipeList recipeList;
+    private RecipeGenerate recipeGen;
+
+    private Scene scene;
+    private Label recordingLabel;
+    private Text instructions;
+
     private TargetDataLine targetLine; // Target data line for audio recording
     private File outputFile; // File to store the recorded audio
-    public String whisperResponse; // Response from the 'Whisper' API
+    private String whisperResponse; // Response from the 'Whisper' API
 
-    public Recorder() {
+    private String mealType;
+    private boolean isRecording;
+
+    public Recorder(RecipeList recipeList) {
+        this.recipeList = recipeList;
+        this.recipeGen = new RecipeGenerate();
+        this.isRecording = false;
+        this.recordingLabel = new Label("Recording...");
+        this.recordingLabel.setVisible(false);
     }
 
-     // Toggle audio recording on/off
+    public void showRecordingWindow() {
+        Stage recordingStage = new Stage();
+        BorderPane recordingPane = new BorderPane();
+        instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
+        instructions.setLayoutX(130);
+        instructions.setLayoutY(60);
+        recordingPane.getChildren().add(instructions);
+        Button recordButton = new Button("Record");
+        Button ingredientButton = new Button("Record Ingredients");
+        ingredientButton.setDisable(true);
+        recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent event) {
+                recordingLabel.setVisible(false);
+                if (isRecording) {
+                    toggleRecord();
+                }
+            }
+        });
+
+        // Set up event handler for recordButton
+        recordButton.setOnAction(e1 -> recordMealType(instructions, ingredientButton));
+
+        // Set up event handler for ingredientButton
+        ingredientButton.setOnAction(e1 -> processIngredients(recordingStage));
+
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.getChildren().addAll(recordButton, ingredientButton);
+        buttonBox.getChildren().addAll(buttonContainer, recordingLabel);
+        recordingPane.setCenter(buttonBox);
+        scene = new Scene(recordingPane, 500, 600);
+        recordingStage.setScene(scene);
+        recordingStage.setTitle("Recording Window");
+        recordingStage.show();
+    }
+
+    public void recordMealType(Text instructions, Button ingredientButton) {
+        Platform.runLater(() -> {
+            isRecording = this.toggleRecord();
+            recordingLabel.setVisible(isRecording);
+            if (!isRecording) {
+                this.mealType = this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+                if (mealType.contains("breakfast") || mealType.contains("lunch") || mealType.contains("dinner")) {
+                    ingredientButton.setDisable(false);
+                    instructions.setText("Tell me your ingredients!");
+                    this.setMealType(mealType);
+                } else {
+                    instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
+                }
+            }
+        });
+    }
+
+    private void processIngredients(Stage recordingStage) {
+        Platform.runLater(() -> {
+            boolean isRecording = this.toggleRecord();
+            recordingLabel.setVisible(isRecording);
+            if (!isRecording) {
+                RecipeDetails recipeDetails = new RecipeDetails(recipeList);
+                String ingredients = this.retrieveVoiceCommandResponse("voiceinstructions.wav");
+                String gptOutput = recipeGen.fetchGeneratedRecipe(ingredients, mealType);
+                if (gptOutput == "NO INPUT") {
+                    instructions.setText("Please Repeat Ingredients");
+                } else {
+                    recipeDetails.setTitleAndDetails(gptOutput);
+                    recipeDetails.setMealtype(mealType);
+                    recordingStage.close();
+                    scene.setRoot(recipeDetails);
+                    Stage recipeDetailStage = new Stage();
+                    recipeDetailStage.setScene(scene);
+                    recipeDetailStage.show();
+                    recipeDetailStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        public void handle(WindowEvent event) {
+                            scene.setRoot(new BorderPane());
+                            recipeDetailStage.close();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    // Toggle audio recording on/off
     public boolean toggleRecord() {
         if (isRecording) {
             stopAudioRecording(); // Stop recording if already recording
@@ -45,7 +154,9 @@ public class Recorder {
             // Start capturing audio data
             targetLine.start();
             // Create the output file where the audio data will be saved
-            String filePath = "src" + File.separator + "main" + File.separator + "java" + File.separator + "voiceinstructions.wav";
+            String filePath = "voiceinstructions.wav";
+            // "src" + File.separator + "main" + File.separator + "java" + File.separator +
+            // "voiceinstructions.wav";
             outputFile = new File(filePath);
 
             // Create and start a new thread to write the audio data to a file
@@ -70,7 +181,7 @@ public class Recorder {
 
     // Stop audio recording
     public void stopAudioRecording() {
-        if(targetLine != null) {
+        if (targetLine != null) {
             targetLine.stop();
             targetLine.close();
         }
@@ -101,5 +212,8 @@ public class Recorder {
         return mod;
     }
 
-    
+    private void setMealType(String mealType) {
+        this.mealType = mealType;
+    }
+
 }
