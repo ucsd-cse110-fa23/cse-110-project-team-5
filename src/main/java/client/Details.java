@@ -8,7 +8,9 @@ import javafx.geometry.Insets;
 class Details extends VBox {
     // Declare instance variables
     private TextArea title;
+    private TextArea mealType;
     private TextArea details;
+
 
     // Constructor for Details class
     Details() {
@@ -22,7 +24,18 @@ class Details extends VBox {
                 "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
         title.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
         title.setWrapText(true); // Enable text wrapping
+        title.setEditable(false);
         this.getChildren().add(title); // Add title TextArea to the VBox
+
+        // Create and configure title TextArea
+        mealType = new TextArea();
+        mealType.setPrefSize(475, 50); // Set size of the title text field
+        mealType.setStyle(
+                "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
+        mealType.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
+        mealType.setWrapText(true); // Enable text wrapping
+        mealType.setEditable(false);
+        this.getChildren().add(mealType); // Add title TextArea to the VBox
 
         // Create and configure details TextArea
         details = new TextArea();
@@ -31,6 +44,7 @@ class Details extends VBox {
                                                                                  // field
         details.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the details text field
         details.setWrapText(true); // Enable text wrapping
+        details.setEditable(false);
         details.prefWidthProperty().bind(this.widthProperty()); // Make details TextArea match the width of the VBox
         details.prefHeightProperty().bind(this.heightProperty()); // Make details TextArea match the height of the VBox
         this.getChildren().add(details); // Add details TextArea to the VBox
@@ -48,6 +62,11 @@ class Details extends VBox {
         return recipeString.substring(firstNewlineInd + 1, recipeString.length());
     }
 
+    public void makeTextEditable() {
+        title.setEditable(true);
+        details.setEditable(true);
+    }
+
     public void setTitle(String newTitle) {
         title.setText(newTitle);
     }
@@ -56,11 +75,15 @@ class Details extends VBox {
         details.setText(newDetails);
     }
 
+    public String getTitle() {
+        return this.title.getText();
+    }
+
     public String getDetails() {
         return this.details.getText();
     }
 
-    public String getTitle() {
-        return this.title.getText();
+    public String getMealType() {
+        return this.mealType.getText();
     }
 }

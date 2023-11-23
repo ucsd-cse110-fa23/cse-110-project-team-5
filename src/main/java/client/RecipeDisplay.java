@@ -13,11 +13,11 @@ class RecipeDisplay extends HBox {
     private Label index;
     private TextField recipeName;
     private Button detailButton;
-    private Recipe recipe;
+    private RecipeDetails recipeDetails;
 
     // Constructor for RecipeDisplay
-    RecipeDisplay(Recipe recipe) {
-        this.recipe = recipe;
+    RecipeDisplay(RecipeDetails recipeDetails) {
+        this.recipeDetails = recipeDetails;
         this.setPrefSize(500, 20); // Set size of the RecipeDisplay
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // Set background
                                                                                                      // color and style
@@ -44,15 +44,13 @@ class RecipeDisplay extends HBox {
         detailButton.setPrefHeight(Double.MAX_VALUE);
         detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // Set style of the button
         detailButton.setOnAction(e -> { // Add button functionality to open RecipeDetails window
-            RecipeDetails root = new RecipeDetails(this);
+            RecipeDetails root = this.recipeDetails;
             Stage viewDetailStage = new Stage();
             Scene viewDetailScene = new Scene(root, 500, 600);
             viewDetailStage.setScene(viewDetailScene);
             viewDetailStage.show();
         });
         this.getChildren().add(detailButton); // Add "View Details" button to the RecipeDisplay
-
-        this.setRecipeDisplayName(recipe); // Set the displayed name of the recipe
     }
 
     // Set Recipe Index and prompt text for the text field
@@ -70,7 +68,7 @@ class RecipeDisplay extends HBox {
         this.recipeName.setText(recipe.getRecipeName());
     }
 
-    public Recipe getRecipe() {
-        return this.recipe;
+    public Recipe getRecipe(){
+        return this.recipeDetails.getRecipe();
     }
 }

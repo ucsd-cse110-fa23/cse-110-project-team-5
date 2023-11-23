@@ -19,7 +19,7 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
-    private ShowDetails showDetails;
+    private RecipeDetails recipeDetails;
     private Label recordingLabel;
     private RecipeGenerate recipeGen;
     private boolean isRecording;
@@ -139,7 +139,7 @@ class AppFrame extends BorderPane {
             isRecording = recipeGen.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                String response = recipeGen.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+                String response = "lunch";//recipeGen.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
                 if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
                     ingredientButton.setDisable(false);
                     instructions.setText("Tell me your ingredients!");
@@ -155,15 +155,15 @@ class AppFrame extends BorderPane {
             boolean isRecording = recipeGen.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                showDetails = new ShowDetails(recipeList);
+                recipeDetails = new RecipeDetails(recipeList);
                 String gptOutput = recipeGen.fetchGeneratedRecipe("voiceinstructions.wav");
                 if(gptOutput == "NO INPUT") {
                     instructions.setText("Please Repeat Ingredients");
                 }
                 else {
-                    showDetails.setTitleAndDetails(gptOutput);
+                    recipeDetails.setTitleAndDetails(gptOutput);
                     recordingStage.close();
-                    scene.setRoot(showDetails);
+                    scene.setRoot(recipeDetails);
                     Stage recipeDetailStage = new Stage();
                     recipeDetailStage.setScene(scene);
                     recipeDetailStage.show();
