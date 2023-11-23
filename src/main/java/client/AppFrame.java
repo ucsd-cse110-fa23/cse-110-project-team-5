@@ -26,6 +26,7 @@ class AppFrame extends BorderPane {
     private Text instructions;
     private Button createButton;
     private Scene scene;
+    private Recorder recorder;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -36,6 +37,7 @@ class AppFrame extends BorderPane {
         recordingLabel = new Label("Recording...");
         recordingLabel.setVisible(false); 
         footer = new Footer();
+        recorder = new Recorder();
         ScrollPane scrollPane = new ScrollPane(recipeList);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
@@ -112,7 +114,7 @@ class AppFrame extends BorderPane {
             public void handle(WindowEvent event) {
                 recordingLabel.setVisible(false);
                 if(isRecording) {
-                    recipeGen.toggleRecord();
+                    recorder.toggleRecord();
                 }
             }
         });
@@ -136,10 +138,10 @@ class AppFrame extends BorderPane {
     }
         private void toggleRecording(Text instructions, Button ingredientButton) {
         Platform.runLater(() -> {
-            isRecording = recipeGen.toggleRecord();
+            isRecording = recorder.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                String response = recipeGen.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+                String response = recorder.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
                 if (response.contains("breakfast") || response.contains("lunch") || response.contains("dinner")) {
                     ingredientButton.setDisable(false);
                     instructions.setText("Tell me your ingredients!");
@@ -152,11 +154,12 @@ class AppFrame extends BorderPane {
 
     private void processIngredients(Stage recordingStage) {
         Platform.runLater(() -> {
-            boolean isRecording = recipeGen.toggleRecord();
+            boolean isRecording = recorder.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
                 showDetails = new ShowDetails(recipeList);
-                String gptOutput = recipeGen.fetchGeneratedRecipe("voiceinstructions.wav");
+                String ingredients = recorder.retrieveVoiceCommandResponse("voiceinstructions.wav");
+                String gptOutput = recipeGen.fetchGeneratedRecipe(ingredients);
                 if(gptOutput == "NO INPUT") {
                     instructions.setText("Please Repeat Ingredients");
                 }
