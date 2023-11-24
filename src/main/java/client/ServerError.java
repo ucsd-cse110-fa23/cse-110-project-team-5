@@ -9,8 +9,10 @@ import javafx.stage.Stage;
 class ServerError {
     private Model model;
     private Text message;
+    private Button createButton;
 
-    ServerError() {
+    ServerError(Button createButton) {
+        this.createButton = createButton;
         this.model = new Model();
         this.message = new Text("The Server Is Temporary Unavailable");
         this.checkServerAvailability();
@@ -30,6 +32,7 @@ class ServerError {
     private void checkServerAvailability() {
         if ((this.model.performRequest("PUT", "gpt", "hello").equals("Error"))) {
             this.showErrorWindow();
+            this.createButton.setDisable(true);
         }
     }
 }

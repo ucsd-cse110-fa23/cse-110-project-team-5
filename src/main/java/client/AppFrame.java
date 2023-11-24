@@ -41,7 +41,7 @@ class AppFrame extends BorderPane {
         addListeners(); // Set up event listeners for buttons
 
         // Check for Server Error
-        this.serverError = new ServerError();
+        this.serverError = new ServerError(this.createButton);
     }
 
     // App Header
