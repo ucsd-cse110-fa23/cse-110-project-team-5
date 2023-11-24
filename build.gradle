@@ -49,5 +49,5 @@ javafx {
 }
 
 application {
-    mainClassName = 'miniproject.Main'
+    mainClassName = 'client.Main'
 }

@@ -1,6 +1,6 @@
 package client;
 
-// Recipe Object
+// The Recipe class represents a recipe with a name, details, and status (if the recipe should be removed)
 public class Recipe {
     // Instance variables
     private String recipeName;
@@ -46,3 +46,4 @@ public class Recipe {
         return this.isDone;
     }
 }
+
