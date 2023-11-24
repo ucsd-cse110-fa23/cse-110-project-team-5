@@ -213,4 +213,8 @@ public class Recorder {
         return mod;
     }
 
+    public boolean getIsRecording(){
+        return this.isRecording;
+    }
+
 }
