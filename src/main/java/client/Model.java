@@ -59,8 +59,9 @@ public class Model {
             return response; // content.toString();
         } catch (Exception ex) {
             // Handle exceptions by printing the stack trace and returning an error message
-            ex.printStackTrace();
-            return "Error: " + ex.getMessage();
+            // ex.printStackTrace();
+            // return "Error: " + ex.getMessage();
+            return "Error";
         }
     }
 }
