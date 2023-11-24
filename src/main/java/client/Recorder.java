@@ -38,6 +38,8 @@ public class Recorder {
     private String mealTypeCheck;
     private boolean isRecording;
 
+    private ServerError serverError;
+
     public Recorder(RecipeList recipeList) {
         this.recipeList = recipeList;
         this.recipeGen = new RecipeGenerate();
@@ -66,10 +68,20 @@ public class Recorder {
         });
 
         // Set up event handler for recordButton
-        recordButton.setOnAction(e1 -> recordMealType(instructions, ingredientButton));
+        recordButton.setOnAction(e1 -> {
+            this.serverError = new ServerError(recordButton);
+            if (this.serverError.checkServerAvailability()) {
+                recordMealType(instructions, ingredientButton);
+            }
+        });
 
         // Set up event handler for ingredientButton
-        ingredientButton.setOnAction(e1 -> processIngredients(recordingStage));
+        ingredientButton.setOnAction(e1 -> {
+            this.serverError = new ServerError(ingredientButton);
+            if (this.serverError.checkServerAvailability()) {
+                processIngredients(recordingStage);
+            }
+        });
 
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
@@ -213,7 +225,7 @@ public class Recorder {
         return mod;
     }
 
-    public boolean getIsRecording(){
+    public boolean getIsRecording() {
         return this.isRecording;
     }
 

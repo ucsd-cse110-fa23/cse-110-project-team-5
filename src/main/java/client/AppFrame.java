@@ -15,15 +15,16 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
     private Button createButton;
     private Recorder recorder;
+    private ServerError serverError;
 
     // Constructor for AppFrame
     AppFrame() {
         // Initialize UI components
-        header = new Header();
-        recipeList = new RecipeList();
-        footer = new Footer();
+        this.header = new Header();
+        this.recipeList = new RecipeList();
+        this.footer = new Footer();
 
-        recorder = new Recorder(recipeList);
+        this.recorder = new Recorder(recipeList);
 
         ScrollPane scrollPane = new ScrollPane(recipeList);
         scrollPane.setFitToWidth(true);
@@ -36,8 +37,12 @@ class AppFrame extends BorderPane {
         this.setBottom(footer);
 
         // Initialize and configure button
-        createButton = footer.getCreateButton();
+        this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
+
+        // Check for Server Error
+        this.serverError = new ServerError(this.createButton);
+        this.serverError.checkServerAvailability();
     }
 
     // App Header
@@ -85,7 +90,9 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
-            recorder.showRecordingWindow();
+            if (this.serverError.checkServerAvailability()) {
+                recorder.showRecordingWindow();
+            }
         });
     }
 }
