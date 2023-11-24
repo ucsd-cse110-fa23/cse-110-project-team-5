@@ -15,7 +15,6 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
     private Button createButton;
     private Recorder recorder;
-    private ServerError serverError;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -41,7 +40,7 @@ class AppFrame extends BorderPane {
         addListeners(); // Set up event listeners for buttons
 
         // Check for Server Error
-        this.serverError = new ServerError(this.createButton);
+        ServerError serverError = new ServerError(this.createButton);
     }
 
     // App Header

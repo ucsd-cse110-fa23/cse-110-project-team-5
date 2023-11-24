@@ -15,6 +15,7 @@ class ServerError {
         this.createButton = createButton;
         this.model = new Model();
         this.message = new Text("The Server Is Temporary Unavailable");
+        this.message.setStyle("-fx-font-style: italic; -fx-fill: #DC143C; -fx-font-weight: bold; -fx-font: 20 comic sans ms;");
         this.checkServerAvailability();
     }
 
