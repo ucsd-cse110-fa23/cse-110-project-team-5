@@ -1,5 +1,4 @@
 package client;
-
 import javafx.scene.layout.*;
 
 // VBox within AppFrame that holds the list of Recipe objects

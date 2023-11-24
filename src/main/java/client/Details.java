@@ -4,7 +4,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.Insets;
 
-// VBox within RecipeDetails that stores the details of a recipe
+// The Details class represents a VBox containing TextArea components for title and details of a recipe
 class Details extends VBox {
     // Declare instance variables
     private TextArea title;
@@ -13,12 +13,13 @@ class Details extends VBox {
 
     // Constructor for Details class
     Details() {
-        this.setPrefSize(500, 500); // Set preferred size of the VBox
-        this.setStyle("-fx-background-color: #F0F8FF;"); // Set background color of the VBox
+        // Set up the VBox properties
+        this.setPrefSize(500, 500);
+        this.setStyle("-fx-background-color: #F0F8FF;");
 
-        // Create and configure title TextArea
+        // Set up the TextArea for the title
         title = new TextArea();
-        title.setPrefSize(475, 50); // Set size of the title text field
+        title.setPrefSize(475, 50);
         title.setStyle(
                 "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
         title.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
@@ -36,7 +37,7 @@ class Details extends VBox {
         mealType.setEditable(false);
         this.getChildren().add(mealType); // Add title TextArea to the VBox
 
-        // Create and configure details TextArea
+        // Set up the TextArea for the details
         details = new TextArea();
         details.setPrefSize(475, 400); // Set size of the details text field
         details.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // Set background color of details text
@@ -49,14 +50,14 @@ class Details extends VBox {
         this.getChildren().add(details); // Add details TextArea to the VBox
     }
 
-    // Method to extract title from a recipe string
+    // Method to extract the title from a given recipe string
     public String extractTitle(String recipeString) {
         System.out.println(recipeString);
         int firstNewlineInd = recipeString.indexOf("\n");
         return recipeString.substring(0, firstNewlineInd);
     }
 
-    // Method to extract details from a recipe string
+    // Method to extract the details from a given recipe string
     public String extractDetails(String recipeString) {
         int firstNewlineInd = recipeString.indexOf("\n");
         return recipeString.substring(firstNewlineInd + 1, recipeString.length());
