@@ -15,8 +15,7 @@ class ServerError {
         this.createButton = createButton;
         this.model = new Model();
         this.message = new Text("The Server Is Temporary Unavailable");
-        this.message.setStyle("-fx-font-style: italic; -fx-fill: #DC143C; -fx-font-weight: bold; -fx-font: 20 comic sans ms;");
-        this.checkServerAvailability();
+        this.message.setStyle("-fx-font-style: italic; -fx-fill: #DC143C; -fx-font-weight: bold; -fx-font-size: 15; -fx-font-family: comic sans ms;");
     }
 
     private void showErrorWindow() {
@@ -30,10 +29,14 @@ class ServerError {
         serverErrorStage.show();
     }
 
-    private void checkServerAvailability() {
+    public boolean checkServerAvailability() {
         if ((this.model.performRequest("PUT", "gpt", "hello").equals("Error"))) {
             this.showErrorWindow();
             this.createButton.setDisable(true);
+            return false;
+        }
+        else{
+            return true;
         }
     }
 }
