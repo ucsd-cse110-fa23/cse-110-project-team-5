@@ -15,6 +15,7 @@ class AppFrame extends BorderPane {
     private RecipeList recipeList;
     private Button createButton;
     private Recorder recorder;
+    private LoginScreen loginScreen;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -22,19 +23,21 @@ class AppFrame extends BorderPane {
         header = new Header();
         recipeList = new RecipeList();
         footer = new Footer();
+        loginScreen = new LoginScreen();
 
         recorder = new Recorder(recipeList);
 
-        ScrollPane scrollPane = new ScrollPane(recipeList);
+        ScrollPane scrollPane = new ScrollPane(loginScreen);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Configure layout of the BorderPane
-        this.setTop(header);
-        this.setCenter(scrollPane);
-        this.setBottom(footer);
-
+        //this.setTop(header);
+        //this.setCenter(loginScreen);
+        //this.setBottom(footer);
+        showLoginScreen();
+        
         // Initialize and configure button
         createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -87,5 +90,15 @@ class AppFrame extends BorderPane {
         createButton.setOnAction(e -> {
             recorder.showRecordingWindow();
         });
+    }
+
+    public void showRecipeList() {
+        this.setTop(header);
+        this.setCenter(recipeList);
+        this.setBottom(footer);
+    }
+
+    public void showLoginScreen() {
+        this.setCenter(loginScreen);
     }
 }
