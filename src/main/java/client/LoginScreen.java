@@ -40,6 +40,7 @@ class LoginScreen extends BorderPane {
         loginButton = new Button("Log in");
         createAccountButton = new Button("Create an account");
         registerButton = new Button("Register"); // New button for registration
+        registerButton.setVisible(false);
 
         registrationText = new Text("Your account has been registered!");
         registrationText.setStyle("-fx-fill: red;");
@@ -94,13 +95,14 @@ class LoginScreen extends BorderPane {
                 resetToOriginalState();
             });
             pause.play();
+            registerButton.setVisible(false);
             System.out.println("Register button clicked");
         });
     }
 
     // Method to update UI when switching to registration mode
     public void switchToRegistrationMode() {
-        ((Text) ((VBox) this.getCenter()).getChildren().get(0)).setText("Sign In");
+        ((Text) ((VBox) this.getCenter()).getChildren().get(0)).setText("Sign Up");
         rememberMeCheckBox.setVisible(false);
         loginButton.setVisible(false);
         createAccountButton.setVisible(false);
@@ -112,6 +114,6 @@ class LoginScreen extends BorderPane {
         rememberMeCheckBox.setVisible(true);
         loginButton.setVisible(true);
         createAccountButton.setVisible(true);
-        registerButton.setVisible(true);
+        registerButton.setVisible(false);
     }
 }

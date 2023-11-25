@@ -37,6 +37,7 @@ class AppFrame extends BorderPane {
         //this.setCenter(loginScreen);
         //this.setBottom(footer);
         showLoginScreen();
+        //showRecipeList();
         
         // Initialize and configure button
         createButton = footer.getCreateButton();
