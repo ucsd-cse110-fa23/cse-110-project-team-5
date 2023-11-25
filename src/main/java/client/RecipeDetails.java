@@ -146,7 +146,7 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
-
+            ShareRecipe shareRecipe = new ShareRecipe();
         });
     }
 
