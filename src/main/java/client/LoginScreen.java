@@ -83,12 +83,17 @@ class LoginScreen extends BorderPane {
         });
 
         registerButton.setOnAction(e -> {
+            Model model = new Model();
             // Implement registration logic here
             // You can open a new window or navigate to another scene for registration
             registrationText.setVisible(true);
-
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            System.out.println(username);
+            System.out.println(password);
+            model.sendSignupRequest(username, password);
             // Use PauseTransition to hide the message after 0.5 seconds
-            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(event -> {
                 registrationText.setVisible(false);
                 // Reset to original Log In screen

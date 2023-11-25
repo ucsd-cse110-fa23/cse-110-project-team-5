@@ -32,6 +32,7 @@ public class Model {
             // stream
             if (method.equals("POST") || method.equals("PUT")) {
                 OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+                out.write(query);
                 // out.write(language + "," + year);
                 out.flush();
                 out.close();
@@ -54,7 +55,7 @@ public class Model {
             }
             // Close the BufferedReader
             in.close();
-
+            
             // Return the response
             return response; // content.toString();
         } catch (Exception ex) {
