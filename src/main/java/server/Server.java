@@ -32,7 +32,6 @@ public class Server {
     // RequestHandler(data));
     HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
     HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
-    HttpContext DallEContext = server.createContext("/dalle", new DallERequestHandler(data));
 
     HttpContext MockGptContext = server.createContext("/mockgpt", new MockGptRequestHandler(data));
     HttpContext MockwhisperContext = server.createContext("/mockwhisper", new MockWhisperRequestHandler(data));
