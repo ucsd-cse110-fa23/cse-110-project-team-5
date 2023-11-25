@@ -13,6 +13,7 @@ class RecipeDisplay extends HBox {
     // Instance variables
     private Label index;
     private TextField recipeName;
+    private TextField mealTypeTag;
     private Button detailButton;
     private RecipeDetails recipeDetails;
 
@@ -33,11 +34,19 @@ class RecipeDisplay extends HBox {
 
         // Create and configure the recipe name text field
         recipeName = new TextField();
-        recipeName.setPrefSize(380, 20); // Set size of the text field
+        recipeName.setPrefSize(300, 20); // Set size of the text field
         recipeName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // Set background color of the text
                                                                                     // field
         recipeName.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the text field
+        recipeName.setEditable(false);
         this.getChildren().add(recipeName); // Add text label to the RecipeDisplay
+
+        mealTypeTag = new TextField();
+        mealTypeTag.setPrefSize(100,20);
+        mealTypeTag.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;");
+        mealTypeTag.setPadding(new Insets(10, 0, 10, 0));
+        mealTypeTag.setEditable(false);
+        this.getChildren().add(mealTypeTag);
 
         // Create and configure the "View Details" button
         detailButton = new Button("View Details");
@@ -73,6 +82,10 @@ class RecipeDisplay extends HBox {
     // Set the displayed name of the recipe in the text field
     public void setRecipeDisplayName(Recipe recipe) {
         this.recipeName.setText(recipe.getRecipeName());
+    }
+
+    public void setMealTypeTag(Recipe recipe) {
+        this.mealTypeTag.setText(recipe.getMealType());
     }
 
     public Recipe getRecipe() {
