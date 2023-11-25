@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.URI;
 
 // Class responsible for making HTTP requests to a server
@@ -51,7 +52,6 @@ public class Model {
                 }
                 return content.toString();
             }
-            
             // Close the BufferedReader
             in.close();
 
@@ -61,6 +61,20 @@ public class Model {
             // Handle exceptions by printing the stack trace and returning an error message
             ex.printStackTrace();
             return "Error: " + ex.getMessage();
+        }
+    }
+    public String sendSignupRequest(String username, String password) {
+        try{
+            String route = "saveUser";
+            String method = "POST";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8") +
+                           "&password=" + URLEncoder.encode(password, "UTF-8");
+            return performRequest(method, route, query);
+            
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
         }
     }
 }
