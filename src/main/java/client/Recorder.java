@@ -101,7 +101,7 @@ public class Recorder {
             isRecording = this.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                this.mealTypeCheck = this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+                this.mealTypeCheck = "lunch";//this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
                 if (mealTypeCheck.contains("breakfast") || mealTypeCheck.contains("lunch")
                         || mealTypeCheck.contains("dinner")) {
                     ingredientButton.setDisable(false);
@@ -119,7 +119,7 @@ public class Recorder {
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
                 RecipeDetails recipeDetails = new RecipeDetails(recipeList);
-                String ingredients = this.retrieveVoiceCommandResponse("voiceinstructions.wav");
+                String ingredients = "Chicken"; //this.retrieveVoiceCommandResponse("voiceinstructions.wav");
                 String gptOutput = recipeGen.fetchGeneratedRecipe(ingredients, mealType);
                 if (gptOutput == "NO INPUT") {
                     instructions.setText("Please Repeat Ingredients");

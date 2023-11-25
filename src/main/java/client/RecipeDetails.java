@@ -95,7 +95,8 @@ class RecipeDetails extends BorderPane {
             shareButton.setStyle(defaultButtonStyle); // Styling the delete button
             shareButton.setDisable(true);
 
-            this.getChildren().addAll(saveButton, saveChangesButton, deleteButton, shareButton); // adding buttons to footer
+            this.getChildren().addAll(saveButton, saveChangesButton, deleteButton, shareButton); // adding buttons to
+                                                                                                 // footer
             this.setAlignment(Pos.CENTER); // aligning the buttons to center
         }
 
@@ -143,6 +144,10 @@ class RecipeDetails extends BorderPane {
         deleteButton.setOnAction(e -> {
             this.recipe.markDone();
             this.recipeList.removeRecipe();
+            this.saveButton.setDisable(true);
+            this.saveChangesButton.setDisable(true);
+            this.shareButton.setDisable(true);
+            this.deleteButton.setDisable(true);
         });
 
         shareButton.setOnAction(e -> {
