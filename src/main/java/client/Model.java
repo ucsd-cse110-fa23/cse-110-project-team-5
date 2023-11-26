@@ -55,7 +55,7 @@ public class Model {
             }
             // Close the BufferedReader
             in.close();
-            
+
             // Return the response
             return response; // content.toString();
         } catch (Exception ex) {
@@ -78,4 +78,19 @@ public class Model {
             return "Error: " + e.getMessage();
         }
     }
+    public String sendLoginRequest(String username, String password) {
+        try{
+            String route = "loginUser";
+            String method = "GET";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8") +
+                            "&password=" + URLEncoder.encode(password, "UTF-8");
+            return performRequest(method, route, query);
+            
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
 }
+
