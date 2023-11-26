@@ -7,12 +7,14 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 // Represents the graphical display of a single recipe in the RecipeList
 class RecipeDisplay extends HBox {
     // Instance variables
     private Label index;
-    private TextField recipeName;
+    // private TextField recipeName;
+    private TextArea recipeName;
     private Button detailButton;
     private RecipeDetails recipeDetails;
 
@@ -20,8 +22,10 @@ class RecipeDisplay extends HBox {
     RecipeDisplay(RecipeDetails recipeDetails) {
         this.recipeDetails = recipeDetails;
         this.setPrefSize(500, 20); // Set size of the RecipeDisplay
-        this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // Set background
+        this.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-font-weight: bold; -fx-background-radius: 5;"); // Set background
                                                                                                      // color and style
+        
+        
 
         // Create and configure the index label
         index = new Label();
@@ -31,19 +35,19 @@ class RecipeDisplay extends HBox {
         index.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the recipe
         this.getChildren().add(index); // Add index label to the RecipeDisplay
 
-        // Create and configure the recipe name text field
-        recipeName = new TextField();
-        recipeName.setPrefSize(380, 20); // Set size of the text field
-        recipeName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // Set background color of the text
-                                                                                    // field
-        recipeName.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the text field
-        this.getChildren().add(recipeName); // Add text label to the RecipeDisplay
+        // Create and configure the recipe name text area
+        recipeName = new TextArea();
+        recipeName.setPrefSize(380, 40); // Set size of the text area
+        recipeName.setEditable(false); // Make the text area non-editable
+        recipeName.setWrapText(true); // Enable text wrapping
+        recipeName.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-padding: 5 0 5 0; -fx-background-radius: 10; -fx-text-alignment: center; -fx-font-size: 14px;");
+        this.getChildren().add(recipeName); // Add text area to the RecipeDisplay
 
         // Create and configure the "View Details" button
         detailButton = new Button("View Details");
         detailButton.setPrefSize(100, 20); // Set size of the button
         detailButton.setPrefHeight(Double.MAX_VALUE);
-        detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // Set style of the button
+        detailButton.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0;"); // Set style of the button
         detailButton.setOnAction(e -> { // Add button functionality to open RecipeDetails window
             RecipeDetails root = this.recipeDetails;
             Stage viewDetailStage = new Stage();
@@ -77,5 +81,9 @@ class RecipeDisplay extends HBox {
 
     public Recipe getRecipe() {
         return this.recipeDetails.getRecipe();
+    }
+
+    public String getTitle() {
+        return this.recipeName.getText();
     }
 }
