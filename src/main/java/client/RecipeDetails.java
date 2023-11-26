@@ -114,7 +114,6 @@ class RecipeDetails extends BorderPane {
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
-            this.recipeDisplay.setMealTypeTag(this.recipe);
             this.recipeList.getChildren().add(this.recipeDisplay);
             this.recipeList.updateRecipeIndices();
             this.enableDeleteAndEdit();
