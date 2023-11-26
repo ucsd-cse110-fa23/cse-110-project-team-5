@@ -22,6 +22,8 @@ class RecipeDetails extends BorderPane {
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
 
+    private MongoDB mongoDB = new MongoDB();
+
     RecipeDetails(RecipeList recipeList) {
         // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
@@ -130,6 +132,10 @@ class RecipeDetails extends BorderPane {
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
+
+            mongoDB.createUser("bob", "1234");
+            mongoDB.createAndUpdateRecipe("bob", recipe.getRecipeName(), recipe.getMealType(), recipe.getDetails(), 0);
+
         });
 
         // Add button functionality for saveButton
