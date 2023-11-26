@@ -22,9 +22,11 @@ class LoginScreen extends BorderPane {
     private Button createAccountButton;
     private Button registerButton;
     private Text registrationText;
+    private AppFrame appFrame;
 
     // Constructor for LoginScreen
-    LoginScreen() {
+    LoginScreen(AppFrame appFrame) {
+        this.appFrame = appFrame;
         // Initialize UI components
         Text loginText = new Text("Log In");
         loginText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
@@ -66,7 +68,7 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
-
+            appFrame.showRecipeList();
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
             // For now, let's just print the entered values
@@ -121,4 +123,6 @@ class LoginScreen extends BorderPane {
         createAccountButton.setVisible(true);
         registerButton.setVisible(false);
     }
+
+    
 }

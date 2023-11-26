@@ -23,8 +23,8 @@ class AppFrame extends BorderPane {
         header = new Header();
         recipeList = new RecipeList();
         footer = new Footer();
-        loginScreen = new LoginScreen();
-
+        loginScreen = new LoginScreen(this);
+        
         recorder = new Recorder(recipeList);
 
         ScrollPane scrollPane = new ScrollPane(loginScreen);
