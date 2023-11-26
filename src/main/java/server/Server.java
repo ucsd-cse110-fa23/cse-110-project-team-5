@@ -1,5 +1,9 @@
 package server;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.sun.net.httpserver.*;
 
 import java.io.IOException;
@@ -7,6 +11,8 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
+
+import javax.swing.text.Document;
 
 public class Server {
 

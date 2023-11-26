@@ -2,7 +2,10 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,6 +15,7 @@ import java.util.Scanner;
 public class LoginRequestHandler implements HttpHandler {
 
     private Map<String, String> loginData;
+    private UserDatabaseService userDbService;
 
     public LoginRequestHandler(Map<String, String> loginData) {
         this.loginData = loginData;
@@ -51,7 +55,7 @@ public class LoginRequestHandler implements HttpHandler {
 
         // Store data in hashmap
         loginData.put(username, password);
-
+        userDbService.saveUser(username, password);
         String response = "Posted login credentials {" + username + ", " + password + "}";
         System.out.println(response);
         scanner.close();
@@ -63,7 +67,6 @@ public class LoginRequestHandler implements HttpHandler {
         String response = "Invalid GET request";
         // Assuming the query parameter is the username
         String username = httpExchange.getRequestURI().getQuery();
-
         if (username != null && loginData.containsKey(username)) {
             String password = loginData.get(username);
             response = "Retrieved login credentials for " + username + ": " + password;

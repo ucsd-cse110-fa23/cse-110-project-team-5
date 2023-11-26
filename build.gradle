@@ -51,3 +51,6 @@ javafx {
 application {
     mainClassName = 'client.Main'
 }
+dependencies {
+  implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+}
