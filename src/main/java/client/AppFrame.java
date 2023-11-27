@@ -1,11 +1,14 @@
 package client;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 // Main AppFrame for Pantry Pal App 
 class AppFrame extends BorderPane {
@@ -47,15 +50,45 @@ class AppFrame extends BorderPane {
 
     // App Header
     class Header extends HBox {
+        private ComboBox<String> filter;
         // Constructor for Header
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #F0F8FF;");
 
+            // Add "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
-            this.getChildren().add(titleText);
-            this.setAlignment(Pos.CENTER); // Align the text to the Center
+            // Add "Filter Recipes" Dropdown
+            filter = new ComboBox<>();
+            filter.setPromptText("Filter Recipes");
+            filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All");
+            HBox.setMargin(filter, new Insets(0,10,0,10));
+            // Create containers for elements
+            HBox filterBox = new HBox(filter);
+            HBox titleBox = new HBox(titleText);
+            // Set alignments for elements
+            filterBox.setAlignment(Pos.CENTER_RIGHT);
+            filter.setStyle("-fx-background-radius: 5;");
+            titleBox.setAlignment(Pos.CENTER);
+            // Add elements to the header
+            this.getChildren().addAll(titleBox, filterBox);
+            HBox.setHgrow(titleBox, Priority.ALWAYS);
+            filter.setOnAction(e -> {
+                String selectedOption = filter.getSelectionModel().getSelectedItem();
+                if (selectedOption == "Breakfast") {
+
+                }
+                else if (selectedOption == "Lunch") {
+                    
+                }
+                else if (selectedOption == "Dinner") {
+                    
+                }
+                else if (selectedOption == "All") {
+                    
+                }
+            });
         }
     }
 
