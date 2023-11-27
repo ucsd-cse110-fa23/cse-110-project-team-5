@@ -39,10 +39,10 @@ public class LoginRequestHandler implements HttpHandler {
             response = e.toString();
             e.printStackTrace();
         }
-
-        httpExchange.sendResponseHeaders(200, response.length());
+        byte[] responseByte = response.getBytes();
+        httpExchange.sendResponseHeaders(200, responseByte.length);
         OutputStream outStream = httpExchange.getResponseBody();
-        outStream.write(response.getBytes());
+        outStream.write(responseByte);
         outStream.close();
     }
     private String handleGet(HttpExchange httpExchange) throws IOException {
