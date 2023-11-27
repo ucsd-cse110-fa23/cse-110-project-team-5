@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Sort {
-    private RecipeList recipeList;
     public Comparator<RecipeDisplay> compAZ;
     public Comparator<RecipeDisplay> compZA;
     public Comparator<RecipeDisplay> compNewToOld;
     public Comparator<RecipeDisplay> compOldToNew;
 
-    public Sort(RecipeList recipeList) {
-        this.recipeList = recipeList;
+    public Sort() {
         this.compAZ = new ComparatorAZ();
         this.compZA = new ComparatorZA();
         this.compNewToOld = new ComparatorNewToOld();
