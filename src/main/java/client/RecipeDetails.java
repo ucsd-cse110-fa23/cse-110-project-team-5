@@ -152,12 +152,12 @@ class RecipeDetails extends BorderPane {
             this.saveChangesButton.setDisable(true);
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
+            mongoDB.deleteRecipe("bob", recipe.getRecipeName());
             // mongoDB.deleteRecipe(/*USERNAME*/, recipe.getRecipeName());
 
         });
 
         shareButton.setOnAction(e -> {
-            ShareRecipe shareRecipe = new ShareRecipe();
         });
     }
 
