@@ -12,7 +12,7 @@ import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RecipeRequestHandler {
+public class RecipeRequestHandler implements HttpHandler {
     // HTTP client for making requests
     HttpClient client;
 
