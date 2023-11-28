@@ -20,7 +20,7 @@ public class RecipeGenerate {
             // Construct and perform a GET request to the 'gpt' endpoint with the necessary
             // parameters
             gptResponse = model.performRequest("GET", "gpt",
-                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients);
+                    "500," + recipeIntro + mealType + recipeIntro2 + ingredients + recipeFormat);
         } catch (Exception e) {
             System.out.println("No input detected");
         }

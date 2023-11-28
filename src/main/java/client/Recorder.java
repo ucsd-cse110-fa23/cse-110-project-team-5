@@ -38,6 +38,8 @@ public class Recorder {
     private String mealTypeCheck;
     private boolean isRecording;
 
+    private ServerError serverError;
+
     public Recorder(RecipeList recipeList) {
         this.recipeList = recipeList;
         this.recipeGen = new RecipeGenerate();
@@ -66,10 +68,20 @@ public class Recorder {
         });
 
         // Set up event handler for recordButton
-        recordButton.setOnAction(e1 -> recordMealType(instructions, ingredientButton));
+        recordButton.setOnAction(e1 -> {
+            this.serverError = new ServerError(recordButton);
+            if (this.serverError.checkServerAvailability()) {
+                recordMealType(instructions, ingredientButton);
+            }
+        });
 
         // Set up event handler for ingredientButton
-        ingredientButton.setOnAction(e1 -> processIngredients(recordingStage));
+        ingredientButton.setOnAction(e1 -> {
+            this.serverError = new ServerError(ingredientButton);
+            if (this.serverError.checkServerAvailability()) {
+                processIngredients(recordingStage);
+            }
+        });
 
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
@@ -89,7 +101,7 @@ public class Recorder {
             isRecording = this.toggleRecord();
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
-                this.mealTypeCheck = this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+                this.mealTypeCheck = "lunch";//this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
                 if (mealTypeCheck.contains("breakfast") || mealTypeCheck.contains("lunch")
                         || mealTypeCheck.contains("dinner")) {
                     ingredientButton.setDisable(false);
@@ -107,7 +119,7 @@ public class Recorder {
             recordingLabel.setVisible(isRecording);
             if (!isRecording) {
                 RecipeDetails recipeDetails = new RecipeDetails(recipeList);
-                String ingredients = this.retrieveVoiceCommandResponse("voiceinstructions.wav");
+                String ingredients = "Chicken"; //this.retrieveVoiceCommandResponse("voiceinstructions.wav");
                 String gptOutput = recipeGen.fetchGeneratedRecipe(ingredients, mealType);
                 if (gptOutput == "NO INPUT") {
                     instructions.setText("Please Repeat Ingredients");
@@ -155,7 +167,7 @@ public class Recorder {
             // Start capturing audio data
             targetLine.start();
             // Create the output file where the audio data will be saved
-            String filePath = "voiceinstructions.wav";
+            String filePath = "src/main/java/voiceinstructions.wav";
             // "src" + File.separator + "main" + File.separator + "java" + File.separator +
             // "voiceinstructions.wav";
             outputFile = new File(filePath);
@@ -213,7 +225,7 @@ public class Recorder {
         return mod;
     }
 
-    public boolean getIsRecording(){
+    public boolean getIsRecording() {
         return this.isRecording;
     }
 

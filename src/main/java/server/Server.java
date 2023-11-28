@@ -1,18 +1,10 @@
 package server;
-
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.sun.net.httpserver.*;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
-
-import javax.swing.text.Document;
 
 public class Server {
 
@@ -34,8 +26,7 @@ public class Server {
 
     // Define and create contexts for different endpoints, associating them with
     // their respective request handlers
-    // Example: HttpContext recipeContext = server.createContext("/recipe", new
-    // RequestHandler(data));
+    // Example: HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
     HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
     HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
     HttpContext accountContext = server.createContext("/saveUser", new AccountRequestHandler(data));

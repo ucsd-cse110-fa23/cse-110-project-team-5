@@ -60,37 +60,37 @@ public class Model {
             return response; // content.toString();
         } catch (Exception ex) {
             // Handle exceptions by printing the stack trace and returning an error message
-            ex.printStackTrace();
-            return "Error: " + ex.getMessage();
+            // ex.printStackTrace();
+            // return "Error: " + ex.getMessage();
+            return "Error";
         }
     }
+
     public String sendSignupRequest(String username, String password) {
-        try{
+        try {
             String route = "saveUser";
             String method = "POST";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
-                           "&password=" + URLEncoder.encode(password, "UTF-8");
+                    "&password=" + URLEncoder.encode(password, "UTF-8");
             return performRequest(method, route, query);
-            
-        }
-        catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }
     }
+
     public String sendLoginRequest(String username, String password) {
-        try{
+        try {
             String route = "loginUser";
             String method = "GET";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
-                            "&password=" + URLEncoder.encode(password, "UTF-8");
+                    "&password=" + URLEncoder.encode(password, "UTF-8");
             return performRequest(method, route, query);
-            
-        }
-        catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }
     }
 }
-

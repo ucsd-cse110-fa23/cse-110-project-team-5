@@ -2,23 +2,21 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Scanner;
+import org.bson.Document;
 
 public class AccountRequestHandler implements HttpHandler {
 
     private Map<String, String> loginData;
-    private UserDatabaseService userDbService;
+    private MongoDB mongoDB;
 
     public AccountRequestHandler(Map<String, String> loginData) {
         this.loginData = loginData;
+        this.mongoDB = new MongoDB();
     }
 
     @Override
@@ -55,7 +53,7 @@ public class AccountRequestHandler implements HttpHandler {
 
         // Store data in hashmap
         loginData.put(username, password);
-        userDbService.saveUser(username, password);
+        mongoDB.createUser(username, password);
         String response = "Posted login credentials {" + username + ", " + password + "}";
         System.out.println(response);
         scanner.close();
@@ -68,8 +66,8 @@ public class AccountRequestHandler implements HttpHandler {
         // Assuming the query parameter is the username
         String username = httpExchange.getRequestURI().getQuery();
         String password = loginData.get(username);
-        boolean isUser = userDbService.validateUser(username, password);
-        if(isUser) {
+        Document user = mongoDB.readUser(username);
+        if(user != null) {
             response = "Retrieved login credentials for " + username + ": " + password;
         }
         else {
