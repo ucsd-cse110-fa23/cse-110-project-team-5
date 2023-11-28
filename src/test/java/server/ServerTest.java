@@ -37,5 +37,13 @@ public class ServerTest {
         final String correctResponse = "breakfast";
         assertEquals(response, correctResponse); // Assert that the response matches the expected value
     }
-}
 
+    // Test case for recipe route
+    @Test
+    public void RecipeTest() {
+        String response = model.performRequest("GET", "recipe", "username,recipe_name"); 
+                                                    // CHANGE QUERY ONCE READ RECIPE IS IMPLEMENTED
+        final String correctResponse = "{\"recipe_tag\":\"Dinner\",\"recipe_name\":\"Beef Curry\",\"recipe_details\":\"default response for recipe details\"}";        // CHANGE LATER ONCE READ RECIPE IS IMPLEMENTED
+        assertEquals(response, correctResponse);
+    }
+}
