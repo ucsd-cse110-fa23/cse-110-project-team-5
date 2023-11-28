@@ -10,10 +10,26 @@ public class Sort {
     public Comparator<RecipeDisplay> compOldToNew;
 
     public Sort() {
-        this.compAZ = new ComparatorAZ();
-        this.compZA = new ComparatorZA();
-        this.compNewToOld = new ComparatorNewToOld();
-        this.compOldToNew = new ComparatorOldToNew();
+        this.compAZ = new Comparator<RecipeDisplay>() {
+            @Override
+            public int compare(RecipeDisplay recipe1, RecipeDisplay recipe2) {
+            return recipe1.getTitle().compareTo(recipe2.getTitle());
+        }};
+        this.compZA = new Comparator<RecipeDisplay>() {
+            @Override
+            public int compare(RecipeDisplay recipe1, RecipeDisplay recipe2) {
+            return recipe2.getTitle().compareTo(recipe1.getTitle());   
+        }};
+        this.compNewToOld = new Comparator<RecipeDisplay>() {
+            @Override
+            public int compare(RecipeDisplay recipe1, RecipeDisplay recipe2) {
+            return recipe2.getRecipe().getTime().compareTo(recipe1.getRecipe().getTime());
+        }};
+        this.compOldToNew = new Comparator<RecipeDisplay>() {
+            @Override
+            public int compare(RecipeDisplay recipe1, RecipeDisplay recipe2) {
+            return recipe1.getRecipe().getTime().compareTo(recipe2.getRecipe().getTime());
+        }};
     }
 
     public void sort(RecipeList recipeList, Comparator<RecipeDisplay> comp) {
@@ -37,20 +53,20 @@ public class Sort {
         recipeList.updateRecipeIndices();
     }
 
-    public Comparator<RecipeDisplay> getCompAZ() {
-        return this.compAZ;
+    public void sortAZ(RecipeList recipeList) {
+        sort(recipeList, compAZ);
     }
 
-    public Comparator<RecipeDisplay> getCompZA() {
-        return this.compZA;
+    public void sortZA(RecipeList recipeList) {
+        sort(recipeList, compZA);
     }
 
-    public Comparator<RecipeDisplay> getCompNewToOld() {
-        return this.compNewToOld;
+    public void sortNewToOld(RecipeList recipeList) {
+        sort(recipeList, compNewToOld);
     }
 
-    public Comparator<RecipeDisplay> getCompOldToNew() {
-        return this.compOldToNew;
+    public void sortOldToNew(RecipeList recipeList) {
+        sort(recipeList, compOldToNew);
     }
 }
 

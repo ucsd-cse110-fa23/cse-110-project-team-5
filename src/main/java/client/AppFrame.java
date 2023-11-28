@@ -89,19 +89,19 @@ class AppFrame extends BorderPane {
                 // Perform actions based on the selected option
                 // Sort Recipe List in Chronological Order
                 if (selectedOption == "Newest to Oldest") {
-                    this.sorter.sort(recipeList, sorter.getCompNewToOld());
+                    this.sorter.sortNewToOld(recipeList);
                 }
                 // Sort Recipe List in Reverse Chronological Order
                 else if (selectedOption == "Oldest to Newest") {
-                    this.sorter.sort(recipeList, sorter.getCompOldToNew());
+                    this.sorter.sortOldToNew(recipeList);
                 }
                 // Sort Recipe List in Lexographical Order
                 else if (selectedOption == "A - Z") {
-                    this.sorter.sort(recipeList, sorter.getCompAZ());
+                    this.sorter.sortAZ(recipeList);
                 }
                 // Sort Recipe List in Reverese Lexographical Order
                 else if (selectedOption == "Z - A") {
-                    sorter.sort(recipeList, sorter.getCompZA());
+                    sorter.sortZA(recipeList);
                 }
             });
         }
