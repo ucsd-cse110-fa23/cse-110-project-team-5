@@ -74,16 +74,17 @@ class AppFrame extends BorderPane {
             // Add elements to the header
             this.getChildren().addAll(titleBox, filterBox);
             HBox.setHgrow(titleBox, Priority.ALWAYS);
+            Filter filt = new Filter();
             filter.setOnAction(e -> {
                 String selectedOption = filter.getSelectionModel().getSelectedItem();
                 if (selectedOption == "Breakfast") {
-
+                    filt.filter(this.recipeList, "Breakfast");
                 }
                 else if (selectedOption == "Lunch") {
-                    
+                    filt.filter(this.recipeList, "Lunch");
                 }
                 else if (selectedOption == "Dinner") {
-                    
+                    filt.filter(this.recipeList, "Dinner");
                 }
                 else if (selectedOption == "All") {
                     
