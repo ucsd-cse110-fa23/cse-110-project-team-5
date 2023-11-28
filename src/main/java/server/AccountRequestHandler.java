@@ -48,8 +48,8 @@ public class AccountRequestHandler implements HttpHandler {
         InputStream inStream = httpExchange.getRequestBody();
         Scanner scanner = new Scanner(inStream);
         String postData = scanner.nextLine();
-        String username = postData.substring(0, postData.indexOf(","));
-        String password = postData.substring(postData.indexOf(",") + 1);
+        String username = postData.substring(postData.indexOf("="), postData.indexOf("&"));
+        String password = postData.substring(postData.indexOf("=", postData.indexOf("=") + 1), postData.length());
 
         // Store data in hashmap
         loginData.put(username, password);
@@ -67,18 +67,17 @@ public class AccountRequestHandler implements HttpHandler {
         String username = httpExchange.getRequestURI().getQuery();
         String password = loginData.get(username);
         Document user = mongoDB.readUser(username);
-        if(user != null) {
+        if (user != null) {
             response = "Retrieved login credentials for " + username + ": " + password;
-        }
-        else {
+        } else {
             response = "No login credentials found for " + username;
         }
         // if (username != null && loginData.containsKey(username)) {
-        //     // String password = loginData.get(username);
-        //     response = "Retrieved login credentials for " + username + ": " + password;
-        //     System.out.println(response);
+        // // String password = loginData.get(username);
+        // response = "Retrieved login credentials for " + username + ": " + password;
+        // System.out.println(response);
         // } else {
-        //     response = "No login credentials found for " + username;
+        // response = "No login credentials found for " + username;
         // }
         return response;
     }
