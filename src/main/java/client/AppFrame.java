@@ -78,13 +78,13 @@ class AppFrame extends BorderPane {
             filter.setOnAction(e -> {
                 String selectedOption = filter.getSelectionModel().getSelectedItem();
                 if (selectedOption == "Breakfast") {
-                    filt.filter(this.recipeList, "Breakfast");
+                    filt.filter(recipeList, "Breakfast");
                 }
                 else if (selectedOption == "Lunch") {
-                    filt.filter(this.recipeList, "Lunch");
+                    filt.filter(recipeList, "Lunch");
                 }
                 else if (selectedOption == "Dinner") {
-                    filt.filter(this.recipeList, "Dinner");
+                    filt.filter(recipeList, "Dinner");
                 }
                 else if (selectedOption == "All") {
                     
