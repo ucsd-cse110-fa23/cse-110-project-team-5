@@ -31,6 +31,7 @@ dependencies {
 
     // MongoDB dependencies
     implementation 'org.mongodb:mongodb-driver-sync:4.11.0'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
 
     // Other dependencies
     implementation 'org.json:json:20211205'
