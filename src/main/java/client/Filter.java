@@ -4,8 +4,11 @@ public class Filter {
     public void filter(RecipeList recipeList, String mealtype) {
         for (int i = 0; i < recipeList.getChildren().size(); i++) {
             if (recipeList.getChildren().get(i) instanceof RecipeDisplay) {
-                if (((RecipeDisplay) recipeList.getChildren().get(i)).getRecipe().getMealType() != mealtype) {
-                    ((RecipeDisplay) recipeList.getChildren().get(i)).setVisible(false);
+                RecipeDisplay currentRecipe = (RecipeDisplay) recipeList.getChildren().get(i);
+                if (mealtype.equals("All") || currentRecipe.getRecipe().getMealType().equals(mealtype)) {
+                    currentRecipe.setVisible(true);
+                } else {
+                    currentRecipe.setVisible(false);
                 }
             }
         }

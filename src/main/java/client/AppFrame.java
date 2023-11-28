@@ -87,7 +87,7 @@ class AppFrame extends BorderPane {
                     filt.filter(recipeList, "Dinner");
                 }
                 else if (selectedOption == "All") {
-                    
+                    filt.filter(recipeList, "All");
                 }
             });
         }
