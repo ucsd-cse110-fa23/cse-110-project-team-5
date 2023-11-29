@@ -10,25 +10,11 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class Recorder {
-
-    private RecipeList recipeList;
     private RecipeGenerate recipeGen;
-
-    private Scene scene;
-    private Label recordingLabel;
-    private Text instructions;
 
     private TargetDataLine targetLine; // Target data line for audio recording
     private File outputFile; // File to store the recorded audio
@@ -38,108 +24,18 @@ public class Recorder {
     private String mealTypeCheck;
     private boolean isRecording;
 
-    private ServerError serverError;
-
-    public Recorder(RecipeList recipeList) {
-        this.recipeList = recipeList;
-        this.recipeGen = new RecipeGenerate();
-        this.isRecording = false;
-        this.recordingLabel = new Label("Recording...");
-        this.recordingLabel.setVisible(false);
+    public Recorder() {
+        recipeGen = new RecipeGenerate();
+        isRecording = false;
     }
 
-    public void showRecordingWindow() {
-        Stage recordingStage = new Stage();
-        BorderPane recordingPane = new BorderPane();
-        instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
-        instructions.setLayoutX(130);
-        instructions.setLayoutY(60);
-        recordingPane.getChildren().add(instructions);
-        Button recordButton = new Button("Record");
-        Button ingredientButton = new Button("Record Ingredients");
-        ingredientButton.setDisable(true);
-        recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                recordingLabel.setVisible(false);
-                if (isRecording) {
-                    toggleRecord();
-                }
-            }
-        });
-
-        // Set up event handler for recordButton
-        recordButton.setOnAction(e1 -> {
-            this.serverError = new ServerError(recordButton);
-            if (this.serverError.checkServerAvailability()) {
-                recordMealType(instructions, ingredientButton);
-            }
-        });
-
-        // Set up event handler for ingredientButton
-        ingredientButton.setOnAction(e1 -> {
-            this.serverError = new ServerError(ingredientButton);
-            if (this.serverError.checkServerAvailability()) {
-                processIngredients(recordingStage);
-            }
-        });
-
-        HBox buttonBox = new HBox(10);
-        buttonBox.setAlignment(Pos.CENTER);
-        HBox buttonContainer = new HBox(10);
-        buttonContainer.setAlignment(Pos.CENTER);
-        buttonContainer.getChildren().addAll(recordButton, ingredientButton);
-        buttonBox.getChildren().addAll(buttonContainer, recordingLabel);
-        recordingPane.setCenter(buttonBox);
-        scene = new Scene(recordingPane, 500, 600);
-        recordingStage.setScene(scene);
-        recordingStage.setTitle("Recording Window");
-        recordingStage.show();
-    }
-
-    public void recordMealType(Text instructions, Button ingredientButton) {
-        Platform.runLater(() -> {
-            isRecording = this.toggleRecord();
-            recordingLabel.setVisible(isRecording);
-            if (!isRecording) {
-                this.mealTypeCheck = "lunch";//this.retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
-                if (mealTypeCheck.contains("breakfast") || mealTypeCheck.contains("lunch")
-                        || mealTypeCheck.contains("dinner")) {
-                    ingredientButton.setDisable(false);
-                    instructions.setText("Tell me your ingredients!");
-                } else {
-                    instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
-                }
-            }
-        });
-    }
-
-    private void processIngredients(Stage recordingStage) {
-        Platform.runLater(() -> {
-            boolean isRecording = this.toggleRecord();
-            recordingLabel.setVisible(isRecording);
-            if (!isRecording) {
-                RecipeDetails recipeDetails = new RecipeDetails(recipeList);
-                String ingredients = "Chicken"; //this.retrieveVoiceCommandResponse("voiceinstructions.wav");
-                String gptOutput = recipeGen.fetchGeneratedRecipe(ingredients, mealType);
-                if (gptOutput == "NO INPUT") {
-                    instructions.setText("Please Repeat Ingredients");
-                } else {
-                    recipeDetails.setTitleAndDetails(gptOutput);
-                    recipeDetails.setMealtype(mealType);
-                    recordingStage.close();
-                    scene.setRoot(recipeDetails);
-                    Stage recipeDetailStage = new Stage();
-                    recipeDetailStage.setScene(scene);
-                    recipeDetailStage.show();
-                    recipeDetailStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                        public void handle(WindowEvent event) {
-                            scene.setRoot(new BorderPane());
-                            recipeDetailStage.close();
-                        }
-                    });
-                }
-            }
-        });
+    public String processIngredients() {
+        boolean isRecording = toggleRecord();
+        if (!isRecording) {
+            String ingredients = retrieveVoiceCommandResponse("voiceinstructions.wav");
+            return recipeGen.fetchGeneratedRecipe(ingredients, mealType);
+        }
+        return null;
     }
 
     // Toggle audio recording on/off
@@ -167,7 +63,7 @@ public class Recorder {
             // Start capturing audio data
             targetLine.start();
             // Create the output file where the audio data will be saved
-            String filePath = "src/main/java/voiceinstructions.wav";
+            String filePath = "voiceinstructions.wav";
             // "src" + File.separator + "main" + File.separator + "java" + File.separator +
             // "voiceinstructions.wav";
             outputFile = new File(filePath);
@@ -200,6 +96,20 @@ public class Recorder {
         }
     }
 
+    public void recordMealType(Text instructions, Button ingredientButton) {
+        isRecording = toggleRecord();
+        if (!isRecording) {
+            mealTypeCheck = retrieveVoiceCommandResponse("voiceinstructions.wav").toLowerCase();
+            if (mealTypeCheck.contains("breakfast") || mealTypeCheck.contains("lunch")
+                    || mealTypeCheck.contains("dinner")) {
+                ingredientButton.setDisable(false);
+                instructions.setText("Tell me your ingredients!");
+            } else {
+                instructions.setText("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
+            }
+        }
+    }
+
     // Retrieve the response from the 'Whisper' API based on user voice command
     public String retrieveVoiceCommandResponse(String fileString) {
         Model model = new Model();
@@ -226,7 +136,10 @@ public class Recorder {
     }
 
     public boolean getIsRecording() {
-        return this.isRecording;
+        return isRecording;
     }
 
+    public String getMealType() {
+        return mealType;
+    }
 }
