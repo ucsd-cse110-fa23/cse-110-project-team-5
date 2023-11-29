@@ -15,7 +15,7 @@ public class ServerTest {
 
     // Set up method to initialize objects before each test
     @BeforeEach
-    void setUp() {
+    void setup() {
         model = new MockModel();
         server = new MockServer();
     }

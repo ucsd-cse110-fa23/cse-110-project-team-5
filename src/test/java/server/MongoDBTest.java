@@ -8,6 +8,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import java.util.ArrayList;
 import org.bson.Document;
@@ -20,7 +21,7 @@ public class MongoDBTest {
     private Document user;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         this.mongoDB = new MongoDB();
     }
 
@@ -31,9 +32,8 @@ public class MongoDBTest {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
             this.user = usersCollection.find(eq("username", "abcd")).first();
-            
-        } catch(Exception e){
-        }
+
+        } catch (Exception e) {}
 
         assertEquals(this.user.get("username"), "abcd");
     }
@@ -75,5 +75,14 @@ public class MongoDBTest {
     @Test
     public void testDeleteRecipe() {
 
+    }
+
+    @AfterAll
+    void cleanup() {
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
+            MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
+            usersCollection.deleteOne(eq("username", "abcd"));
+        } catch (Exception e) {}
     }
 }
