@@ -42,6 +42,7 @@ public class MongoDBTest {
 
     @Test
     public void testReadUser() {
+        mongoDB.createUser("abcd", "1234");
         Document result = mongoDB.readUser("abcd");
         assertEquals(result.get("username"), "abcd");
         assertEquals(result.get("password"), "1234");
@@ -71,22 +72,78 @@ public class MongoDBTest {
 
     @Test 
     public void testUpdateRecipe() {
+        mongoDB.createAndUpdateRecipe("abcd", "test update name", "dinner", "test update details");
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
+            MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
+            this.user = usersCollection.find(eq("username", "abcd")).first();
 
+            ArrayList<Document> recipes = (ArrayList<Document>) this.user.get("recipe_list");
+            for (Document x : recipes) {
+                if (x.get("recipe_name").toString().equals("test name")) {
+                    assertEquals(x.get("recipe_name"), "test update name");
+                    assertEquals(x.get("tag"), "dinner");
+                    assertEquals(x.get("details"), "test update details");
+                    break;
+                }
+            }
+            
+        } catch(Exception e){
+        }
+
+        mongoDB.createAndUpdateRecipe("abcd", "test update name", "new tag", "new details");
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
+            MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
+            this.user = usersCollection.find(eq("username", "abcd")).first();
+
+            ArrayList<Document> recipes = (ArrayList<Document>) this.user.get("recipe_list");
+            for (Document x : recipes) {
+                if (x.get("recipe_name").toString().equals("test name")) {
+                    assertEquals(x.get("recipe_name"), "test update name");
+                    assertEquals(x.get("tag"), "new tag");
+                    assertEquals(x.get("details"), "new details");
+                    break;
+                }
+            }
+            
+        } catch(Exception e){
+        }
     }
 
     @Test
     public void testReadRecipe() {
+        mongoDB.createUser("test read", "1234567890");
+        
+        mongoDB.createAndUpdateRecipe("test read", "test read recipe", "lunch", "test read recipe details");
 
+        Document result = mongoDB.readRecipe("test read", "test read recipe");
+        assertEquals(result.get("recipe_name"), "test read recipe");
+        assertEquals(result.get("recipe_tag"), "lunch");
+        assertEquals(result.get("recipe_details"), "test read recipe details");
     }
 
     @Test
     public void testReadAllRecipes() {
+        mongoDB.createUser("test7", "777");
+        mongoDB.createAndUpdateRecipe("test7", "recipe 1", "lunch", "details 1");
 
+        ArrayList<Document> result = mongoDB.readAllRecipes("test7");
+        assertEquals(1, result.size());
     }
 
     @Test
     public void testDeleteRecipe() {
+        mongoDB.createUser("test delete", "delete");
+        mongoDB.createAndUpdateRecipe("test delete", "recipe delete", "lunch", "details delete");
 
+        ArrayList<Document> result = mongoDB.readAllRecipes("test delete");
+        assertEquals(1, result.size());
+
+        mongoDB.deleteRecipe("test delete", "recipe delete");
+
+        ArrayList<Document> afterDeleteResult = mongoDB.readAllRecipes("test delete");
+        assertEquals(0, afterDeleteResult.size());
     }
 
     @AfterAll
@@ -95,6 +152,9 @@ public class MongoDBTest {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
             usersCollection.deleteOne(eq("username", "abcd"));
+            usersCollection.deleteOne(eq("username", "test7"));
+            usersCollection.deleteOne(eq("username", "test delete"));
+            usersCollection.deleteOne(eq("username", "test read"));
         } catch (Exception e) {}
     }
 }
