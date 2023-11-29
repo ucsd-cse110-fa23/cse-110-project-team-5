@@ -37,4 +37,43 @@ public class MongoDBTest {
 
         assertEquals(this.user.get("username"), "abcd");
     }
+
+    @Test
+    public void testReadUser() {
+        Document result = mongoDB.readUser("abcd");
+        assertEquals(result.get("username"), "abcd");
+        assertEquals(result.get("password"), "1234");
+    }
+
+    @Test
+    public void testCreateRecipe() {
+        mongoDB.createAndUpdateRecipe("abcd", "test name", "dinner", "test details");
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
+            MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
+            this.user = usersCollection.find(eq("username", "abcd")).first();
+            
+        } catch(Exception e){
+        }
+    }
+
+    @Test 
+    public void testUpdateRecipe() {
+
+    }
+
+    @Test
+    public void testReadRecipe() {
+
+    }
+
+    @Test
+    public void testReadAllRecipes() {
+
+    }
+
+    @Test
+    public void testDeleteRecipe() {
+
+    }
 }
