@@ -50,7 +50,7 @@ public class LoginRequestHandler implements HttpHandler {
     }
 
     private String handleGet(HttpExchange httpExchange) throws IOException {
-        String response = "";
+        String response = "error";
         String username = httpExchange.getRequestURI().getQuery();
         username = username.substring(username.indexOf("=") + 10, username.indexOf("&"));
         if (mongoDB.readUser(username) != null) {

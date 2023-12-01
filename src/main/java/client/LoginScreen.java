@@ -76,7 +76,7 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
-            if (model.sendLoginRequest(username, password).length() > 1) {
+            if (!(model.sendLoginRequest(username, password).equals("error"))) {
                 appFrame.showRecipeList();
             } else {
                 PauseTransition pause = new PauseTransition(Duration.seconds(3));
