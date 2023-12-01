@@ -1,11 +1,21 @@
 package client;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 // Main AppFrame for Pantry Pal App 
 class AppFrame extends BorderPane {
@@ -51,15 +61,53 @@ class AppFrame extends BorderPane {
 
     // App Header
     class Header extends HBox {
+        private ComboBox<String> sort;
+        private Sort sorter;
+
         // Constructor for Header
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
-            this.setStyle("-fx-background-color: #F0F8FF;");
-
+            this.setStyle("-fx-background-color: #A4C3B2;");
+            // Add "Sort By" Dropdown
+            sort = new ComboBox<>();
+            sort.setPromptText("Sort By");
+            sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
+            HBox.setMargin(sort, new Insets(0,10,0,10));
+            // Add "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
-            this.getChildren().add(titleText);
-            this.setAlignment(Pos.CENTER); // Align the text to the Center
+            // Create containers for elements
+            HBox sortBox = new HBox(sort);
+            HBox titleBox = new HBox(titleText);
+            // Set alignments for elements
+            sortBox.setAlignment(Pos.CENTER_LEFT);
+            sort.setStyle("-fx-background-radius: 5;");
+            titleBox.setAlignment(Pos.CENTER);
+            // Add elements to the header
+            this.getChildren().addAll(sortBox, titleBox);
+            HBox.setHgrow(titleBox, Priority.ALWAYS);
+            this.sorter = new Sort();
+            // Add sort option functionality
+            sort.setOnAction(e -> {
+                String selectedOption = sort.getSelectionModel().getSelectedItem();
+                // Perform actions based on the selected option
+                // Sort Recipe List in Chronological Order
+                if (selectedOption == "Newest to Oldest") {
+                    this.sorter.sortNewToOld(recipeList);
+                }
+                // Sort Recipe List in Reverse Chronological Order
+                else if (selectedOption == "Oldest to Newest") {
+                    this.sorter.sortOldToNew(recipeList);
+                }
+                // Sort Recipe List in Lexographical Order
+                else if (selectedOption == "A - Z") {
+                    this.sorter.sortAZ(recipeList);
+                }
+                // Sort Recipe List in Reverese Lexographical Order
+                else if (selectedOption == "Z - A") {
+                    sorter.sortZA(recipeList);
+                }
+            });
         }
     }
 
@@ -71,7 +119,7 @@ class AppFrame extends BorderPane {
         // Constructor for Footer
         Footer() {
             this.setPrefSize(500, 60);
-            this.setStyle("-fx-background-color: #F0F8FF;");
+            this.setStyle("-fx-background-color: #A4C3B2;"); //#F0F8FF
             this.setSpacing(15);
 
             // set a default style for buttons - background color, font size, italics
