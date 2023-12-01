@@ -52,7 +52,9 @@ public class LoginRequestHandler implements HttpHandler {
     private String handleGet(HttpExchange httpExchange) throws IOException {
         String response = "error";
         String username = httpExchange.getRequestURI().getQuery();
+        System.out.println(username);
         username = username.substring(username.indexOf("=") + 10, username.indexOf("&"));
+        
         if (mongoDB.readUser(username) != null) {
             ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
             System.out.println(gson.toJson(recipes));

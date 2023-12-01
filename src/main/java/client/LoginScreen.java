@@ -23,6 +23,7 @@ class LoginScreen extends BorderPane {
     private Button registerButton;
     private Text registrationText;
     private Text denyLoginText;
+    private Text usernameTakenText;
     private AppFrame appFrame;
     private Model model;
 
@@ -55,11 +56,15 @@ class LoginScreen extends BorderPane {
         denyLoginText.setStyle("-fx-fill: red;");
         denyLoginText.setVisible(false);
 
+        usernameTakenText = new Text("This username is taken. Try again...");
+        usernameTakenText.setStyle("-fx-fill: red;");
+        usernameTakenText.setVisible(false);
+
 
         // Configure layout of the BorderPane
         VBox vbox = new VBox(10); // spacing between components
         vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
-        loginButton, createAccountButton, registerButton, registrationText, denyLoginText);
+        loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText);
         vbox.setAlignment(Pos.CENTER);
 
         this.setCenter(vbox);
@@ -111,8 +116,15 @@ class LoginScreen extends BorderPane {
             String password = passwordField.getText();
             System.out.println(username);
             System.out.println(password);
-            model.sendSignupRequest(username, password);
-            // Use PauseTransition to hide the message after 0.5 seconds
+            if (model.sendSignupRequest(username, password).equals("error")) {
+                PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                pause.setOnFinished(event -> {
+                usernameTakenText.setVisible(false);
+            });
+            pause.play();
+            usernameTakenText.setVisible(false);
+            } else {
+                // Use PauseTransition to hide the message after 0.5 seconds
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(event -> {
                 registrationText.setVisible(false);
@@ -121,6 +133,8 @@ class LoginScreen extends BorderPane {
             });
             pause.play();
             registerButton.setVisible(false);
+            }
+            
             System.out.println("Register button clicked");
         });
     }

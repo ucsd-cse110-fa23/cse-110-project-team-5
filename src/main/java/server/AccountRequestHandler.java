@@ -53,8 +53,13 @@ public class AccountRequestHandler implements HttpHandler {
         System.out.println(password);
         // Store data in hashmap
         loginData.put(username, password);
-        mongoDB.createUser(username, password);
-        String response = "Posted login credentials {" + username + ", " + password + "}";
+        String response;
+        if (mongoDB.createUser(username, password)) {
+            response = "Posted login credentials {" + username + ", " + password + "}";
+        } else {
+            response = "registererror";
+        }
+        
         System.out.println(response);
         scanner.close();
 
