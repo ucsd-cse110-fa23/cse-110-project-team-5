@@ -49,8 +49,8 @@ public class AccountRequestHandler implements HttpHandler {
         Scanner scanner = new Scanner(inStream);
         String postData = scanner.nextLine();
         String username = postData.substring(postData.indexOf("=") + 1, postData.indexOf("&"));
-        String password = postData.substring(postData.indexOf("=", postData.indexOf("=") + 1), postData.length());
-
+        String password = postData.substring(postData.indexOf("=", postData.indexOf("=") + 1) + 1, postData.length());
+        System.out.println(password);
         // Store data in hashmap
         loginData.put(username, password);
         mongoDB.createUser(username, password);
