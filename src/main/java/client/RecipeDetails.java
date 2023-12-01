@@ -122,6 +122,7 @@ class RecipeDetails extends BorderPane {
         saveButton.setOnAction(e -> {
             // Create new Recipe Object based on newly created recipe details
             this.recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), this.getMealType());
+            System.out.println(this.recipe.getMealType());
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
