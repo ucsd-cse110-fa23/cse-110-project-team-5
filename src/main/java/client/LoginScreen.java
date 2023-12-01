@@ -23,10 +23,12 @@ class LoginScreen extends BorderPane {
     private Button registerButton;
     private Text registrationText;
     private AppFrame appFrame;
+    private Model model;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
         this.appFrame = appFrame;
+        model = new Model();
         // Initialize UI components
         Text loginText = new Text("Log In");
         loginText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
@@ -68,6 +70,7 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
+            model.sendLoginRequest(username, password);
             appFrame.showRecipeList();
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
@@ -85,7 +88,7 @@ class LoginScreen extends BorderPane {
         });
 
         registerButton.setOnAction(e -> {
-            Model model = new Model();
+           
             // Implement registration logic here
             // You can open a new window or navigate to another scene for registration
             registrationText.setVisible(true);
