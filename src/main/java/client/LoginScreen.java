@@ -22,6 +22,7 @@ class LoginScreen extends BorderPane {
     private Button createAccountButton;
     private Button registerButton;
     private Text registrationText;
+    private Text denyLoginText;
     private AppFrame appFrame;
     private Model model;
 
@@ -50,10 +51,15 @@ class LoginScreen extends BorderPane {
         registrationText.setStyle("-fx-fill: red;");
         registrationText.setVisible(false);
 
+        denyLoginText = new Text("The login details you entered are incorrect. Try again...");
+        denyLoginText.setStyle("-fx-fill: red;");
+        denyLoginText.setVisible(false);
+
+
         // Configure layout of the BorderPane
         VBox vbox = new VBox(10); // spacing between components
         vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
-        loginButton, createAccountButton, registerButton, registrationText);
+        loginButton, createAccountButton, registerButton, registrationText, denyLoginText);
         vbox.setAlignment(Pos.CENTER);
 
         this.setCenter(vbox);
@@ -70,8 +76,17 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
-            model.sendLoginRequest(username, password);
-            appFrame.showRecipeList();
+            if (model.sendLoginRequest(username, password).length() > 1) {
+                appFrame.showRecipeList();
+            } else {
+                PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                pause.setOnFinished(event -> {
+                denyLoginText.setVisible(false);
+            });
+            pause.play();
+            denyLoginText.setVisible(false);
+            }
+            
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
             // For now, let's just print the entered values
