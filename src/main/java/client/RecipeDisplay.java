@@ -27,8 +27,6 @@ class RecipeDisplay extends HBox {
         this.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-font-weight: bold; -fx-background-radius: 5;"); // Set background
                                                                                                      // color and style
         
-        
-
         // Create and configure the index label
         index = new Label();
         index.setText(""); // Initialize index label text
@@ -44,7 +42,6 @@ class RecipeDisplay extends HBox {
         mealTypeTag.setPadding(new Insets(10, 0, 10, 0));
         mealTypeTag.setEditable(false);
         mealTypeTag.setText(this.recipeDetails.getRecipe().getMealType());
-        //this.getChildren().add(mealTypeTag);
 
         // Create and configure the recipe name text area
         recipeName = new TextArea();
@@ -53,7 +50,6 @@ class RecipeDisplay extends HBox {
         recipeName.setWrapText(true); // Enable text wrapping
         recipeName.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-padding: 5 0 5 0; -fx-background-radius: 10; -fx-text-alignment: center; -fx-font-size: 14px;");
         recipeName.setEditable(false);
-        //this.getChildren().add(recipeName); // Add text area to the RecipeDisplay
 
         // Create and configure the "View Details" button
         detailButton = new Button("View Details");
@@ -73,7 +69,6 @@ class RecipeDisplay extends HBox {
                 }
             });
         });
-        //this.getChildren().add(detailButton); // Add "View Details" button to the RecipeDisplay
         HBox tagBox = new HBox(mealTypeTag);
         HBox nameBox = new HBox(recipeName);
         HBox detBox = new HBox(detailButton);
