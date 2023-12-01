@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
+import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
 // Window that shows newly created Recipes
@@ -151,6 +152,17 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
+            Stage shareStage = new Stage();
+            BorderPane sharePane = new BorderPane();
+            String url = "http://localhost:8100/";
+            // String link = url + "recipe?v=" + User.getUsername() + "," + recipe.getRecipeName();
+            String link = url + "recipe?v=" + "luffy" + "," + recipe.getRecipeName();
+            Text t = new Text("link: " + link);
+            t.setLayoutX(100);
+            t.setLayoutY(100);
+            sharePane.getChildren().add(t);
+
+            shareStage.show();
         });
     }
 
