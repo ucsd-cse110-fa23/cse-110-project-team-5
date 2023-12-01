@@ -72,6 +72,7 @@ public class RecipeRequestHandler implements HttpHandler {
                     res.put("recipe_name", recipe.getString("recipe_name"));
                     res.put("recipe_tag", recipe.getString("recipe_tag"));
                     res.put("recipe_details", recipe.getString("recipe_details"));
+                    res.put("creation_time", recipe.getString("creation_time"));
                     res.put("image", recipe.get("recipe_image_link"));
                 } catch (Exception e) {
                     response = "Error with chatgpt";
