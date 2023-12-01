@@ -26,26 +26,30 @@ class AppFrame extends BorderPane {
     private Button createButton;
     private Recorder recorder;
     private ServerError serverError;
+    private LoginScreen loginScreen;
 
     // Constructor for AppFrame
     AppFrame() {
         // Initialize UI components
-        this.header = new Header();
-        this.recipeList = new RecipeList();
-        this.footer = new Footer();
+        header = new Header();
+        recipeList = new RecipeList();
+        footer = new Footer();
 
-        this.recorder = new Recorder(recipeList);
+        loginScreen = new LoginScreen(this);
+        recorder = new Recorder(recipeList);
 
-        ScrollPane scrollPane = new ScrollPane(recipeList);
+        ScrollPane scrollPane = new ScrollPane(loginScreen);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Configure layout of the BorderPane
-        this.setTop(header);
-        this.setCenter(scrollPane);
-        this.setBottom(footer);
-
+        //this.setTop(header);
+        //this.setCenter(loginScreen);
+        //this.setBottom(footer);
+        showLoginScreen();
+        //showRecipeList();
+        
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -142,5 +146,15 @@ class AppFrame extends BorderPane {
                 recorder.showRecordingWindow();
             }
         });
+    }
+
+    public void showRecipeList() {
+        this.setTop(header);
+        this.setCenter(recipeList);
+        this.setBottom(footer);
+    }
+
+    public void showLoginScreen() {
+        this.setCenter(loginScreen);
     }
 }
