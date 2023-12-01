@@ -49,7 +49,7 @@ public class RecipeRequestHandler implements HttpHandler {
     }
 
     // Handle GET requests
-    private JSONObject handleGet(HttpExchange httpExchange) throws IOException {
+    private String handleGet(HttpExchange httpExchange) throws IOException {
         String response = "Invalid GET request";
         URI uri = httpExchange.getRequestURI();
         String query = uri.getRawQuery();
@@ -64,7 +64,6 @@ public class RecipeRequestHandler implements HttpHandler {
             String username = value.substring(0, value.indexOf(","));
             String recipeName = value.substring(value.indexOf(",") + 1).replaceAll("_", " ");
 
-
             if (username != null && recipeName != null) {
                 try {
                     // retrieve recipe data from database
@@ -73,7 +72,7 @@ public class RecipeRequestHandler implements HttpHandler {
                     res.put("recipe_name", recipe.getString("recipe_name"));
                     res.put("recipe_tag", recipe.getString("recipe_tag"));
                     res.put("recipe_details", recipe.getString("recipe_details"));
-                    res.put("image", recipe.get("recipe_image"));
+                    res.put("image", recipe.get("recipe_image_link"));
                 } catch (Exception e) {
                     response = "Error with chatgpt";
                 }
@@ -81,6 +80,6 @@ public class RecipeRequestHandler implements HttpHandler {
                 response = "No message query found";
             }
         }
-        return res;
+        return res.toString();
     }
 }
