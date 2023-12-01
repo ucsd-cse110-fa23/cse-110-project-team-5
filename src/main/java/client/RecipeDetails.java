@@ -22,8 +22,6 @@ class RecipeDetails extends BorderPane {
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
 
-    private MongoDB mongoDB = new MongoDB();
-
     RecipeDetails(RecipeList recipeList) {
         // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
@@ -127,15 +125,11 @@ class RecipeDetails extends BorderPane {
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
-            this.recipeList.getChildren().add(recipeDisplay);
+            this.recipeList.getChildren().add(0, recipeDisplay);
             this.recipeList.updateRecipeIndices();
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
-
-            mongoDB.createUser("bob", "1234");
-            mongoDB.createAndUpdateRecipe("bob", recipe.getRecipeName(), recipe.getMealType(), recipe.getDetails(), 0);
-
         });
 
         // Add button functionality for saveButton
@@ -157,7 +151,6 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
-            ShareRecipe shareRecipe = new ShareRecipe();
         });
     }
 
@@ -181,7 +174,6 @@ class RecipeDetails extends BorderPane {
         this.deleteButton.setDisable(false);
         this.saveChangesButton.setDisable(false);
         this.shareButton.setDisable(false);
-
     }
 
     public void disableSave() {

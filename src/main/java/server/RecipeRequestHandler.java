@@ -15,10 +15,12 @@ import org.json.JSONObject;
 public class RecipeRequestHandler implements HttpHandler {
     // HTTP client for making requests
     HttpClient client;
+    MongoDB db;
 
     // Constructor to initialize the handler with data
     public RecipeRequestHandler(Map<String, String> data) {
         this.client = HttpClient.newHttpClient();
+        db = new MongoDB();
     }
 
     // Handle incoming HTTP requests
@@ -67,7 +69,7 @@ public class RecipeRequestHandler implements HttpHandler {
                 try {
                     // retrieve recipe data from database
                     Document recipe;
-                    recipe = readRecipe(username, recipeName);
+                    recipe = db.readRecipe(username, recipeName);
                     res.put("recipe_name", recipe.getString("recipe_name"));
                     res.put("recipe_tag", recipe.getString("recipe_tag"));
                     res.put("recipe_details", recipe.getString("recipe_details"));

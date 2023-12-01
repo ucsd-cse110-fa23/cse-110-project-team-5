@@ -167,7 +167,7 @@ public class Recorder {
             // Start capturing audio data
             targetLine.start();
             // Create the output file where the audio data will be saved
-            String filePath = "voiceinstructions.wav";
+            String filePath = "src/main/java/voiceinstructions.wav";
             // "src" + File.separator + "main" + File.separator + "java" + File.separator +
             // "voiceinstructions.wav";
             outputFile = new File(filePath);
