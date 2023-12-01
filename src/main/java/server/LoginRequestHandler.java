@@ -52,8 +52,11 @@ public class LoginRequestHandler implements HttpHandler {
     private String handleGet(HttpExchange httpExchange) throws IOException {
         // String response = "Invalid GET request";
         String username = httpExchange.getRequestURI().getQuery();
+        username = username.substring(username.indexOf("=") + 10, username.indexOf("&"));
+
         // Add Luffy's readall method to get the recipe list
         ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
+        System.out.println(gson.toJson(recipes));
         return gson.toJson(recipes);
     }
 }
