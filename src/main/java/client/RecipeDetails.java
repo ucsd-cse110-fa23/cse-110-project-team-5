@@ -134,7 +134,7 @@ class RecipeDetails extends BorderPane {
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
-            this.model.sendPostRecipeRequest(User.getUsername(), new Recipe("name", "details", "tag"));
+            this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
         });
 
         // Add button functionality for saveButton
