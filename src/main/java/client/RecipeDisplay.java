@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Pos;
 
 // Represents the graphical display of a single recipe in the RecipeList
 class RecipeDisplay extends HBox {
@@ -22,8 +23,10 @@ class RecipeDisplay extends HBox {
     RecipeDisplay(RecipeDetails recipeDetails) {
         this.recipeDetails = recipeDetails;
         this.setPrefSize(500, 20); // Set size of the RecipeDisplay
-        this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // Set background
+        this.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-font-weight: bold; -fx-background-radius: 5;"); // Set background
                                                                                                      // color and style
+        
+        
 
         // Create and configure the index label
         index = new Label();
@@ -55,7 +58,7 @@ class RecipeDisplay extends HBox {
         detailButton = new Button("View Details");
         detailButton.setPrefSize(100, 20); // Set size of the button
         detailButton.setPrefHeight(Double.MAX_VALUE);
-        detailButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // Set style of the button
+        detailButton.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0;"); // Set style of the button
         detailButton.setOnAction(e -> { // Add button functionality to open RecipeDetails window
             RecipeDetails root = this.recipeDetails;
             Stage viewDetailStage = new Stage();
@@ -99,5 +102,9 @@ class RecipeDisplay extends HBox {
 
     public Recipe getRecipe() {
         return this.recipeDetails.getRecipe();
+    }
+
+    public String getTitle() {
+        return this.recipeName.getText();
     }
 }
