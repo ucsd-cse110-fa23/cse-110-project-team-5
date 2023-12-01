@@ -94,14 +94,16 @@ public class Model {
         }
     }
 
-    public String sendPostRecipeRequest(String username, String recipeName, String recipeTag, String recipeDetails) {
+    public String sendPostRecipeRequest(String username, Recipe recipe) {
         try {
+            System.out.println("SENDING POST REQUEST");
             String route = "loginUser";
             String method = "POST";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
-                    "&recipeName=" + URLEncoder.encode(recipeName, "UTF-8") + 
-                    "&recipeTag=" + URLEncoder.encode(recipeTag, "UTF-8") + 
-                    "&recipeDetails=" + URLEncoder.encode(recipeDetails, "UTF-8");
+                    "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8") + 
+                    "&Tag=" + URLEncoder.encode(recipe.getMealType(), "UTF-8") + 
+                    "&Details=" + URLEncoder.encode(recipe.getRecipeDetails(), "UTF-8") +
+                    "&Time=" + URLEncoder.encode(recipe.getTimeString(), "UTF-8");
             return performRequest(method, route, query);
 
         } catch (Exception e) {
