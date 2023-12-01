@@ -93,4 +93,20 @@ public class Model {
             return "Error: " + e.getMessage();
         }
     }
+
+    public String sendPostRecipeRequest(String username, String recipeName, String recipeTag, String recipeDetails) {
+        try {
+            String route = "loginUser";
+            String method = "POST";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8") +
+                    "&recipeName=" + URLEncoder.encode(recipeName, "UTF-8") + 
+                    "&recipeTag=" + URLEncoder.encode(recipeTag, "UTF-8") + 
+                    "&recipeDetails=" + URLEncoder.encode(recipeDetails, "UTF-8");
+            return performRequest(method, route, query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
 }

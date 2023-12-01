@@ -22,6 +22,8 @@ class RecipeDetails extends BorderPane {
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
 
+    private Model model;
+
     RecipeDetails(RecipeList recipeList) {
         // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
@@ -49,6 +51,8 @@ class RecipeDetails extends BorderPane {
         this.shareButton = footer.getShareButton();
         // Call Event Listeners for the Buttons
         addListeners();
+
+        this.model = new Model();
     }
 
     // ShowDetails Header
@@ -130,6 +134,7 @@ class RecipeDetails extends BorderPane {
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
+            this.model.
         });
 
         // Add button functionality for saveButton
