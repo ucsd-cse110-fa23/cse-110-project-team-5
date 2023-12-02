@@ -60,15 +60,13 @@ public class Model {
             return response; // content.toString();
         } catch (Exception ex) {
             // Handle exceptions by printing the stack trace and returning an error message
-            // ex.printStackTrace();
-            // return "Error: " + ex.getMessage();
             return "Error";
         }
     }
 
     public String sendSignupRequest(String username, String password) {
         try {
-            String route = "saveUser";
+            String route = "userInfo";
             String method = "POST";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
                     "&password=" + URLEncoder.encode(password, "UTF-8");
@@ -82,10 +80,23 @@ public class Model {
 
     public String sendLoginRequest(String username, String password) {
         try {
-            String route = "loginUser";
+            String route = "userInfo";
             String method = "GET";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
                     "&password=" + URLEncoder.encode(password, "UTF-8");
+            return performRequest(method, route, query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String sendRecipeRetrieveRequest(String username) {
+        try {
+            String route = "recipe";
+            String method = "GET";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8");
             return performRequest(method, route, query);
 
         } catch (Exception e) {
