@@ -8,12 +8,14 @@ import javafx.scene.control.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Pos;
 
 // Represents the graphical display of a single recipe in the RecipeList
 class RecipeDisplay extends HBox {
     // Instance variables
     private Label index;
     // private TextField recipeName;
+    private TextField mealTypeTag;
     private TextArea recipeName;
     private Button detailButton;
     private RecipeDetails recipeDetails;
@@ -25,8 +27,6 @@ class RecipeDisplay extends HBox {
         this.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-font-weight: bold; -fx-background-radius: 5;"); // Set background
                                                                                                      // color and style
         
-        
-
         // Create and configure the index label
         index = new Label();
         index.setText(""); // Initialize index label text
@@ -35,13 +35,21 @@ class RecipeDisplay extends HBox {
         index.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the recipe
         this.getChildren().add(index); // Add index label to the RecipeDisplay
 
+        // Create meal type tag
+        mealTypeTag = new TextField();
+        mealTypeTag.setPrefSize(100,20);
+        mealTypeTag.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;");
+        mealTypeTag.setPadding(new Insets(10, 0, 10, 0));
+        mealTypeTag.setEditable(false);
+        mealTypeTag.setText(this.recipeDetails.getRecipe().getMealType());
+
         // Create and configure the recipe name text area
         recipeName = new TextArea();
-        recipeName.setPrefSize(380, 40); // Set size of the text area
+        recipeName.setPrefSize(300, 40); // Set size of the text area
         recipeName.setEditable(false); // Make the text area non-editable
         recipeName.setWrapText(true); // Enable text wrapping
         recipeName.setStyle("-fx-background-color: #CCE3DE; -fx-border-width: 0; -fx-padding: 5 0 5 0; -fx-background-radius: 10; -fx-text-alignment: center; -fx-font-size: 14px;");
-        this.getChildren().add(recipeName); // Add text area to the RecipeDisplay
+        recipeName.setEditable(false);
 
         // Create and configure the "View Details" button
         detailButton = new Button("View Details");
@@ -61,7 +69,16 @@ class RecipeDisplay extends HBox {
                 }
             });
         });
-        this.getChildren().add(detailButton); // Add "View Details" button to the RecipeDisplay
+        HBox tagBox = new HBox(mealTypeTag);
+        HBox nameBox = new HBox(recipeName);
+        HBox detBox = new HBox(detailButton);
+        // Set alignments for elements
+        tagBox.setAlignment(Pos.CENTER_LEFT);
+        tagBox.setStyle("-fx-background-radius: 5;");
+        nameBox.setAlignment(Pos.CENTER);
+        detBox.setAlignment(Pos.CENTER_RIGHT);
+        // Add elements to the header
+        this.getChildren().addAll(tagBox, nameBox, detBox);
     }
 
     // Set Recipe Index and prompt text for the text field
