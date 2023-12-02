@@ -29,7 +29,7 @@ class ServerError {
         serverErrorStage.show();
     }
 
-    public boolean isAvailable() {
+    public boolean checkServerAvailability() {
         if ((this.model.performRequest("PUT", "gpt", "hello").equals("Error"))) {
             this.showErrorWindow();
             this.createButton.setDisable(true);

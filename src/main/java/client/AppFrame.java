@@ -14,7 +14,7 @@ class AppFrame extends BorderPane {
     private Footer footer;
     private RecipeList recipeList;
     private Button createButton;
-    private RecorderPage recorderPage;
+    private RecipePresenter recipePresenter;
     private ServerError serverError;
     private LoginScreen loginScreen;
 
@@ -45,7 +45,7 @@ class AppFrame extends BorderPane {
 
         // Check for Server Error
         this.serverError = new ServerError(this.createButton);
-        this.serverError.isAvailable();
+        this.serverError.checkServerAvailability();
     }
 
     // App Header
@@ -93,9 +93,8 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
-            if (this.serverError.isAvailable()) {
-                recorderPage = new RecorderPage(recipeList);
-                recorderPage.show();
+            if (this.serverError.checkServerAvailability()) {
+                recipePresenter = new RecipePresenter(recipeList);
             }
         });
     }

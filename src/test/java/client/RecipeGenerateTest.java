@@ -31,7 +31,7 @@ public class RecipeGenerateTest {
     @Test
     public void toggleRecord_ShouldStartRecording_WhenNotAlreadyRecording() {
         recorder.toggleRecord();
-        assertTrue(recorder.getIsRecording()); // Assert that recording is started
+        assertTrue(recorder.isRecording()); // Assert that recording is started
     }
 
     // Test case for toggling recording when already recording
@@ -39,7 +39,7 @@ public class RecipeGenerateTest {
     public void toggleRecord_ShouldStopRecording_WhenAlreadyRecording() {
         recorder.toggleRecord(); // Start recording
         recorder.toggleRecord(); // Stop recording
-        assertFalse(recorder.getIsRecording()); // Assert that recording is stopped
+        assertFalse(recorder.isRecording()); // Assert that recording is stopped
     }
 
     /*
