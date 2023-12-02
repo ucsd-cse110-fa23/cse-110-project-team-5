@@ -15,9 +15,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -51,11 +54,17 @@ public class Recorder {
     public void showRecordingWindow() {
         Stage recordingStage = new Stage();
         BorderPane recordingPane = new BorderPane();
+        recordingPane.setStyle("-fx-background-color: #A4C3B2;");
         instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
-        instructions.setLayoutX(130);
+        // instructions.setLayoutX(130);
         instructions.setLayoutY(60);
+        instructions.setTextAlignment(TextAlignment.CENTER);
+        instructions.setFont(new Font(24));
         recordingPane.getChildren().add(instructions);
         Button recordButton = new Button("Record");
+        recordButton.setFont(new Font("Arial", 16));
+        recordButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
+        recordButton.setPrefSize(100, 40); 
         Button ingredientButton = new Button("Record Ingredients");
         ingredientButton.setDisable(true);
         recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
