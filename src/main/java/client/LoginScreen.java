@@ -91,10 +91,10 @@ class LoginScreen extends BorderPane {
             pause.play();
             denyLoginText.setVisible(false);
             }
-            UserRecipes userTest = new UserRecipes();
-            System.out.println(userTest.getTitle(userTest.getResponse()));
-            System.out.println(userTest.getTag(userTest.getResponse()));
-            System.out.println(userTest.getDetails(userTest.getResponse()));
+            //UserRecipes userTest = new UserRecipes();
+            // System.out.println(userTest.getTitle(userTest.getResponse()));
+            // System.out.println(userTest.getTag(userTest.getResponse()));
+            // System.out.println(userTest.getDetails(userTest.getResponse()));
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
             // For now, let's just print the entered values

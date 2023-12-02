@@ -16,17 +16,18 @@ import java.util.Map;
 
 import org.bson.Document;
 
-public class LoginRequestHandler implements HttpHandler {
-    private Map<String, String> loginData;
+public class RecipeRequestHandler implements HttpHandler {
+    private Map<String, String> recipeData;
     private MongoDB mongoDB;
-    private Gson gson = new Gson();
+    private Gson gson;
 
-    public LoginRequestHandler(Map<String, String> loginData) {
-        this.loginData = loginData;
+    public RecipeRequestHandler(Map<String, String> data){
+        this.recipeData = data;
         this.mongoDB = new MongoDB();
+        this.gson = new Gson();
     }
 
-    @Override
+@Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request Received";
         String method = httpExchange.getRequestMethod();
@@ -49,7 +50,17 @@ public class LoginRequestHandler implements HttpHandler {
         outStream.close();
     }
 
-    public String handleGet(HttpExchange httpExchange) throws IOException{
-        return "";
+    private String handleGet(HttpExchange httpExchange) throws IOException {
+        String response = "error";
+        String username = httpExchange.getRequestURI().getQuery();
+        System.out.println(username);
+        username = username.substring(username.indexOf("=") + 10, username.indexOf("&"));
+        
+        if (mongoDB.readUser(username) != null) {
+            ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
+            System.out.println(gson.toJson(recipes));
+            return gson.toJson(recipes);
+        }
+        return response;        
     }
 }
