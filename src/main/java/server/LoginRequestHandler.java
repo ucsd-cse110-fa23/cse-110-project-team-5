@@ -50,18 +50,42 @@ public class LoginRequestHandler implements HttpHandler {
     }
 
     private String handleGet(HttpExchange httpExchange) throws IOException {
-        String response = "error";
-        String username = httpExchange.getRequestURI().getQuery();
-        System.out.println(username);
-        username = username.substring(username.indexOf("=") + 10, username.indexOf("&"));
-        
-        if (mongoDB.readUser(username) != null) {
-            ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
-            System.out.println(gson.toJson(recipes));
-            return gson.toJson(recipes);
+        String response = "loginerror";
+        String httpResponse = httpExchange.getRequestURI().getQuery();
+        String username = httpResponse.substring(httpResponse.indexOf("=") + 10, httpResponse.indexOf("&"));
+        //String password = httpResponse.substring(httpResponse.indexOf("&", httpResponse.indexOf("=") + 1) + 10, httpResponse.length());
+        //System.out.println("loginrequest password:" + password);
+        // if (mongoDB.readUser(username) != null) {
+        //     ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
+        //     System.out.println(gson.toJson(recipes));
+        //     return gson.toJson(recipes);
+        // }
+        Document user = mongoDB.readUser(username);
+        //System.out.println("user: " + user);
+        String document = user.toString();
+        String passwordKey = "password=";
+        int passwordStartIndex = document.indexOf(passwordKey);
+
+        if (passwordStartIndex != -1) {
+            // Move the start index to the start of the actual password, after "password="
+            passwordStartIndex += passwordKey.length();
+            
+            // Find the end of the password value, which is either a comma or a closing brace
+            int passwordEndIndex = document.indexOf(',', passwordStartIndex);
+            if (passwordEndIndex == -1) { // If there's no comma, the password ends before the closing brace
+                passwordEndIndex = document.indexOf('}', passwordStartIndex);
+            }
+            
+            // Extract the password
+            String password = document.substring(passwordStartIndex, passwordEndIndex);
+            System.out.println("loginrequest output:" + password); // Output: chu
+            return password;
+        } else {
+            System.out.println("Password field not found in the document");
+            return response;
         }
-        return response;
-        // Add Luffy's readall method to get the recipe list
-        
-    }
+                
+                // Add Luffy's readall method to get the recipe list
+                
+            }
 }
