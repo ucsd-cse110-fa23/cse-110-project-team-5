@@ -81,20 +81,15 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
-            if (!(model.sendLoginRequest(username, password).equals("error"))) {
+            String loginRequest = model.sendLoginRequest(username, password);
+            if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
+                //System.out.println("user given password: " + password);
+                denyLoginText.setVisible(false);
                 appFrame.showRecipeList();
             } else {
-                PauseTransition pause = new PauseTransition(Duration.seconds(3));
-                pause.setOnFinished(event -> {
-                denyLoginText.setVisible(false);
-            });
-            pause.play();
-            denyLoginText.setVisible(false);
+                denyLoginText.setVisible(true);
             }
-            //UserRecipes userTest = new UserRecipes();
-            // System.out.println(userTest.getTitle(userTest.getResponse()));
-            // System.out.println(userTest.getTag(userTest.getResponse()));
-            // System.out.println(userTest.getDetails(userTest.getResponse()));
+            
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
             // For now, let's just print the entered values
@@ -119,23 +114,18 @@ class LoginScreen extends BorderPane {
             String password = passwordField.getText();
             System.out.println(username);
             System.out.println(password);
-            if (model.sendSignupRequest(username, password).equals("error")) {
-                PauseTransition pause = new PauseTransition(Duration.seconds(3));
-                pause.setOnFinished(event -> {
-                usernameTakenText.setVisible(false);
-            });
-            pause.play();
-            usernameTakenText.setVisible(false);
-            } else {
-                // Use PauseTransition to hide the message after 0.5 seconds
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event -> {
+            if (model.sendSignupRequest(username, password).equals("registererror")) {
+                
+                usernameTakenText.setVisible(true);
                 registrationText.setVisible(false);
+                System.out.println("registererror");
+            } else {
+                usernameTakenText.setVisible(false);
+                registrationText.setVisible(true);
                 // Reset to original Log In screen
                 resetToOriginalState();
-            });
-            pause.play();
-            registerButton.setVisible(false);
+      
+           
             }
             
             System.out.println("Register button clicked");
@@ -149,6 +139,8 @@ class LoginScreen extends BorderPane {
         loginButton.setVisible(false);
         createAccountButton.setVisible(false);
         registerButton.setVisible(true);
+        usernameTakenText.setVisible(false);
+        registrationText.setVisible(false);
     }
 
     private void resetToOriginalState() {

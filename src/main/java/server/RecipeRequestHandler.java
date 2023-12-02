@@ -2,18 +2,13 @@ package server;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
+import java.util.Scanner;
 import org.bson.Document;
 
 public class RecipeRequestHandler implements HttpHandler {
@@ -21,20 +16,23 @@ public class RecipeRequestHandler implements HttpHandler {
     private MongoDB mongoDB;
     private Gson gson;
 
-    public RecipeRequestHandler(Map<String, String> data){
+    public RecipeRequestHandler(Map<String, String> data) {
         this.recipeData = data;
         this.mongoDB = new MongoDB();
         this.gson = new Gson();
     }
 
-@Override
+    @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request Received";
         String method = httpExchange.getRequestMethod();
-
         try {
             if (method.equals("GET")) {
                 response = handleGet(httpExchange);
+            } else if (method.equals("POST")) {
+                handlePost(httpExchange);
+            } else if (method.equals("DELETE")) {
+                handleDelete(httpExchange);
             } else {
                 throw new Exception("Not Valid Request Method");
             }
@@ -51,16 +49,19 @@ public class RecipeRequestHandler implements HttpHandler {
     }
 
     private String handleGet(HttpExchange httpExchange) throws IOException {
-        String response = "error";
-        String username = httpExchange.getRequestURI().getQuery();
-        System.out.println(username);
-        username = username.substring(username.indexOf("=") + 10, username.indexOf("&"));
-        
+        String query = httpExchange.getRequestURI().getQuery();
+        String username = query.substring(query.indexOf("username=") + 9, query.length());
         if (mongoDB.readUser(username) != null) {
             ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
-            System.out.println(gson.toJson(recipes));
+            System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();
             return gson.toJson(recipes);
         }
-        return response;        
+        return "ERROR";
+    }
+
+    private void handlePost(HttpExchange httpExchange) throws IOException {
+    }
+
+    private void handleDelete(HttpExchange httpExchange) throws IOException {
     }
 }
