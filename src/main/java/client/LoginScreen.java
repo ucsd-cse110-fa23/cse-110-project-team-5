@@ -26,7 +26,6 @@ class LoginScreen extends BorderPane {
     private Text usernameTakenText;
     private AppFrame appFrame;
     private Model model;
-    private LoadData loadData;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
@@ -86,8 +85,6 @@ class LoginScreen extends BorderPane {
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
                 denyLoginText.setVisible(false);
                 appFrame.showRecipeList();
-                loadData = new LoadData(username);
-                System.out.println(loadData.retrieveRecipes());
             } else {
                 denyLoginText.setVisible(true);
             }

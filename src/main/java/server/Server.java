@@ -31,7 +31,6 @@ public class Server {
     HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
     HttpContext accountContext = server.createContext("/userInfo", new AccountRequestHandler(data));
     HttpContext recipeContext = server.createContext("/recipe", new RecipeRequestHandler(data)); 
-
     HttpContext MockGptContext = server.createContext("/mockgpt", new MockGptRequestHandler(data));
     HttpContext MockwhisperContext = server.createContext("/mockwhisper", new MockWhisperRequestHandler(data));
 

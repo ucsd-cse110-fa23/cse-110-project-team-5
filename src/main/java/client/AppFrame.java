@@ -17,6 +17,7 @@ class AppFrame extends BorderPane {
     private Recorder recorder;
     private ServerError serverError;
     private LoginScreen loginScreen;
+    private LoadData loadData;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -101,6 +102,9 @@ class AppFrame extends BorderPane {
     }
 
     public void showRecipeList() {
+        loadData = new LoadData("luffy", recipeList);
+        loadData.retrieveRecipes();
+        loadData.populateRecipes();
         this.setTop(header);
         this.setCenter(recipeList);
         this.setBottom(footer);

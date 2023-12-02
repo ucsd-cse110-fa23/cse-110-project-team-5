@@ -1,6 +1,9 @@
 package server;
 
 import com.sun.net.httpserver.HttpHandler;
+
+import client.Recipe;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -53,7 +56,6 @@ public class RecipeRequestHandler implements HttpHandler {
         String username = query.substring(query.indexOf("username=") + 9, query.length());
         if (mongoDB.readUser(username) != null) {
             ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
-            System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();
             return gson.toJson(recipes);
         }
         return "ERROR";
