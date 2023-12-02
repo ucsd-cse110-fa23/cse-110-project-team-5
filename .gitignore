@@ -6,3 +6,6 @@ gradle/
 .vscode
 .DS_Store
 build.gradle
+settings.gradle
+gradlew
+gradlew.bat
