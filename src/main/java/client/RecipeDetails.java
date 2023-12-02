@@ -154,6 +154,14 @@ class RecipeDetails extends BorderPane {
         });
     }
 
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+    }
+
+    public void setRecipeDisplay(RecipeDisplay recipeDisplay){
+        this.recipeDisplay = recipeDisplay;
+    }
+
     // Set Title and Details of Details VBox
     public void setTitleAndDetails(String recipeString) {
         details.setTitle(details.extractTitle(recipeString));
@@ -194,5 +202,9 @@ class RecipeDetails extends BorderPane {
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public Details getDetails() {
+        return details;
     }
 }
