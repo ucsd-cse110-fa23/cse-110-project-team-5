@@ -54,18 +54,24 @@ public class Recorder {
     public void showRecordingWindow() {
         Stage recordingStage = new Stage();
         BorderPane recordingPane = new BorderPane();
+        Button titleBack = new Button();
         recordingPane.setStyle("-fx-background-color: #A4C3B2;");
         instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
         // instructions.setLayoutX(130);
         instructions.setLayoutY(60);
         instructions.setTextAlignment(TextAlignment.CENTER);
-        instructions.setFont(new Font(24));
+        instructions.setFont(new Font("Georgia", 24));
+        titleBack.setLayoutY(60);
+        titleBack.setStyle("-fx-background-color: white;");
         recordingPane.getChildren().add(instructions);
         Button recordButton = new Button("Record");
-        recordButton.setFont(new Font("Arial", 16));
+        recordButton.setFont(new Font("Georgia", 16));
         recordButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
         recordButton.setPrefSize(100, 40); 
         Button ingredientButton = new Button("Record Ingredients");
+        ingredientButton.setFont(new Font("Georgia", 16));
+        ingredientButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
+        ingredientButton.setPrefSize(200, 40); 
         ingredientButton.setDisable(true);
         recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
