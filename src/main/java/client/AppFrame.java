@@ -38,12 +38,12 @@ class AppFrame extends BorderPane {
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Configure layout of the BorderPane
-        //this.setTop(header);
-        //this.setCenter(loginScreen);
-        //this.setBottom(footer);
+        // this.setTop(header);
+        // this.setCenter(loginScreen);
+        // this.setBottom(footer);
         showLoginScreen();
-        //showRecipeList();
-        
+        // showRecipeList();
+
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -59,29 +59,39 @@ class AppFrame extends BorderPane {
         private Sort sorter;
 
         private ComboBox<String> filter;
+
         // Constructor for Header
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #A4C3B2;");
-            // Add "Sort By" Dropdown
+            // Add Dropdowns
             sort = new ComboBox<>();
             sort.setPromptText("Sort By");
             sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
-            HBox.setMargin(sort, new Insets(0,10,0,10));
+            HBox.setMargin(sort, new Insets(0, 10, 0, 10));
+            filter = new ComboBox<>();
+            filter.setPromptText("Filter Recipes");
+            filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All");
+            HBox.setMargin(filter, new Insets(0, 10, 0, 10));
             // Add "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             // Create containers for elements
             HBox titleBox = new HBox(titleText);
+            HBox filterBox = new HBox(filter);
             HBox sortBox = new HBox(sort);
             // Set alignments for elements
             titleBox.setAlignment(Pos.CENTER);
             sortBox.setAlignment(Pos.CENTER_LEFT);
             sort.setStyle("-fx-background-radius: 5;");
+            filterBox.setAlignment(Pos.CENTER_RIGHT);
+            filter.setStyle("-fx-background-radius: 5;");
             // Add elements to the header
-            this.getChildren().addAll(sortBox, titleBox);
+            this.getChildren().addAll(sortBox, titleBox, filterBox);
             HBox.setHgrow(titleBox, Priority.ALWAYS);
             this.sorter = new Sort();
+            Filter filt = new Filter();
+
             // Add sort option functionality
             sort.setOnAction(e -> {
                 String selectedOption = sort.getSelectionModel().getSelectedItem();
@@ -103,33 +113,15 @@ class AppFrame extends BorderPane {
                     sorter.sortZA(recipeList);
                 }
             });
-            // Add "Filter Recipes" Dropdown
-            filter = new ComboBox<>();
-            filter.setPromptText("Filter Recipes");
-            filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All");
-            HBox.setMargin(filter, new Insets(0,10,0,10));
-            // Create containers for elements
-            HBox filterBox = new HBox(filter);
-            // Set alignments for elements
-            filterBox.setAlignment(Pos.CENTER_RIGHT);
-            filter.setStyle("-fx-background-radius: 5;");
-            titleBox.setAlignment(Pos.CENTER);
-            // Add elements to the header
-            this.getChildren().addAll(titleBox, filterBox);
-            HBox.setHgrow(titleBox, Priority.ALWAYS);
-            Filter filt = new Filter();
             filter.setOnAction(e -> {
                 String selectedOption = filter.getSelectionModel().getSelectedItem();
                 if (selectedOption == "Breakfast") {
                     filt.filter(recipeList, "Breakfast");
-                }
-                else if (selectedOption == "Lunch") {
+                } else if (selectedOption == "Lunch") {
                     filt.filter(recipeList, "Lunch");
-                }
-                else if (selectedOption == "Dinner") {
+                } else if (selectedOption == "Dinner") {
                     filt.filter(recipeList, "Dinner");
-                }
-                else if (selectedOption == "All") {
+                } else if (selectedOption == "All") {
                     filt.filter(recipeList, "All");
                 }
             });
@@ -144,7 +136,7 @@ class AppFrame extends BorderPane {
         // Constructor for Footer
         Footer() {
             this.setPrefSize(500, 60);
-            this.setStyle("-fx-background-color: #A4C3B2;"); //#F0F8FF
+            this.setStyle("-fx-background-color: #A4C3B2;"); // #F0F8FF
             this.setSpacing(15);
 
             // set a default style for buttons - background color, font size, italics
