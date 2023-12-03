@@ -21,18 +21,6 @@ public class Recipe {
         this.time = LocalDateTime.now();
     }
 
-    public String getRecipeName() {
-        return this.recipeName;
-    }
-
-    public String getMealType() {
-        return this.mealType;
-    }
-
-    public String getRecipeDetails() {
-        return this.recipeDetails;
-    }
-
     public String getTimeString(){
         return this.time.toString();
     }
@@ -56,5 +44,16 @@ public class Recipe {
     public boolean isMarkedDone() {
         return this.isDone;
     }
-}
 
+    public String getRecipeName() {
+        return this.recipeName;
+    }
+
+    public String getRecipeDetails() {
+        return this.recipeDetails;
+    }
+
+    public String getMealType() {
+        return this.mealType;
+    }
+}

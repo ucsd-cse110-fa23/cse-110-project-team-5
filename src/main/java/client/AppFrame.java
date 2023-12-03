@@ -1,11 +1,5 @@
 package client;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -27,6 +21,7 @@ class AppFrame extends BorderPane {
     private Recorder recorder;
     private ServerError serverError;
     private LoginScreen loginScreen;
+    private LoadData loadData;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -149,6 +144,9 @@ class AppFrame extends BorderPane {
     }
 
     public void showRecipeList() {
+        loadData = new LoadData("luffy", recipeList);
+        loadData.retrieveRecipes();
+        loadData.populateRecipes();
         this.setTop(header);
         this.setCenter(recipeList);
         this.setBottom(footer);

@@ -153,10 +153,19 @@ class RecipeDetails extends BorderPane {
             this.saveChangesButton.setDisable(true);
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
+            this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
         });
 
         shareButton.setOnAction(e -> {
         });
+    }
+
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+    }
+
+    public void setRecipeDisplay(RecipeDisplay recipeDisplay){
+        this.recipeDisplay = recipeDisplay;
     }
 
     // Set Title and Details of Details VBox
@@ -199,5 +208,9 @@ class RecipeDetails extends BorderPane {
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public Details getDetails() {
+        return details;
     }
 }

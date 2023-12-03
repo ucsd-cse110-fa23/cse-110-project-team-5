@@ -52,12 +52,17 @@ public class AccountRequestHandler implements HttpHandler {
         // System.out.println(httpExchange.getRequestURI().getQuery());
         // System.out.println(postData);
         String username = postData.substring(postData.indexOf("=") + 1, postData.indexOf("&"));
-        String password = postData.substring(postData.indexOf("=", postData.indexOf("=") + 1), postData.length());
-
+        String password = postData.substring(postData.indexOf("=", postData.indexOf("=") + 1) + 1, postData.length());
+        System.out.println(password);
         // Store data in hashmap
         loginData.put(username, password);
-        mongoDB.createUser(username, password);
-        String response = "Posted login credentials {" + username + ", " + password + "}";
+        String response;
+        if (mongoDB.createUser(username, password)) {
+            response = "Posted login credentials {" + username + ", " + password + "}";
+        } else {
+            response = "registererror";
+        }
+
         System.out.println(response);
         scanner.close();
 
@@ -65,23 +70,32 @@ public class AccountRequestHandler implements HttpHandler {
     }
 
     private String handleGet(HttpExchange httpExchange) throws IOException {
-        String response = "Invalid GET request";
-        // Assuming the query parameter is the username
-        String username = httpExchange.getRequestURI().getQuery();
-        String password = loginData.get(username);
+        String response = "loginerror";
+        String httpResponse = httpExchange.getRequestURI().getQuery();
+        String username = httpResponse.substring(httpResponse.indexOf("username=") + 9, httpResponse.indexOf("&"));
         Document user = mongoDB.readUser(username);
-        if (user != null) {
-            response = "Retrieved login credentials for " + username + ": " + password;
+        String document = user.toString();
+        String passwordKey = "password=";
+        int passwordStartIndex = document.indexOf(passwordKey);
+
+        if (passwordStartIndex != -1) {
+            // Move the start index to the start of the actual password, after "password="
+            passwordStartIndex += passwordKey.length();
+
+            // Find the end of the password value, which is either a comma or a closing
+            // brace
+            int passwordEndIndex = document.indexOf(',', passwordStartIndex);
+            if (passwordEndIndex == -1) { // If there's no comma, the password ends before the closing brace
+                passwordEndIndex = document.indexOf('}', passwordStartIndex);
+            }
+
+            // Extract the password
+            String password = document.substring(passwordStartIndex, passwordEndIndex);
+            System.out.println("loginrequest output:" + password); // Output: chu
+            return password;
         } else {
-            response = "No login credentials found for " + username;
+            System.out.println("Password field not found in the document");
+            return response;
         }
-        // if (username != null && loginData.containsKey(username)) {
-        // // String password = loginData.get(username);
-        // response = "Retrieved login credentials for " + username + ": " + password;
-        // System.out.println(response);
-        // } else {
-        // response = "No login credentials found for " + username;
-        // }
-        return response;
     }
 }

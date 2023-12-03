@@ -22,12 +22,16 @@ class LoginScreen extends BorderPane {
     private Button createAccountButton;
     private Button registerButton;
     private Text registrationText;
+    private Text denyLoginText;
+    private Text usernameTakenText;
     private AppFrame appFrame;
+    private Model model;
     static User user;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
         this.appFrame = appFrame;
+        model = new Model();
         // Initialize UI components
         Text loginText = new Text("Log In");
         loginText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
@@ -49,10 +53,19 @@ class LoginScreen extends BorderPane {
         registrationText.setStyle("-fx-fill: red;");
         registrationText.setVisible(false);
 
+        denyLoginText = new Text("The login details you entered are incorrect. Try again...");
+        denyLoginText.setStyle("-fx-fill: red;");
+        denyLoginText.setVisible(false);
+
+        usernameTakenText = new Text("This username is taken. Try again...");
+        usernameTakenText.setStyle("-fx-fill: red;");
+        usernameTakenText.setVisible(false);
+
+
         // Configure layout of the BorderPane
         VBox vbox = new VBox(10); // spacing between components
         vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
-        loginButton, createAccountButton, registerButton, registrationText);
+        loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText);
         vbox.setAlignment(Pos.CENTER);
 
         this.setCenter(vbox);
@@ -70,7 +83,14 @@ class LoginScreen extends BorderPane {
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
             user = new User(username, password);
-            appFrame.showRecipeList();
+            String loginRequest = model.sendLoginRequest(username, password);
+            if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
+                denyLoginText.setVisible(false);
+                appFrame.showRecipeList();
+            } else {
+                denyLoginText.setVisible(true);
+            }
+            
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
             // For now, let's just print the entered values
@@ -87,7 +107,7 @@ class LoginScreen extends BorderPane {
         });
 
         registerButton.setOnAction(e -> {
-            Model model = new Model();
+           
             // Implement registration logic here
             // You can open a new window or navigate to another scene for registration
             registrationText.setVisible(true);
@@ -95,16 +115,16 @@ class LoginScreen extends BorderPane {
             String password = passwordField.getText();
             System.out.println(username);
             System.out.println(password);
-            model.sendSignupRequest(username, password);
-            // Use PauseTransition to hide the message after 0.5 seconds
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event -> {
+            if (model.sendSignupRequest(username, password).equals("registererror")) { 
+                usernameTakenText.setVisible(true);
                 registrationText.setVisible(false);
+                System.out.println("registererror");
+            } else {
+                usernameTakenText.setVisible(false);
+                registrationText.setVisible(true);
                 // Reset to original Log In screen
                 resetToOriginalState();
-            });
-            pause.play();
-            registerButton.setVisible(false);
+            }
             System.out.println("Register button clicked");
         });
     }
@@ -116,6 +136,8 @@ class LoginScreen extends BorderPane {
         loginButton.setVisible(false);
         createAccountButton.setVisible(false);
         registerButton.setVisible(true);
+        usernameTakenText.setVisible(false);
+        registrationText.setVisible(false);
     }
 
     private void resetToOriginalState() {
