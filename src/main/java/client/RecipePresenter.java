@@ -24,10 +24,10 @@ public class RecipePresenter {
     public void notify(String newRecipe) {
         this.mealType = recorderPresenter.getMealType();
         this.ingredients = recorderPresenter.getIngredients();
-        generateRecipe(newRecipe);
+        displayNewRecipe(newRecipe);
     }
 
-    private void generateRecipe(String newRecipe) {
+    private void displayNewRecipe(String newRecipe) {
         RecipeDetails recipeDetails = new RecipeDetails(recipeList);
         recipeDetails.setTitleAndDetails(newRecipe);
         recipeDetails.setMealtype(this.mealType);
