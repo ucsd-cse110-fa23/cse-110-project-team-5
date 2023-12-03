@@ -7,8 +7,10 @@ public class Filter {
                 RecipeDisplay currentRecipe = (RecipeDisplay) recipeList.getChildren().get(i);
                 if (mealtype.equals("All") || currentRecipe.getRecipe().getMealType().equals(mealtype)) {
                     currentRecipe.setVisible(true);
+                    currentRecipe.setManaged(true);
                 } else {
                     currentRecipe.setVisible(false);
+                    currentRecipe.setManaged(false);
                 }
             }
         }
