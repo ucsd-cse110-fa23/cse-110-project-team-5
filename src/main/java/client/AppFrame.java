@@ -2,6 +2,7 @@ package client;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javafx.geometry.Insets;
@@ -38,7 +39,7 @@ class AppFrame extends BorderPane {
         String savedUser = "";
         try(BufferedReader reader = new BufferedReader(new FileReader("user_login.txt"))) {
             String line = reader.readLine();
-            if(line.length() > 0 && line != null) {
+            if(line != null) {
                 isRemembered = true;
                 savedUser = line;
             }
@@ -178,6 +179,11 @@ class AppFrame extends BorderPane {
             this.setTop(null); // Remove the header
             this.setCenter(loginScreen); // Set the center to the login screen
             this.setBottom(null); // Remove the footer
+            try (FileWriter writer = new FileWriter("user_login.txt")) {
+                writer.write(""); 
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
     }
 
