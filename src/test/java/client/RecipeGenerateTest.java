@@ -1,4 +1,5 @@
 package client;
+
 // Import necessary classes for the test
 import org.junit.jupiter.api.Test;
 import mock.MockModel;
@@ -10,13 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 // Test class for RecipeGenerate functionality
 public class RecipeGenerateTest {
     // Instances of RecipeGenerate, MockModel, and MockServer for testing
+    Recorder recorder;
     RecipeGenerate recipeGen;
     MockModel model;
     MockServer server;
+    RecipeList recipeList;
 
     // Set up method to initialize objects before each test
     @BeforeEach
     public void setUp() {
+        recipeList = new RecipeList();
+        recorder = new Recorder();
         recipeGen = new RecipeGenerate();
         model = new MockModel();
         server = new MockServer();
@@ -25,16 +30,16 @@ public class RecipeGenerateTest {
     // Test case for toggling recording when not already recording
     @Test
     public void toggleRecord_ShouldStartRecording_WhenNotAlreadyRecording() {
-        recipeGen.toggleRecord();
-        assertTrue(recipeGen.isRecording); // Assert that recording is started
+        recorder.toggleRecord();
+        assertTrue(recorder.isRecording()); // Assert that recording is started
     }
 
     // Test case for toggling recording when already recording
     @Test
     public void toggleRecord_ShouldStopRecording_WhenAlreadyRecording() {
-        recipeGen.toggleRecord(); // Start recording
-        recipeGen.toggleRecord(); // Stop recording
-        assertFalse(recipeGen.isRecording); // Assert that recording is stopped
+        recorder.toggleRecord(); // Start recording
+        recorder.toggleRecord(); // Stop recording
+        assertFalse(recorder.isRecording()); // Assert that recording is stopped
     }
 
     /*
@@ -66,7 +71,7 @@ public class RecipeGenerateTest {
     public void testNoMealType() {
         // Invoke the method to retrieve voice command response for a scenario without
         // specifying a meal type
-        String input = recipeGen.retrieveVoiceCommandResponse("ingredientstest.wav");
-        // Assert that the
+        String input = recorder.retrieveVoiceCommandResponse("ingredientstest.wav");
+        // Assert
     }
 }

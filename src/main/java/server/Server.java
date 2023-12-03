@@ -1,7 +1,5 @@
 package server;
-
 import com.sun.net.httpserver.*;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -28,10 +26,11 @@ public class Server {
 
     // Define and create contexts for different endpoints, associating them with
     // their respective request handlers
-    // Example: HttpContext recipeContext = server.createContext("/recipe", new
-    // RequestHandler(data));
+    // Example: HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
     HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
     HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
+    HttpContext accountContext = server.createContext("/userInfo", new AccountRequestHandler(data));
+    HttpContext recipeContext = server.createContext("/recipe", new RecipeRequestHandler(data));
     HttpContext DallEContext = server.createContext("/dalle", new DallERequestHandler(data));
 
     HttpContext MockGptContext = server.createContext("/mockgpt", new MockGptRequestHandler(data));

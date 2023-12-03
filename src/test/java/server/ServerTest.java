@@ -15,7 +15,7 @@ public class ServerTest {
 
     // Set up method to initialize objects before each test
     @BeforeEach
-    void setUp() {
+    void setup() {
         model = new MockModel();
         server = new MockServer();
     }
@@ -35,6 +35,13 @@ public class ServerTest {
         // Perform a Whisper request and check the response
         String response = model.performRequest("GET", "whisper", "voiceinstructions.wav");
         final String correctResponse = "breakfast";
+        assertEquals(response, correctResponse); // Assert that the response matches the expected value
+    }
+    @Test
+    public void AccountCreationTest() {
+        // Perform a GPT request and check the response
+        String response = model.performRequest("POST", "saveUser", "username=kevinyan&password=testing");
+        final String correctResponse = "Account created for kevinyan";
         assertEquals(response, correctResponse); // Assert that the response matches the expected value
     }
 }
