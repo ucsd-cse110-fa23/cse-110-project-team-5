@@ -69,8 +69,8 @@ public class RecorderPresenter {
             if (newRecipe.equals("NO INPUT")) {
                 recorderPage.setInstructions("Please Repeat Ingredients");
             } else {
-                recipePresenter.notify(newRecipe);
-                // recordingStage.close();
+                recipePresenter.notifyRecorder(newRecipe);
+                recordingStage.close();
             }
         }
     }

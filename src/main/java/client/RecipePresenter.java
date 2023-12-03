@@ -15,13 +15,16 @@ public class RecipePresenter {
 
     RecipeGenerate recipeGenerate;
 
+    Scene scene;
+    Stage recipeDetailStage;
+
     RecipePresenter(RecipeList recipeList) {
         this.recipeList = recipeList;
         this.recorderPresenter = new RecorderPresenter(this);
         this.recipeGenerate = new RecipeGenerate();
     }
 
-    public void notify(String newRecipe) {
+    public void notifyRecorder(String newRecipe) {
         this.mealType = recorderPresenter.getMealType();
         this.ingredients = recorderPresenter.getIngredients();
         displayNewRecipe(newRecipe);
@@ -29,12 +32,13 @@ public class RecipePresenter {
 
     private void displayNewRecipe(String newRecipe) {
         RecipeDetails recipeDetails = new RecipeDetails(recipeList);
+        recipeDetails.register(this);
         recipeDetails.setTitleAndDetails(newRecipe);
         recipeDetails.setMealtype(this.mealType);
-        Scene scene = new Scene(recipeDetails);
+        scene = new Scene(recipeDetails);
         scene.setRoot(recipeDetails);
-        // Stage recipeDetailStage = new Stage();
-        Stage recipeDetailStage = recorderPresenter.getStage();
+        
+        recipeDetailStage = new Stage();
         recipeDetailStage.setScene(scene);
         recipeDetailStage.show();
         recipeDetailStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -43,5 +47,18 @@ public class RecipePresenter {
                 recipeDetailStage.close();
             }
         });
+    }
+
+    // @require recipeDetailStage != null
+    public void notifyRegenerate() {
+        recipeDetailStage.close();
+        String newRecipe = recipeGenerate.fetchGeneratedRecipe(this.ingredients, this.mealType);
+        displayNewRecipe(newRecipe);
+    }
+    
+    // @require recipeDetailStage != null
+    public void notifySave() {
+        scene.setRoot(new BorderPane());
+        recipeDetailStage.close();
     }
 }

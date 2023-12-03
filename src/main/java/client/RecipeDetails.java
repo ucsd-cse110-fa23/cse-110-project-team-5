@@ -144,6 +144,9 @@ class RecipeDetails extends BorderPane {
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
+
+            this.footer.getChildren().remove(this.regenerateButton);
+            notifySave();
         });
 
         // Add button functionality for saveButton
@@ -168,7 +171,7 @@ class RecipeDetails extends BorderPane {
         });
 
         regenerateButton.setOnAction(e -> {
-
+            notifyRegenerate();
         });
     }
 
@@ -196,6 +199,20 @@ class RecipeDetails extends BorderPane {
 
     public void disableSave() {
         this.saveButton.setDisable(true);
+    }
+
+    public void register(RecipePresenter recipePresenter) {
+        obs.add(recipePresenter);
+    }
+
+    public void notifyRegenerate() {
+        for (RecipePresenter ob : obs)
+            ob.notifyRegenerate();
+    }
+
+    public void notifySave() {
+        for (RecipePresenter ob : obs)
+            ob.notifySave();
     }
 
     public String getRecipeTitle() {
