@@ -28,4 +28,9 @@ class RecipeList extends VBox {
                 && ((RecipeDisplay) recipeDisplay).getRecipe().isMarkedDone());
         this.updateRecipeIndices(); // Update recipe indices after removal
     }
+
+    public void removeAll() {
+        this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay);
+        this.updateRecipeIndices();
+    }
 }

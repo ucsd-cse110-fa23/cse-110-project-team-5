@@ -18,6 +18,7 @@ class AppFrame extends BorderPane {
     private Footer footer;
     private RecipeList recipeList;
     private Button createButton;
+    private Button logoutButton;
     private RecipePresenter recipePresenter;
     private ServerError serverError;
     private LoginScreen loginScreen;
@@ -76,6 +77,11 @@ class AppFrame extends BorderPane {
             // Create containers for elements
             HBox sortBox = new HBox(sort);
             HBox titleBox = new HBox(titleText);
+
+            logoutButton = new Button("Logout");
+            logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white;"); // Styling the logout button
+            HBox.setMargin(logoutButton, new Insets(0,10,0,10));
+            this.getChildren().add(logoutButton); // Add logout button to the header
             // Set alignments for elements
             sortBox.setAlignment(Pos.CENTER_LEFT);
             sort.setStyle("-fx-background-radius: 5;");
@@ -105,6 +111,10 @@ class AppFrame extends BorderPane {
                     sorter.sortZA(recipeList);
                 }
             });
+        }
+
+        public Button getLogoutButton() {
+            return logoutButton;
         }
     }
 
@@ -142,6 +152,13 @@ class AppFrame extends BorderPane {
             if (this.serverError.checkServerAvailability()) {
                 recipePresenter = new RecipePresenter(recipeList);
             }
+        });
+
+        header.getLogoutButton().setOnAction(e -> {
+            this.recipeList.removeAll();
+            this.setTop(null); // Remove the header
+            this.setCenter(loginScreen); // Set the center to the login screen
+            this.setBottom(null); // Remove the footer
         });
     }
 
