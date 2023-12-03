@@ -1,5 +1,6 @@
 package client;
 
+import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -9,6 +10,10 @@ import javafx.scene.layout.HBox;
 
 // Window that shows newly created Recipes
 class RecipeDetails extends BorderPane {
+    private ArrayList<RecipePresenter> obs;
+    private RecipeList recipeList;
+    private Recipe recipe;
+    
     private Header header;
     private Footer footer;
     private Details details;
@@ -18,17 +23,17 @@ class RecipeDetails extends BorderPane {
     private Button deleteButton;
     private Button shareButton;
 
-    private RecipeList recipeList;
     private RecipeDisplay recipeDisplay;
-    private Recipe recipe;
 
-    RecipeDetails(RecipeList recipeList) {
+    RecipeDetails(RecipeList recipeList, Recipe recipe) {
+        obs = new ArrayList<>();
         // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
+        this.recipe = recipe;
         // Initialise the header Object
         header = new Header();
         // Create a details Object to hold the recipe details
-        details = new Details();
+        details = new Details(recipe);
         // Initialise the Footer Object
         footer = new Footer();
         // Initialise ScrollPane Object
@@ -125,8 +130,7 @@ class RecipeDetails extends BorderPane {
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
-            this.recipeList.getChildren().add(recipeDisplay);
-            this.recipeList.updateRecipeIndices();
+            notifySave(recipeDisplay);
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
@@ -154,14 +158,13 @@ class RecipeDetails extends BorderPane {
         });
     }
 
-    // Set Title and Details of Details VBox
-    public void setTitleAndDetails(String recipeString) {
-        details.setTitle(details.extractTitle(recipeString));
-        details.setDetails(details.extractDetails(recipeString));
+    public void register(RecipePresenter recipePresenter) {
+        this.obs.add(recipePresenter);
     }
 
-    public void setMealtype(String mealType) {
-        details.setMealType(mealType);
+    public void notifySave(RecipeDisplay recipeDisplay) {
+        for (RecipePresenter ob: obs)
+            ob.notifySave(recipeDisplay);
     }
 
     // Method to update title and details from a given recipe

@@ -8,33 +8,35 @@ import javafx.stage.WindowEvent;
 
 public class RecipePresenter {
     private RecipeList recipeList;
-
+    RecipeGenerate recipeGenerate;
     private RecorderPresenter recorderPresenter;
+
     private String mealType;
     private String ingredients;
 
-    RecipeGenerate recipeGenerate;
+    Stage recipeDetailStage;
+    Scene scene;
 
     RecipePresenter(RecipeList recipeList) {
         this.recipeList = recipeList;
-        this.recorderPresenter = new RecorderPresenter(this);
         this.recipeGenerate = new RecipeGenerate();
+        this.recorderPresenter = new RecorderPresenter(this);
+
+        recipeDetailStage = new Stage();
     }
 
-    public void notify(String newRecipe) {
+    public void notifyRecorder(String newRecipe) {
         this.mealType = recorderPresenter.getMealType();
         this.ingredients = recorderPresenter.getIngredients();
-        generateRecipe(newRecipe);
+        displayNewRecipe(newRecipe);
     }
 
-    private void generateRecipe(String newRecipe) {
-        RecipeDetails recipeDetails = new RecipeDetails(recipeList);
-        recipeDetails.setTitleAndDetails(newRecipe);
-        recipeDetails.setMealtype(this.mealType);
-        Scene scene = new Scene(recipeDetails);
-        scene.setRoot(recipeDetails);
-        // Stage recipeDetailStage = new Stage();
-        Stage recipeDetailStage = recorderPresenter.getStage();
+    private void displayNewRecipe(String newRecipe) {
+        RecipeDetails recipeDetails = new RecipeDetails(recipeList, new Recipe(newRecipe, this.mealType));
+        recipeDetails.register(this);
+
+        scene = new Scene(recipeDetails);
+        
         recipeDetailStage.setScene(scene);
         recipeDetailStage.show();
         recipeDetailStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -43,5 +45,16 @@ public class RecipePresenter {
                 recipeDetailStage.close();
             }
         });
+    }
+
+    public void notifySave(RecipeDisplay recipeDisplay) {
+        scene = new Scene(new BorderPane());
+        recipeDetailStage.close();
+        recipeList.addRecipe(recipeDisplay);
+    }
+
+    public void notifyRegenerate() {
+        String newRecipe = recipeGenerate.fetchGeneratedRecipe(this.ingredients, this.mealType);
+        displayNewRecipe(newRecipe);
     }
 }

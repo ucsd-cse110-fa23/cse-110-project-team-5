@@ -12,7 +12,7 @@ class Details extends VBox {
     private TextArea details;
 
     // Constructor for Details class
-    Details() {
+    Details(Recipe recipe) {
         // Set up the VBox properties
         this.setPrefSize(500, 500);
         this.setStyle("-fx-background-color: #F0F8FF;");
@@ -25,6 +25,7 @@ class Details extends VBox {
         title.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
         title.setWrapText(true); // Enable text wrapping
         title.setEditable(false);
+        title.setText(recipe.getRecipeName());
         this.getChildren().add(title); // Add title TextArea to the VBox
 
         // Create and configure title TextArea
@@ -35,6 +36,7 @@ class Details extends VBox {
         mealType.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
         mealType.setWrapText(true); // Enable text wrapping
         mealType.setEditable(false);
+        mealType.setText(recipe.getMealType());
         this.getChildren().add(mealType); // Add title TextArea to the VBox
 
         // Set up the TextArea for the details
@@ -47,20 +49,8 @@ class Details extends VBox {
         details.setEditable(false);
         details.prefWidthProperty().bind(this.widthProperty()); // Make details TextArea match the width of the VBox
         details.prefHeightProperty().bind(this.heightProperty()); // Make details TextArea match the height of the VBox
+        details.setText(recipe.getRecipeDetails());
         this.getChildren().add(details); // Add details TextArea to the VBox
-    }
-
-    // Method to extract the title from a given recipe string
-    public String extractTitle(String recipeString) {
-        System.out.println(recipeString);
-        int firstNewlineInd = recipeString.indexOf("\n");
-        return recipeString.substring(0, firstNewlineInd);
-    }
-
-    // Method to extract the details from a given recipe string
-    public String extractDetails(String recipeString) {
-        int firstNewlineInd = recipeString.indexOf("\n");
-        return recipeString.substring(firstNewlineInd + 1, recipeString.length());
     }
 
     public void makeTextEditable() {

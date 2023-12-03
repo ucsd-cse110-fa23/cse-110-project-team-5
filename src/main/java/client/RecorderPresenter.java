@@ -15,8 +15,6 @@ public class RecorderPresenter {
     private String ingredients;
 
     private RecipeGenerate recipeGenerate;
-    
-    Stage recordingStage;
 
     RecorderPresenter(RecipePresenter recipePresenter) {
         this.recipePresenter = recipePresenter;
@@ -24,17 +22,6 @@ public class RecorderPresenter {
         this.recorderPage = new RecorderPage(this);
         this.recorder = new Recorder();
         this.recipeGenerate = new RecipeGenerate();
-
-        recordingStage = new Stage();
-        recordingStage.setScene(recorderPage.getScene());
-        recordingStage.setTitle("Recording Window");
-        recordingStage.show();
-        // Stops recording when the window is closed
-        recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                stopRecording();
-            }
-        });
     }
 
     public void notifyMealType() {
@@ -69,8 +56,8 @@ public class RecorderPresenter {
             if (newRecipe.equals("NO INPUT")) {
                 recorderPage.setInstructions("Please Repeat Ingredients");
             } else {
-                recipePresenter.notify(newRecipe);
-                // recordingStage.close();
+                recipePresenter.notifyRecorder(newRecipe);
+                recorderPage.close();
             }
         }
     }
@@ -99,9 +86,5 @@ public class RecorderPresenter {
 
     public String getIngredients() {
         return this.ingredients;
-    }
-
-    public Stage getStage() {
-        return this.recordingStage;
     }
 }

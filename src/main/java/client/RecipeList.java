@@ -22,6 +22,11 @@ class RecipeList extends VBox {
         }
     }
 
+    public void addRecipe(RecipeDisplay recipeDisplay) {
+        this.getChildren().add(0, recipeDisplay);
+        updateRecipeIndices();
+    }
+
     // Removes Recipes from the Recipe List
     public void removeRecipe() {
         this.getChildren().removeIf(recipeDisplay -> recipeDisplay instanceof RecipeDisplay
