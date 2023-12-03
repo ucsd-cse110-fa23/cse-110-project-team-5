@@ -19,7 +19,7 @@ public class RecipeTest {
     public void setUp() {
         // Initialize recipeList as null and create a new Recipe instance
         recipeList = null;
-        recipe = new Recipe("Recipe Name", "Recipe Details", "Meal Type");
+        recipe = new Recipe("Recipe Name", "Meal Type", "Recipe Details");
     }
 
     // Test case for getting the recipe name
@@ -74,7 +74,7 @@ public class RecipeTest {
         String name = "Beef Curry";
         String details = "Make beef curry with carrots";
         String mealtype = "lunch";
-        Recipe recipeToEdit = new Recipe(name, details, mealtype);
+        Recipe recipeToEdit = new Recipe(name, mealtype, details);
         assertEquals(name, recipeToEdit.getRecipeName()); // Assert that the retrieved name matches the expected value
         assertEquals(details, recipeToEdit.getRecipeDetails()); // Assert that the retrieved details match the expected
                                                                 // value

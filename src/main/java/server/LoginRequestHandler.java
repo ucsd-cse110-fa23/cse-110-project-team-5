@@ -2,17 +2,13 @@ package server;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.bson.Document;
 
@@ -34,6 +30,8 @@ public class LoginRequestHandler implements HttpHandler {
         try {
             if (method.equals("GET")) {
                 response = handleGet(httpExchange);
+            } else if (method.equals("POST")) {
+                handlePost(httpExchange);
             } else {
                 throw new Exception("Not Valid Request Method");
             }
@@ -55,5 +53,19 @@ public class LoginRequestHandler implements HttpHandler {
         // Add Luffy's readall method to get the recipe list
         ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
         return gson.toJson(recipes);
+    }
+
+    private void handlePost(HttpExchange httpExchange) throws IOException {
+        InputStream inStream = httpExchange.getRequestBody();
+        Scanner scanner = new Scanner(inStream);
+        String query = scanner.nextLine();
+
+        String username = query.substring(query.indexOf("username=") + 9, query.indexOf("&"));
+        String recipeName = query.substring(query.indexOf("Name=") + 5, query.indexOf("&", query.indexOf("&") + 1));
+        String recipeTag = query.substring(query.indexOf("Tag=") + 4, query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1));
+        String recipeDetails = query.substring(query.indexOf("Details=") + 8, query.indexOf("&", query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1) + 1));
+        String creationTime = query.substring(query.indexOf("Time=") + 5, query.length());
+
+        mongoDB.createAndUpdateRecipe(username, recipeName, recipeTag, recipeDetails, creationTime);
     }
 }

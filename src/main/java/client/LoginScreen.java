@@ -23,6 +23,7 @@ class LoginScreen extends BorderPane {
     private Button registerButton;
     private Text registrationText;
     private AppFrame appFrame;
+    static User user;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
@@ -68,6 +69,7 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
+            user = new User(username, password);
             appFrame.showRecipeList();
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
