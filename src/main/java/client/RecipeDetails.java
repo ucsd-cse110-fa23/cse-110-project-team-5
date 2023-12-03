@@ -1,5 +1,6 @@
 package client;
 
+import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -9,6 +10,8 @@ import javafx.scene.layout.HBox;
 
 // Window that shows newly created Recipes
 class RecipeDetails extends BorderPane {
+    private ArrayList<RecipePresenter> obs;
+
     private Header header;
     private Footer footer;
     private Details details;
@@ -17,6 +20,7 @@ class RecipeDetails extends BorderPane {
     private Button saveChangesButton;
     private Button deleteButton;
     private Button shareButton;
+    private Button regenerateButton;
 
     private RecipeList recipeList;
     private RecipeDisplay recipeDisplay;
@@ -25,6 +29,7 @@ class RecipeDetails extends BorderPane {
     private Model model;
 
     RecipeDetails(RecipeList recipeList) {
+        this.obs = new ArrayList<>();
         // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
         // Initialise the header Object
@@ -49,6 +54,7 @@ class RecipeDetails extends BorderPane {
         this.saveChangesButton = footer.getSaveChangesButton();
         this.deleteButton = footer.getDeleteButton();
         this.shareButton = footer.getShareButton();
+        this.regenerateButton = footer.getRegenerateButton();
         // Call Event Listeners for the Buttons
         addListeners();
 
@@ -74,6 +80,7 @@ class RecipeDetails extends BorderPane {
         private Button saveChangesButton;
         private Button deleteButton;
         private Button shareButton;
+        private Button regenerateButton;
 
         Footer() {
             this.setPrefSize(500, 60);
@@ -99,8 +106,11 @@ class RecipeDetails extends BorderPane {
             shareButton.setStyle(defaultButtonStyle); // Styling the delete button
             shareButton.setDisable(true);
 
-            this.getChildren().addAll(saveButton, saveChangesButton, deleteButton, shareButton); // adding buttons to
-                                                                                                 // footer
+            regenerateButton = new Button("Regenerate Recipe");
+            regenerateButton.setStyle(defaultButtonStyle);
+            regenerateButton.setDisable(false);
+
+            this.getChildren().addAll(saveButton, saveChangesButton, deleteButton, shareButton, regenerateButton);
             this.setAlignment(Pos.CENTER); // aligning the buttons to center
         }
 
@@ -119,6 +129,10 @@ class RecipeDetails extends BorderPane {
         public Button getShareButton() {
             return this.shareButton;
         }
+
+        public Button getRegenerateButton() {
+            return this.regenerateButton;
+        }
     }
 
     public void addListeners() {
@@ -134,6 +148,9 @@ class RecipeDetails extends BorderPane {
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
+
+            this.disableRegenerate();
+            this.notifySave();
             this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
         });
 
@@ -157,6 +174,10 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
+        });
+
+        regenerateButton.setOnAction(e -> {
+            notifyRegenerate();
         });
     }
 
@@ -191,7 +212,25 @@ class RecipeDetails extends BorderPane {
     }
 
     public void disableSave() {
-        this.saveButton.setDisable(true);
+        this.footer.getChildren().remove(this.saveButton);
+    }
+
+    public void disableRegenerate() {
+        this.footer.getChildren().remove(this.regenerateButton);
+    }
+
+    public void register(RecipePresenter recipePresenter) {
+        obs.add(recipePresenter);
+    }
+
+    public void notifyRegenerate() {
+        for (RecipePresenter ob : obs)
+            ob.notifyRegenerate();
+    }
+
+    public void notifySave() {
+        for (RecipePresenter ob : obs)
+            ob.notifySave();
     }
 
     public String getRecipeTitle() {

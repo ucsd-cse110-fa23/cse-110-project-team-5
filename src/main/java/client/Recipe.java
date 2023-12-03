@@ -17,8 +17,15 @@ public class Recipe {
         this.recipeName = recipeName;
         this.mealType = mealType;
         this.recipeDetails = recipeDetails;
-        this.isDone = false; // By default, a recipe is not marked as done 
+        this.mealType = mealType;
         this.time = LocalDateTime.now();
+        this.isDone = false; // By default, a recipe is not marked as done
+    }
+    public Recipe(String recipe, String mealType) {
+        parseRecipe(recipe);
+        this.mealType = mealType;
+        this.time = LocalDateTime.now();
+        this.isDone = false; // By default, a recipe is not marked as done
     }
 
     public String getTimeString(){
@@ -43,6 +50,12 @@ public class Recipe {
 
     public boolean isMarkedDone() {
         return this.isDone;
+    }
+
+    private void parseRecipe(String recipe) {
+        int firstNewlineIndex = recipe.indexOf("\n");
+        this.recipeName = recipe.substring(0, firstNewlineIndex);
+        this.recipeDetails = recipe.substring(firstNewlineIndex + 1);
     }
 
     public String getRecipeName() {

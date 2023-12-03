@@ -18,7 +18,7 @@ class AppFrame extends BorderPane {
     private Footer footer;
     private RecipeList recipeList;
     private Button createButton;
-    private Recorder recorder;
+    private RecipePresenter recipePresenter;
     private ServerError serverError;
     private LoginScreen loginScreen;
     private LoadData loadData;
@@ -31,7 +31,6 @@ class AppFrame extends BorderPane {
         footer = new Footer();
 
         loginScreen = new LoginScreen(this);
-        recorder = new Recorder(recipeList);
 
         ScrollPane scrollPane = new ScrollPane(loginScreen);
         scrollPane.setFitToWidth(true);
@@ -138,7 +137,7 @@ class AppFrame extends BorderPane {
         // Add button functionality
         createButton.setOnAction(e -> {
             if (this.serverError.checkServerAvailability()) {
-                recorder.showRecordingWindow();
+                recipePresenter = new RecipePresenter(recipeList);
             }
         });
     }
