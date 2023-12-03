@@ -153,6 +153,7 @@ class RecipeDetails extends BorderPane {
             this.saveChangesButton.setDisable(true);
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
+            this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
         });
 
         shareButton.setOnAction(e -> {

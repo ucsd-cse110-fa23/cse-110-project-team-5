@@ -1,21 +1,15 @@
 package server;
 
 import com.sun.net.httpserver.HttpHandler;
-
-import client.Recipe;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
-<<<<<<< HEAD:src/main/java/server/RecipeRequestHandler.java
-=======
-
->>>>>>> 9be8a5133fdd6e002a3af37e8e10a3275027a2ed:src/main/java/server/LoginRequestHandler.java
 import org.bson.Document;
 
 public class RecipeRequestHandler implements HttpHandler {
@@ -38,11 +32,8 @@ public class RecipeRequestHandler implements HttpHandler {
                 response = handleGet(httpExchange);
             } else if (method.equals("POST")) {
                 handlePost(httpExchange);
-<<<<<<< HEAD:src/main/java/server/RecipeRequestHandler.java
             } else if (method.equals("DELETE")) {
                 handleDelete(httpExchange);
-=======
->>>>>>> 9be8a5133fdd6e002a3af37e8e10a3275027a2ed:src/main/java/server/LoginRequestHandler.java
             } else {
                 throw new Exception("Not Valid Request Method");
             }
@@ -79,15 +70,15 @@ public class RecipeRequestHandler implements HttpHandler {
         String recipeDetails = query.substring(query.indexOf("Details=") + 8, query.indexOf("&", query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1) + 1));
         String creationTime = query.substring(query.indexOf("Time=") + 5, query.length());
 
-        mongoDB.createAndUpdateRecipe(username, recipeName, recipeTag, recipeDetails, creationTime);
+        mongoDB.createAndUpdateRecipe(URLDecoder.decode(username, "UTF-8"), URLDecoder.decode(recipeName, "UTF-8"), URLDecoder.decode(recipeTag, "UTF-8"), URLDecoder.decode(recipeDetails, "UTF-8"), URLDecoder.decode(creationTime, "UTF-8"));
     }
-<<<<<<< HEAD:src/main/java/server/RecipeRequestHandler.java
-    
 
     private void handleDelete(HttpExchange httpExchange) throws IOException {
+        String query = httpExchange.getRequestURI().getQuery();
+        
+        String username = query.substring(query.indexOf("username=") + 9, query.indexOf("&"));
+        String recipeName = query.substring(query.indexOf("Name=") + 5, query.length());
+
+        mongoDB.deleteRecipe(URLDecoder.decode(username, "UTF-8"), URLDecoder.decode(recipeName, "UTF-8"));
     }
 }
-=======
-        
-
->>>>>>> 9be8a5133fdd6e002a3af37e8e10a3275027a2ed:src/main/java/server/LoginRequestHandler.java

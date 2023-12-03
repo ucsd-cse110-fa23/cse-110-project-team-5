@@ -33,8 +33,8 @@ public class LoadData {
 
             Recipe recipe = new Recipe(name, tag, details);
             RecipeDetails recipeDetails = new RecipeDetails(recipeList);
-            RecipeDisplay recipeDisplay = new RecipeDisplay(recipeDetails);
             recipeDetails.setRecipe(recipe);
+            RecipeDisplay recipeDisplay = new RecipeDisplay(recipeDetails);
             recipeDetails.setRecipeDisplay(recipeDisplay);
             recipeDetails.updateTitleAndDetails(recipe);
             recipeDetails.setMealtype(tag);

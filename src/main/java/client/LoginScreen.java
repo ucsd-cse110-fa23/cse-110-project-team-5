@@ -115,8 +115,7 @@ class LoginScreen extends BorderPane {
             String password = passwordField.getText();
             System.out.println(username);
             System.out.println(password);
-            if (model.sendSignupRequest(username, password).equals("registererror")) {
-                
+            if (model.sendSignupRequest(username, password).equals("registererror")) { 
                 usernameTakenText.setVisible(true);
                 registrationText.setVisible(false);
                 System.out.println("registererror");
@@ -125,10 +124,7 @@ class LoginScreen extends BorderPane {
                 registrationText.setVisible(true);
                 // Reset to original Log In screen
                 resetToOriginalState();
-      
-           
             }
-            
             System.out.println("Register button clicked");
         });
     }

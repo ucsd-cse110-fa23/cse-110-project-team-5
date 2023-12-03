@@ -95,11 +95,11 @@ public class Model {
     public String sendPostRecipeRequest(String username, Recipe recipe) {
         try {
             System.out.println("SENDING POST REQUEST");
-            String route = "loginUser";
+            String route = "recipe";
             String method = "POST";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
-                    "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8") + 
-                    "&Tag=" + URLEncoder.encode(recipe.getMealType(), "UTF-8") + 
+                    "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8") +
+                    "&Tag=" + URLEncoder.encode(recipe.getMealType(), "UTF-8") +
                     "&Details=" + URLEncoder.encode(recipe.getRecipeDetails(), "UTF-8") +
                     "&Time=" + URLEncoder.encode(recipe.getTimeString(), "UTF-8");
             return performRequest(method, route, query);
@@ -117,6 +117,20 @@ public class Model {
             String query = "username=" + URLEncoder.encode(username, "UTF-8");
             return performRequest(method, route, query);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String sendRecipeDeleteRequest(String username, Recipe recipe) {
+        try {
+            String route = "recipe";
+            String method = "DELETE";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8") +
+                    "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8");
+            return performRequest(method, route, query);
+            
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
