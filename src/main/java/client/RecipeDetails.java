@@ -1,6 +1,7 @@
 package client;
 
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +23,8 @@ class RecipeDetails extends BorderPane {
     private RecipeList recipeList;
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
+
+    private Share share;
 
     RecipeDetails(RecipeList recipeList) {
         // Recipe List to add newly created Recipe Object to
@@ -152,17 +155,21 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
+            // this.share = new Share(User.getUsername(), recipe.getRecipeName());
+            this.share = new Share("temp username", "temp recipe name");
+            Share root = this.share;
             Stage shareStage = new Stage();
-            BorderPane sharePane = new BorderPane();
-            String url = "http://localhost:8100/";
-            // String link = url + "recipe?v=" + User.getUsername() + "," + recipe.getRecipeName();
-            String link = url + "recipe?v=" + "luffy" + "," + recipe.getRecipeName();
-            Text t = new Text("link: " + link);
-            t.setLayoutX(100);
-            t.setLayoutY(100);
-            sharePane.getChildren().add(t);
+
+            Scene viewShareScene = new Scene(root, 500, 600);
+            shareStage.setScene(viewShareScene);
 
             shareStage.show();
+
+            // RecipeList root = this.recipeList;
+            // Stage shareStage = new Stage();
+            // Scene viewShareScene = new Scene(root, 500, 600);
+            // shareStage.setScene(viewShareScene);
+            // shareStage.show();
         });
     }
 
