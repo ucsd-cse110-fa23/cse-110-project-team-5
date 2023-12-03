@@ -41,7 +41,7 @@ class AppFrame extends BorderPane {
         //this.setTop(header);
         //this.setCenter(loginScreen);
         //this.setBottom(footer);
-        showLoginScreen();
+        //showLoginScreen();
         //showRecipeList();
         
         // Initialize and configure button
@@ -50,7 +50,10 @@ class AppFrame extends BorderPane {
 
         // Check for Server Error
         this.serverError = new ServerError(this.createButton);
-        this.serverError.checkServerAvailability();
+
+        if (this.serverError.checkServerAvailability()) {
+            showLoginScreen();
+        }
     }
 
     // App Header
