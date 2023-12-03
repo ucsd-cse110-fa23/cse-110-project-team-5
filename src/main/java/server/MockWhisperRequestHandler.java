@@ -61,8 +61,6 @@ public class MockWhisperRequestHandler implements HttpHandler {
                 // Check if the file exists and provide a default response for testing
                 File file = new File(value);
                 response = "default response for testing";
-            } else {
-                response = "No message query found";
             }
         }
         return response;

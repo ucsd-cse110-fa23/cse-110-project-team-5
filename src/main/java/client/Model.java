@@ -60,15 +60,13 @@ public class Model {
             return response; // content.toString();
         } catch (Exception ex) {
             // Handle exceptions by printing the stack trace and returning an error message
-            // ex.printStackTrace();
-            // return "Error: " + ex.getMessage();
             return "Error";
         }
     }
 
     public String sendSignupRequest(String username, String password) {
         try {
-            String route = "saveUser";
+            String route = "userInfo";
             String method = "POST";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
                     "&password=" + URLEncoder.encode(password, "UTF-8");
@@ -82,12 +80,57 @@ public class Model {
 
     public String sendLoginRequest(String username, String password) {
         try {
-            String route = "loginUser";
+            String route = "userInfo";
             String method = "GET";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
                     "&password=" + URLEncoder.encode(password, "UTF-8");
             return performRequest(method, route, query);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String sendPostRecipeRequest(String username, Recipe recipe) {
+        try {
+            System.out.println("SENDING POST REQUEST");
+            String route = "recipe";
+            String method = "POST";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8") +
+                    "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8") +
+                    "&Tag=" + URLEncoder.encode(recipe.getMealType(), "UTF-8") +
+                    "&Details=" + URLEncoder.encode(recipe.getRecipeDetails(), "UTF-8") +
+                    "&Time=" + URLEncoder.encode(recipe.getTimeString(), "UTF-8");
+            return performRequest(method, route, query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String sendRecipeRetrieveRequest(String username) {
+        try {
+            String route = "recipe";
+            String method = "GET";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8");
+            return performRequest(method, route, query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String sendRecipeDeleteRequest(String username, Recipe recipe) {
+        try {
+            String route = "recipe";
+            String method = "DELETE";
+            String query = "username=" + URLEncoder.encode(username, "UTF-8") +
+                    "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8");
+            return performRequest(method, route, query);
+            
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();

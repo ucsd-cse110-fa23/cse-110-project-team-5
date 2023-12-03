@@ -26,6 +26,8 @@ class RecipeDetails extends BorderPane {
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
 
+    private Model model;
+
     RecipeDetails(RecipeList recipeList) {
         this.obs = new ArrayList<>();
         // Recipe List to add newly created Recipe Object to
@@ -55,6 +57,8 @@ class RecipeDetails extends BorderPane {
         this.regenerateButton = footer.getRegenerateButton();
         // Call Event Listeners for the Buttons
         addListeners();
+
+        this.model = new Model();
     }
 
     // ShowDetails Header
@@ -135,11 +139,11 @@ class RecipeDetails extends BorderPane {
         // Add button functionality
         saveButton.setOnAction(e -> {
             // Create new Recipe Object based on newly created recipe details
-            this.recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), this.getMealType());
+            this.recipe = new Recipe(this.getRecipeTitle(), this.getMealType(), this.getRecipeDetails());
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
-            this.recipeList.getChildren().add(recipeDisplay);
+            this.recipeList.getChildren().add(0, recipeDisplay);
             this.recipeList.updateRecipeIndices();
             this.enableDeleteAndEditAndShare();
             this.disableSave();
@@ -147,6 +151,7 @@ class RecipeDetails extends BorderPane {
 
             this.footer.getChildren().remove(this.regenerateButton);
             notifySave();
+            this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
         });
 
         // Add button functionality for saveButton
@@ -165,6 +170,7 @@ class RecipeDetails extends BorderPane {
             this.saveChangesButton.setDisable(true);
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
+            this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
         });
 
         shareButton.setOnAction(e -> {
@@ -173,6 +179,14 @@ class RecipeDetails extends BorderPane {
         regenerateButton.setOnAction(e -> {
             notifyRegenerate();
         });
+    }
+
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+    }
+
+    public void setRecipeDisplay(RecipeDisplay recipeDisplay){
+        this.recipeDisplay = recipeDisplay;
     }
 
     // Set Title and Details of Details VBox
@@ -229,5 +243,9 @@ class RecipeDetails extends BorderPane {
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public Details getDetails() {
+        return details;
     }
 }
