@@ -143,7 +143,7 @@ class AppFrame extends BorderPane {
     }
 
     public void showRecipeList() {
-        loadData = new LoadData("luffy", recipeList);
+        loadData = new LoadData(User.getUsername(), recipeList);
         loadData.retrieveRecipes();
         loadData.populateRecipes();
         this.setTop(header);

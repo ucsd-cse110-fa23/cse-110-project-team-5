@@ -178,8 +178,8 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
-            // this.share = new Share(User.getUsername(), recipe.getRecipeName());
-            this.share = new Share("temp username", "temp recipe name");
+            this.share = new Share(User.getUsername(), recipe.getRecipeName());
+            // this.share = new Share("temp username", "temp recipe name");
             Share root = this.share;
             Stage shareStage = new Stage();
 
