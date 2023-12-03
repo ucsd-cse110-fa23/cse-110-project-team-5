@@ -18,11 +18,13 @@ public class Recipe {
         this.mealType = mealType;
         this.recipeDetails = recipeDetails;
         this.mealType = mealType;
+        this.time = LocalDateTime.now();
         this.isDone = false; // By default, a recipe is not marked as done
     }
     public Recipe(String recipe, String mealType) {
         parseRecipe(recipe);
         this.mealType = mealType;
+        this.time = LocalDateTime.now();
         this.isDone = false; // By default, a recipe is not marked as done
     }
 

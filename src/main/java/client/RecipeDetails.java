@@ -149,8 +149,8 @@ class RecipeDetails extends BorderPane {
             this.disableSave();
             this.details.makeTextEditable();
 
-            this.footer.getChildren().remove(this.regenerateButton);
-            notifySave();
+            this.disableRegenerate();
+            this.notifySave();
             this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
         });
 
@@ -212,7 +212,11 @@ class RecipeDetails extends BorderPane {
     }
 
     public void disableSave() {
-        this.saveButton.setDisable(true);
+        this.footer.getChildren().remove(this.saveButton);
+    }
+
+    public void disableRegenerate() {
+        this.footer.getChildren().remove(this.regenerateButton);
     }
 
     public void register(RecipePresenter recipePresenter) {

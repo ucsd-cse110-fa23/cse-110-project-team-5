@@ -40,6 +40,7 @@ public class LoadData {
             recipeDetails.setMealtype(tag);
             recipeDetails.enableDeleteAndEditAndShare();
             recipeDetails.disableSave();
+            recipeDetails.disableRegenerate();
             recipeDetails.getDetails().makeTextEditable();
             recipeDisplay.setRecipeDisplayName(recipe);
             recipeList.getChildren().add(recipeDisplay);
