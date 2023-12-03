@@ -8,7 +8,7 @@ import javafx.geometry.Insets;
 class Details extends VBox {
     // Declare instance variables
     private TextArea title;
-    private TextArea mealType;
+    private TextField mealType;
     private TextArea details;
 
     // Constructor for Details class
@@ -28,12 +28,11 @@ class Details extends VBox {
         this.getChildren().add(title); // Add title TextArea to the VBox
 
         // Create and configure title TextArea
-        mealType = new TextArea();
-        mealType.setPrefSize(475, 20); // Set size of the title text field
+        mealType = new TextField();
+        mealType.setPrefSize(100, 20); // Set size of the title text field
         mealType.setStyle(
                 "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
-        mealType.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
-        mealType.setWrapText(true); // Enable text wrapping
+        mealType.setPadding(new Insets(10, 0, 10, 20)); // Add padding to the title text field
         mealType.setEditable(false);
         this.getChildren().add(mealType); // Add title TextArea to the VBox
 

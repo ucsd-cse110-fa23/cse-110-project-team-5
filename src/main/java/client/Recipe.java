@@ -13,24 +13,23 @@ public class Recipe {
 
     // Constructor to create a Recipe object with its name, details, and the
     // RecipeList that will hold it
-    public Recipe(String recipeName, String recipeDetails, String mealType) {
+    public Recipe(String recipeName, String mealType, String recipeDetails) {
         this.recipeName = recipeName;
+        this.mealType = mealType;
         this.recipeDetails = recipeDetails;
         this.mealType = mealType;
-        this.isDone = false; // By default, a recipe is not marked as done 
         this.time = LocalDateTime.now();
+        this.isDone = false; // By default, a recipe is not marked as done
+    }
+    public Recipe(String recipe, String mealType) {
+        parseRecipe(recipe);
+        this.mealType = mealType;
+        this.time = LocalDateTime.now();
+        this.isDone = false; // By default, a recipe is not marked as done
     }
 
-    public String getRecipeName() {
-        return this.recipeName;
-    }
-
-    public String getRecipeDetails() {
-        return this.recipeDetails;
-    }
-
-    public String getMealType() {
-        return this.mealType;
+    public String getTimeString(){
+        return this.time.toString();
     }
 
     public LocalDateTime getTime() {
@@ -52,5 +51,22 @@ public class Recipe {
     public boolean isMarkedDone() {
         return this.isDone;
     }
-}
 
+    private void parseRecipe(String recipe) {
+        int firstNewlineIndex = recipe.indexOf("\n");
+        this.recipeName = recipe.substring(0, firstNewlineIndex);
+        this.recipeDetails = recipe.substring(firstNewlineIndex + 1);
+    }
+
+    public String getRecipeName() {
+        return this.recipeName;
+    }
+
+    public String getRecipeDetails() {
+        return this.recipeDetails;
+    }
+
+    public String getMealType() {
+        return this.mealType;
+    }
+}

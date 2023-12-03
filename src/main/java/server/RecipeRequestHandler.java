@@ -1,37 +1,39 @@
 package server;
-import com.sun.net.httpserver.*;
-import java.io.*;
-import java.net.*;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.*;
 
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpExchange;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Scanner;
 import org.bson.Document;
-import org.bson.json.JsonObject;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class RecipeRequestHandler implements HttpHandler {
-    // HTTP client for making requests
-    HttpClient client;
-    MongoDB db;
+    private Map<String, String> recipeData;
+    private MongoDB mongoDB;
+    private Gson gson;
 
-    // Constructor to initialize the handler with data
     public RecipeRequestHandler(Map<String, String> data) {
-        this.client = HttpClient.newHttpClient();
-        db = new MongoDB();
+        this.recipeData = data;
+        this.mongoDB = new MongoDB();
+        this.gson = new Gson();
     }
 
-    // Handle incoming HTTP requests
+    @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Request Received";
         String method = httpExchange.getRequestMethod();
-
         try {
-            // Check the request method
             if (method.equals("GET")) {
-                response = handleGet(httpExchange).toString();
+                response = handleGet(httpExchange);
+            } else if (method.equals("POST")) {
+                handlePost(httpExchange);
+            } else if (method.equals("DELETE")) {
+                handleDelete(httpExchange);
             } else {
                 throw new Exception("Not Valid Request Method");
             }
@@ -40,47 +42,43 @@ public class RecipeRequestHandler implements HttpHandler {
             response = e.toString();
             e.printStackTrace();
         }
-
-        // Send the HTTP response
-        httpExchange.sendResponseHeaders(200, response.length());
+        byte[] responseByte = response.getBytes();
+        httpExchange.sendResponseHeaders(200, responseByte.length);
         OutputStream outStream = httpExchange.getResponseBody();
-        outStream.write(response.getBytes());
+        outStream.write(responseByte);
         outStream.close();
     }
 
-    // Handle GET requests
     private String handleGet(HttpExchange httpExchange) throws IOException {
-        String response = "Invalid GET request";
-        URI uri = httpExchange.getRequestURI();
-        String query = uri.getRawQuery();
-
-        JSONObject res = new JSONObject();
-
-        // Parse the query parameters
-        if (query != null) {
-            String value = query.substring(query.indexOf("=") + 1);
-            
-            // Extract tokens and message from the query
-            String username = value.substring(0, value.indexOf(","));
-            String recipeName = value.substring(value.indexOf(",") + 1).replaceAll("_", " ");
-
-            if (username != null && recipeName != null) {
-                try {
-                    // retrieve recipe data from database
-                    Document recipe;
-                    recipe = db.readRecipe(username, recipeName);
-                    res.put("recipe_name", recipe.getString("recipe_name"));
-                    res.put("recipe_tag", recipe.getString("recipe_tag"));
-                    res.put("recipe_details", recipe.getString("recipe_details"));
-                    res.put("creation_time", recipe.getString("creation_time"));
-                    res.put("image", recipe.get("recipe_image_link"));
-                } catch (Exception e) {
-                    response = "Error with chatgpt";
-                }
-            } else {
-                response = "No message query found";
-            }
+        String query = httpExchange.getRequestURI().getQuery();
+        String username = query.substring(query.indexOf("username=") + 9, query.length());
+        if (mongoDB.readUser(username) != null) {
+            ArrayList<Document> recipes = mongoDB.readAllRecipes(username);
+            return gson.toJson(recipes);
         }
-        return res.toString();
+        return "ERROR";
+    }
+
+    private void handlePost(HttpExchange httpExchange) throws IOException {
+        InputStream inStream = httpExchange.getRequestBody();
+        Scanner scanner = new Scanner(inStream);
+        String query = scanner.nextLine();
+
+        String username = query.substring(query.indexOf("username=") + 9, query.indexOf("&"));
+        String recipeName = query.substring(query.indexOf("Name=") + 5, query.indexOf("&", query.indexOf("&") + 1));
+        String recipeTag = query.substring(query.indexOf("Tag=") + 4, query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1));
+        String recipeDetails = query.substring(query.indexOf("Details=") + 8, query.indexOf("&", query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1) + 1));
+        String creationTime = query.substring(query.indexOf("Time=") + 5, query.length());
+
+        mongoDB.createAndUpdateRecipe(URLDecoder.decode(username, "UTF-8"), URLDecoder.decode(recipeName, "UTF-8"), URLDecoder.decode(recipeTag, "UTF-8"), URLDecoder.decode(recipeDetails, "UTF-8"), URLDecoder.decode(creationTime, "UTF-8"));
+    }
+
+    private void handleDelete(HttpExchange httpExchange) throws IOException {
+        String query = httpExchange.getRequestURI().getQuery();
+        
+        String username = query.substring(query.indexOf("username=") + 9, query.indexOf("&"));
+        String recipeName = query.substring(query.indexOf("Name=") + 5, query.length());
+
+        mongoDB.deleteRecipe(URLDecoder.decode(username, "UTF-8"), URLDecoder.decode(recipeName, "UTF-8"));
     }
 }

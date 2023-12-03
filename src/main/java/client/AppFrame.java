@@ -1,11 +1,5 @@
 package client;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,9 +18,10 @@ class AppFrame extends BorderPane {
     private Footer footer;
     private RecipeList recipeList;
     private Button createButton;
-    private Recorder recorder;
+    private RecipePresenter recipePresenter;
     private ServerError serverError;
     private LoginScreen loginScreen;
+    private LoadData loadData;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -36,7 +31,6 @@ class AppFrame extends BorderPane {
         footer = new Footer();
 
         loginScreen = new LoginScreen(this);
-        recorder = new Recorder(recipeList);
 
         ScrollPane scrollPane = new ScrollPane(loginScreen);
         scrollPane.setFitToWidth(true);
@@ -143,12 +137,15 @@ class AppFrame extends BorderPane {
         // Add button functionality
         createButton.setOnAction(e -> {
             if (this.serverError.checkServerAvailability()) {
-                recorder.showRecordingWindow();
+                recipePresenter = new RecipePresenter(recipeList);
             }
         });
     }
 
     public void showRecipeList() {
+        loadData = new LoadData("luffy", recipeList);
+        loadData.retrieveRecipes();
+        loadData.populateRecipes();
         this.setTop(header);
         this.setCenter(recipeList);
         this.setBottom(footer);
