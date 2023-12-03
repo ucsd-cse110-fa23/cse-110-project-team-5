@@ -63,7 +63,7 @@ public class MongoDB {
         }
     }
 
-    public void createAndUpdateRecipe(String username, String recipeName, String tag, String details, String imageLink, String time) {
+    public void createAndUpdateRecipe(String username, String recipeName, String tag, String details, String time) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
@@ -74,7 +74,6 @@ public class MongoDB {
             recipe.append("recipe_name", recipeName);
             recipe.append("recipe_tag", tag);
             recipe.append("recipe_details", details);
-            recipe.append("recipe_image_link", imageLink);
             recipe.append("creation_time", time);
 
             Bson update = Updates.addToSet("recipe_list", recipe);
