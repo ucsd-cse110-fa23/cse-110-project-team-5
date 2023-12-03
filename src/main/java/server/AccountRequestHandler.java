@@ -48,6 +48,9 @@ public class AccountRequestHandler implements HttpHandler {
         InputStream inStream = httpExchange.getRequestBody();
         Scanner scanner = new Scanner(inStream);
         String postData = scanner.nextLine();
+        // System.out.println(); System.out.println(); System.out.println(); System.out.println(); System.out.println(); System.out.println();
+        // System.out.println(httpExchange.getRequestURI().getQuery());
+        // System.out.println(postData);
         String username = postData.substring(postData.indexOf("=") + 1, postData.indexOf("&"));
         String password = postData.substring(postData.indexOf("=", postData.indexOf("=") + 1) + 1, postData.length());
         System.out.println(password);

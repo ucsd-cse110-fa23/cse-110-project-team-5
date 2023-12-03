@@ -26,6 +26,7 @@ class LoginScreen extends BorderPane {
     private Text usernameTakenText;
     private AppFrame appFrame;
     private Model model;
+    static User user;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
@@ -81,6 +82,7 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
+            user = new User(username, password);
             String loginRequest = model.sendLoginRequest(username, password);
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
                 denyLoginText.setVisible(false);

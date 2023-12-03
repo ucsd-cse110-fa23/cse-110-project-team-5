@@ -22,6 +22,8 @@ class RecipeDetails extends BorderPane {
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
 
+    private Model model;
+
     RecipeDetails(RecipeList recipeList) {
         // Recipe List to add newly created Recipe Object to
         this.recipeList = recipeList;
@@ -49,6 +51,8 @@ class RecipeDetails extends BorderPane {
         this.shareButton = footer.getShareButton();
         // Call Event Listeners for the Buttons
         addListeners();
+
+        this.model = new Model();
     }
 
     // ShowDetails Header
@@ -121,15 +125,16 @@ class RecipeDetails extends BorderPane {
         // Add button functionality
         saveButton.setOnAction(e -> {
             // Create new Recipe Object based on newly created recipe details
-            this.recipe = new Recipe(this.getRecipeTitle(), this.getRecipeDetails(), this.getMealType());
+            this.recipe = new Recipe(this.getRecipeTitle(), this.getMealType(), this.getRecipeDetails());
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
-            this.recipeList.getChildren().add(recipeDisplay);
+            this.recipeList.getChildren().add(0, recipeDisplay);
             this.recipeList.updateRecipeIndices();
             this.enableDeleteAndEditAndShare();
             this.disableSave();
             this.details.makeTextEditable();
+            this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
         });
 
         // Add button functionality for saveButton

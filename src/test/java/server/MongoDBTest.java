@@ -50,7 +50,7 @@ public class MongoDBTest {
 
     @Test
     public void testCreateRecipe() {
-        mongoDB.createAndUpdateRecipe("abcd", "test name", "dinner", "test details");
+        mongoDB.createAndUpdateRecipe("abcd", "test name", "dinner", "test details", "0000");
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
@@ -72,7 +72,7 @@ public class MongoDBTest {
 
     @Test 
     public void testUpdateRecipe() {
-        mongoDB.createAndUpdateRecipe("abcd", "test update name", "dinner", "test update details");
+        mongoDB.createAndUpdateRecipe("abcd", "test update name", "dinner", "test update details", "0000");
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
@@ -91,7 +91,7 @@ public class MongoDBTest {
         } catch(Exception e){
         }
 
-        mongoDB.createAndUpdateRecipe("abcd", "test update name", "new tag", "new details");
+        mongoDB.createAndUpdateRecipe("abcd", "test update name", "new tag", "new details", "0000");
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
@@ -115,7 +115,7 @@ public class MongoDBTest {
     public void testReadRecipe() {
         mongoDB.createUser("test read", "1234567890");
         
-        mongoDB.createAndUpdateRecipe("test read", "test read recipe", "lunch", "test read recipe details");
+        mongoDB.createAndUpdateRecipe("test read", "test read recipe", "lunch", "test read recipe details", "0000");
 
         Document result = mongoDB.readRecipe("test read", "test read recipe");
         assertEquals(result.get("recipe_name"), "test read recipe");
@@ -126,7 +126,7 @@ public class MongoDBTest {
     @Test
     public void testReadAllRecipes() {
         mongoDB.createUser("test7", "777");
-        mongoDB.createAndUpdateRecipe("test7", "recipe 1", "lunch", "details 1");
+        mongoDB.createAndUpdateRecipe("test7", "recipe 1", "lunch", "details 1", "0000");
 
         ArrayList<Document> result = mongoDB.readAllRecipes("test7");
         assertEquals(1, result.size());
@@ -135,7 +135,7 @@ public class MongoDBTest {
     @Test
     public void testDeleteRecipe() {
         mongoDB.createUser("test delete", "delete");
-        mongoDB.createAndUpdateRecipe("test delete", "recipe delete", "lunch", "details delete");
+        mongoDB.createAndUpdateRecipe("test delete", "recipe delete", "lunch", "details delete", "0000");
 
         ArrayList<Document> result = mongoDB.readAllRecipes("test delete");
         assertEquals(1, result.size());
