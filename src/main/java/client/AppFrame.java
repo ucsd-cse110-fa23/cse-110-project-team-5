@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
@@ -17,28 +18,32 @@ class AppFrame extends BorderPane {
     private Footer footer;
     private RecipeList recipeList;
     private Button createButton;
-    private Recorder recorder;
+    private RecipePresenter recipePresenter;
     private ServerError serverError;
+    private LoginScreen loginScreen;
+    private LoadData loadData;
 
     // Constructor for AppFrame
     AppFrame() {
         // Initialize UI components
-        this.header = new Header();
-        this.recipeList = new RecipeList();
-        this.footer = new Footer();
+        header = new Header();
+        recipeList = new RecipeList();
+        footer = new Footer();
 
-        this.recorder = new Recorder(recipeList);
+        loginScreen = new LoginScreen(this);
 
-        ScrollPane scrollPane = new ScrollPane(recipeList);
+        ScrollPane scrollPane = new ScrollPane(loginScreen);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Configure layout of the BorderPane
-        this.setTop(header);
-        this.setCenter(scrollPane);
-        this.setBottom(footer);
-
+        //this.setTop(header);
+        //this.setCenter(loginScreen);
+        //this.setBottom(footer);
+        showLoginScreen();
+        //showRecipeList();
+        
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -50,15 +55,54 @@ class AppFrame extends BorderPane {
 
     // App Header
     class Header extends HBox {
+        private ComboBox<String> sort;
+        private Sort sorter;
+
         private ComboBox<String> filter;
         // Constructor for Header
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
-            this.setStyle("-fx-background-color: #F0F8FF;");
-
+            this.setStyle("-fx-background-color: #A4C3B2;");
+            // Add "Sort By" Dropdown
+            sort = new ComboBox<>();
+            sort.setPromptText("Sort By");
+            sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
+            HBox.setMargin(sort, new Insets(0,10,0,10));
             // Add "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+            // Create containers for elements
+            HBox titleBox = new HBox(titleText);
+            HBox sortBox = new HBox(sort);
+            // Set alignments for elements
+            titleBox.setAlignment(Pos.CENTER);
+            sortBox.setAlignment(Pos.CENTER_LEFT);
+            sort.setStyle("-fx-background-radius: 5;");
+            // Add elements to the header
+            this.getChildren().addAll(sortBox, titleBox);
+            HBox.setHgrow(titleBox, Priority.ALWAYS);
+            this.sorter = new Sort();
+            // Add sort option functionality
+            sort.setOnAction(e -> {
+                String selectedOption = sort.getSelectionModel().getSelectedItem();
+                // Perform actions based on the selected option
+                // Sort Recipe List in Chronological Order
+                if (selectedOption == "Newest to Oldest") {
+                    this.sorter.sortNewToOld(recipeList);
+                }
+                // Sort Recipe List in Reverse Chronological Order
+                else if (selectedOption == "Oldest to Newest") {
+                    this.sorter.sortOldToNew(recipeList);
+                }
+                // Sort Recipe List in Lexographical Order
+                else if (selectedOption == "A - Z") {
+                    this.sorter.sortAZ(recipeList);
+                }
+                // Sort Recipe List in Reverese Lexographical Order
+                else if (selectedOption == "Z - A") {
+                    sorter.sortZA(recipeList);
+                }
+            });
             // Add "Filter Recipes" Dropdown
             filter = new ComboBox<>();
             filter.setPromptText("Filter Recipes");
@@ -66,7 +110,6 @@ class AppFrame extends BorderPane {
             HBox.setMargin(filter, new Insets(0,10,0,10));
             // Create containers for elements
             HBox filterBox = new HBox(filter);
-            HBox titleBox = new HBox(titleText);
             // Set alignments for elements
             filterBox.setAlignment(Pos.CENTER_RIGHT);
             filter.setStyle("-fx-background-radius: 5;");
@@ -101,7 +144,7 @@ class AppFrame extends BorderPane {
         // Constructor for Footer
         Footer() {
             this.setPrefSize(500, 60);
-            this.setStyle("-fx-background-color: #F0F8FF;");
+            this.setStyle("-fx-background-color: #A4C3B2;"); //#F0F8FF
             this.setSpacing(15);
 
             // set a default style for buttons - background color, font size, italics
@@ -125,8 +168,21 @@ class AppFrame extends BorderPane {
         // Add button functionality
         createButton.setOnAction(e -> {
             if (this.serverError.checkServerAvailability()) {
-                recorder.showRecordingWindow();
+                recipePresenter = new RecipePresenter(recipeList);
             }
         });
+    }
+
+    public void showRecipeList() {
+        loadData = new LoadData(User.getUsername(), recipeList);
+        loadData.retrieveRecipes();
+        loadData.populateRecipes();
+        this.setTop(header);
+        this.setCenter(recipeList);
+        this.setBottom(footer);
+    }
+
+    public void showLoginScreen() {
+        this.setCenter(loginScreen);
     }
 }
