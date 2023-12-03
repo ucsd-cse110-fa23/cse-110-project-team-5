@@ -1,5 +1,12 @@
 package client;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -85,6 +92,9 @@ class LoginScreen extends BorderPane {
             user = new User(username, password);
             String loginRequest = model.sendLoginRequest(username, password);
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
+                if(rememberMe) {
+                    saveRememberMePreference(username);
+                }
                 denyLoginText.setVisible(false);
                 appFrame.showRecipeList();
             } else {
@@ -147,6 +157,13 @@ class LoginScreen extends BorderPane {
         createAccountButton.setVisible(true);
         registerButton.setVisible(false);
     }
-
+    public void saveRememberMePreference(String username) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("user_login.txt"))) {
+            String data = username;
+            writer.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
 }

@@ -1,5 +1,9 @@
 package client;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -30,7 +34,17 @@ class AppFrame extends BorderPane {
         header = new Header();
         recipeList = new RecipeList();
         footer = new Footer();
-
+        boolean isRemembered = false;
+        String savedUser = "";
+        try(BufferedReader reader = new BufferedReader(new FileReader("user_login.txt"))) {
+            String line = reader.readLine();
+            if(line.length() > 0 && line != null) {
+                isRemembered = true;
+                savedUser = line;
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         loginScreen = new LoginScreen(this);
 
         ScrollPane scrollPane = new ScrollPane(loginScreen);
@@ -51,9 +65,14 @@ class AppFrame extends BorderPane {
 
         // Check for Server Error
         this.serverError = new ServerError(this.createButton);
-
-        if (this.serverError.checkServerAvailability()) {
-            showLoginScreen();
+        if(!isRemembered) {
+            if (this.serverError.checkServerAvailability()) {
+                showLoginScreen();
+            }
+        }
+        else {
+            User.username = savedUser;
+            showRecipeList();
         }
     }
 
