@@ -68,9 +68,10 @@ public class RecipeRequestHandler implements HttpHandler {
         String recipeName = query.substring(query.indexOf("Name=") + 5, query.indexOf("&", query.indexOf("&") + 1));
         String recipeTag = query.substring(query.indexOf("Tag=") + 4, query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1));
         String recipeDetails = query.substring(query.indexOf("Details=") + 8, query.indexOf("&", query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1) + 1));
-        String creationTime = query.substring(query.indexOf("Time=") + 5, query.length());
+        String creationTime = query.substring(query.indexOf("Time=") + 5, query.indexOf("&", query.indexOf("&", query.indexOf("&", query.indexOf("&", query.indexOf("&") + 1) + 1) + 1)+ 1));
+        String imageLink = query.substring(query.indexOf("Link=") + 5, query.length());
 
-        mongoDB.createAndUpdateRecipe(URLDecoder.decode(username, "UTF-8"), URLDecoder.decode(recipeName, "UTF-8"), URLDecoder.decode(recipeTag, "UTF-8"), URLDecoder.decode(recipeDetails, "UTF-8"), URLDecoder.decode(creationTime, "UTF-8"));
+        mongoDB.createAndUpdateRecipe(URLDecoder.decode(username, "UTF-8"), URLDecoder.decode(recipeName, "UTF-8"), URLDecoder.decode(recipeTag, "UTF-8"), URLDecoder.decode(recipeDetails, "UTF-8"), URLDecoder.decode(creationTime, "UTF-8"), URLDecoder.decode(imageLink, "UTF-8"));
     }
 
     private void handleDelete(HttpExchange httpExchange) throws IOException {
