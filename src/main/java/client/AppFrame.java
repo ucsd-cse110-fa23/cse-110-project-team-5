@@ -1,5 +1,6 @@
 package client;
 
+import javafx.beans.binding.StringBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,6 +18,10 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
+    private Sort sort;
+    private Filter filter;
+    private ComboBox<String> sortComboBox;
+    private ComboBox<String> filterComboBox;
     private Button createButton;
     private RecipePresenter recipePresenter;
     private ServerError serverError;
@@ -44,6 +49,11 @@ class AppFrame extends BorderPane {
         showLoginScreen();
         // showRecipeList();
 
+        this.sort = header.getSort();
+        this.filter = header.getFilter();
+        this.sortComboBox = header.getSortComboBox();
+        this.filterComboBox = header.getFilterComboBox();
+
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -55,10 +65,10 @@ class AppFrame extends BorderPane {
 
     // App Header
     class Header extends HBox {
-        private ComboBox<String> sort;
         private Sort sorter;
-
-        private ComboBox<String> filter;
+        private Filter filt;
+        ComboBox<String> sort;
+        ComboBox<String> filter;
 
         // Constructor for Header
         Header() {
@@ -66,12 +76,12 @@ class AppFrame extends BorderPane {
             this.setStyle("-fx-background-color: #A4C3B2;");
             // Add Dropdowns
             sort = new ComboBox<>();
-            sort.setPromptText("Sort By");
-            sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
-            HBox.setMargin(sort, new Insets(0, 10, 0, 10));
             filter = new ComboBox<>();
+            sort.setPromptText("Sort By");
             filter.setPromptText("Filter Recipes");
+            sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
             filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All");
+            HBox.setMargin(sort, new Insets(0, 10, 0, 10));
             HBox.setMargin(filter, new Insets(0, 10, 0, 10));
             // Add "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
@@ -90,7 +100,7 @@ class AppFrame extends BorderPane {
             this.getChildren().addAll(sortBox, titleBox, filterBox);
             HBox.setHgrow(titleBox, Priority.ALWAYS);
             this.sorter = new Sort();
-            Filter filt = new Filter();
+            this.filt = new Filter();
 
             // Add sort option functionality
             sort.setOnAction(e -> {
@@ -126,6 +136,22 @@ class AppFrame extends BorderPane {
                 }
             });
         }
+
+        private Sort getSort() {
+            return this.sorter;
+        }
+
+        private Filter getFilter() {
+            return this.filt;
+        }
+
+        private ComboBox<String> getSortComboBox() {
+            return this.sort;
+        }
+
+        private ComboBox<String> getFilterComboBox() {
+            return this.filter;
+        }
     }
 
     // App Footer
@@ -159,6 +185,12 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
+            // ComboBox<String> sortComboBox = getSortComboBox();
+            // ComboBox<String> filterComboBox;
+            sortComboBox.setValue("Newest to Oldest");
+            filterComboBox.setValue("All");
+            sort.sortNewToOld(recipeList);
+            filter.filter(recipeList, "All");
             if (this.serverError.checkServerAvailability()) {
                 recipePresenter = new RecipePresenter(recipeList);
             }
