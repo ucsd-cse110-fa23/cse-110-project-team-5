@@ -3,13 +3,9 @@ import com.sun.net.httpserver.*;
 import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.*;
 
 import org.bson.Document;
-import org.bson.json.JsonObject;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ShareRequestHandler implements HttpHandler {
@@ -73,7 +69,7 @@ public class ShareRequestHandler implements HttpHandler {
                     res.put("recipe_tag", recipe.getString("recipe_tag"));
                     res.put("recipe_details", recipe.getString("recipe_details"));
                     res.put("creation_time", recipe.getString("creation_time"));
-                    // res.put("image", recipe.get("recipe_image_link"));
+                    res.put("image_link", recipe.get("image_link"));
                 } catch (Exception e) {
                     response = "Error with chatgpt";
                 }
