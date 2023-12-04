@@ -27,6 +27,7 @@ class LoginScreen extends BorderPane {
     private AppFrame appFrame;
     private Model model;
     static User user;
+    private Button backToLoginButton;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
@@ -49,6 +50,9 @@ class LoginScreen extends BorderPane {
         registerButton = new Button("Register"); // New button for registration
         registerButton.setVisible(false);
 
+        backToLoginButton = new Button("Back to Log in");
+        backToLoginButton.setVisible(false); // Initially invisi
+
         registrationText = new Text("Your account has been registered!");
         registrationText.setStyle("-fx-fill: red;");
         registrationText.setVisible(false);
@@ -65,7 +69,7 @@ class LoginScreen extends BorderPane {
         // Configure layout of the BorderPane
         VBox vbox = new VBox(10); // spacing between components
         vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
-        loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText);
+        loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText, backToLoginButton);
         vbox.setAlignment(Pos.CENTER);
 
         this.setCenter(vbox);
@@ -86,6 +90,7 @@ class LoginScreen extends BorderPane {
             String loginRequest = model.sendLoginRequest(username, password);
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
                 denyLoginText.setVisible(false);
+                User.saveLoginState(rememberMe);
                 appFrame.showRecipeList();
             } else {
                 denyLoginText.setVisible(true);
@@ -127,6 +132,8 @@ class LoginScreen extends BorderPane {
             }
             System.out.println("Register button clicked");
         });
+
+        backToLoginButton.setOnAction(e -> resetToOriginalState());
     }
 
     // Method to update UI when switching to registration mode
@@ -138,6 +145,7 @@ class LoginScreen extends BorderPane {
         registerButton.setVisible(true);
         usernameTakenText.setVisible(false);
         registrationText.setVisible(false);
+        backToLoginButton.setVisible(true);
     }
 
     private void resetToOriginalState() {
@@ -146,7 +154,10 @@ class LoginScreen extends BorderPane {
         loginButton.setVisible(true);
         createAccountButton.setVisible(true);
         registerButton.setVisible(false);
+        backToLoginButton.setVisible(false);
     }
+
+   
 
     
 }

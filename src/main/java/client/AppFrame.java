@@ -53,7 +53,13 @@ class AppFrame extends BorderPane {
         this.serverError = new ServerError(this.createButton);
 
         if (this.serverError.checkServerAvailability()) {
-            showLoginScreen();
+            if (User.isRemembered()) {
+                // Auto-login
+                recipeList.setUsername(User.getSavedUsername());
+                showRecipeList();
+            } else {
+                showLoginScreen();
+            }
         }
     }
 
@@ -163,7 +169,15 @@ class AppFrame extends BorderPane {
     }
 
     public void showRecipeList() {
-        loadData = new LoadData(User.getUsername(), recipeList);
+        
+        if (User.getSavedUsername().length() > 0) {
+            loadData = new LoadData(User.getSavedUsername(), recipeList);
+            System.out.println("showRecipeList: " + User.getSavedUsername());
+        } else {
+            loadData = new LoadData(User.getUsername(), recipeList);
+            System.out.println("showRecipeList: " + User.getUsername());
+        }
+        
         loadData.retrieveRecipes();
         loadData.populateRecipes();
         this.setTop(header);
