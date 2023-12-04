@@ -44,5 +44,12 @@ public class ServerTest {
         final String correctResponse = "Account created for kevinyan";
         assertEquals(response, correctResponse); // Assert that the response matches the expected value
     }
+    @Test
+    public void dallETest() {
+        // Perform a Whisper request and check the response
+        String response = model.performRequest("GET", "dalle", "beef_curry");
+        final String correctResponse = "successfully generated image";
+        assertEquals(response, correctResponse); // Assert that the response matches the expected value
+    }
 }
 
