@@ -28,6 +28,8 @@ class RecipeDetails extends BorderPane {
 
     private Model model;
 
+    private String imageLink;
+
     RecipeDetails(RecipeList recipeList) {
         this.obs = new ArrayList<>();
         // Recipe List to add newly created Recipe Object to
@@ -251,5 +253,15 @@ class RecipeDetails extends BorderPane {
 
     public Details getDetails() {
         return details;
+    }
+
+    public String getImageLink() {
+        return this.imageLink;
+    }
+
+    public void setImageLink(String link) {
+        this.imageLink = link;
+        this.details.setDetails(this.details.getDetails() + link);
+        System.out.println(this.imageLink);
     }
 }

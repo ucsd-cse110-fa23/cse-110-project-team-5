@@ -6,11 +6,14 @@ public class RecipeGenerate {
     private String recipeIntro2 = "and_only_use_the_following_ingredients_and_nothing_else_other_than_simple_ingredients:"; // Additional text for recipe request
     private String recipeFormat = "_and_format_the_output_like_a_recipe";
 
-    RecipeGenerate(){}
+    Model model;
+
+    RecipeGenerate(){
+        model = new Model();
+    }
     
     // Generate a recipe based on the voice input from the user
     public String fetchGeneratedRecipe(String ingredients, String mealType) {
-        Model model = new Model();
         String gptResponse = "";
         try {
             // Retrieve ingredients from the voice command response
@@ -25,5 +28,18 @@ public class RecipeGenerate {
             System.out.println("No input detected");
         }
         return gptResponse;
+    }
+
+    public String fetchRecipeImage(String title) {
+        String dalleResponse = "";
+        try {
+            if (title.length() == 0) {
+                return "NO INPUT";
+            }
+            dalleResponse = model.performRequest("GET", "dalle", title);
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        return dalleResponse;
     }
 }

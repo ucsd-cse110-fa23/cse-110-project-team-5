@@ -101,7 +101,8 @@ public class Model {
                     "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8") +
                     "&Tag=" + URLEncoder.encode(recipe.getMealType(), "UTF-8") +
                     "&Details=" + URLEncoder.encode(recipe.getRecipeDetails(), "UTF-8") +
-                    "&Time=" + URLEncoder.encode(recipe.getTimeString(), "UTF-8");
+                    "&Time=" + URLEncoder.encode(recipe.getTimeString(), "UTF-8") +
+                    "&Link=" + URLEncoder.encode(recipe.getImageLink(), "UTF-8");
             return performRequest(method, route, query);
 
         } catch (Exception e) {
@@ -131,6 +132,18 @@ public class Model {
                     "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8");
             return performRequest(method, route, query);
             
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String sendImageRetrieveRequest(String contents) {
+        try {
+            String route = "dalle";
+            String method = "GET";
+            String query = "link=" + URLEncoder.encode(contents, "UTF-8");
+            return performRequest(method, route, query);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();

@@ -6,7 +6,9 @@ import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -62,13 +64,15 @@ public class DallERequestHandler implements HttpHandler {
             String value = query.substring(query.indexOf("=") + 1);
             
             // Extract prompt from query
-            String message = value.replaceAll("_", " ");
+            // String message = value.replaceAll("_", " ");
+            String message = URLDecoder.decode(value, "UTF-8");
 
             if (message != null) {
                 try {
                     // Call the askGPT method to get a response
                     response = generateImage(message);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     response = "Error with DallE";
                 }                
             } else {
@@ -112,6 +116,17 @@ public class DallERequestHandler implements HttpHandler {
    
         System.out.println("DALL-E Response:");
         System.out.println(generatedImageURL);
+
+        try {
+            Files.delete(Paths.get("image.jpg"));
+        } catch (NoSuchFileException x) {
+            System.err.format("%s: no such" + " file or directory%n", Paths.get("image.jpg"));
+        } catch (DirectoryNotEmptyException x) {
+            System.err.format("%s not empty%n", Paths.get("image.jpg"));
+        } catch (IOException x) {
+            // File permission problems are caught here.
+            System.err.println(x);
+        }
 
         try (InputStream in = new URI(generatedImageURL).toURL().openStream()) {
             Files.copy(in, Paths.get("image.jpg"));
