@@ -18,10 +18,13 @@ public class RecipePresenter {
     Scene scene;
     Stage recipeDetailStage;
 
+    private Model model;
+
     RecipePresenter(RecipeList recipeList) {
         this.recipeList = recipeList;
         this.recorderPresenter = new RecorderPresenter(this);
         this.recipeGenerate = new RecipeGenerate();
+        this.model = new Model();
     }
 
     public void notifyRecorder(String newRecipe) {
@@ -34,6 +37,10 @@ public class RecipePresenter {
         RecipeDetails recipeDetails = new RecipeDetails(recipeList);
         recipeDetails.register(this);
         recipeDetails.setTitleAndDetails(newRecipe);
+        System.out.println(recipeDetails.getRecipeTitle());
+        String l = model.sendImageRetrieveRequest(recipeDetails.getRecipeTitle());
+        recipeDetails.setImageLink(l);
+        recipeDetails.getDetails().uploadImage(recipeDetails.getImageLink());
         recipeDetails.setMealtype(this.mealType);
         scene = new Scene(recipeDetails);
         scene.setRoot(recipeDetails);

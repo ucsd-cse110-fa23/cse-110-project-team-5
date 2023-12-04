@@ -9,6 +9,7 @@ public class Recipe {
     private String recipeDetails;
     private String mealType;
     private LocalDateTime time;
+    private String imageLink = "";
     private boolean isDone; // Flag indicating whether the recipe is marked as done
 
     // Constructor to create a Recipe object with its name, details, and the
@@ -68,5 +69,13 @@ public class Recipe {
 
     public String getMealType() {
         return this.mealType;
+    }
+
+    public String getImageLink() {
+        return this.imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 }
