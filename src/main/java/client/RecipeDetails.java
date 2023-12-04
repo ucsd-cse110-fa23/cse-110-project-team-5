@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
@@ -142,6 +143,7 @@ class RecipeDetails extends BorderPane {
         saveButton.setOnAction(e -> {
             // Create new Recipe Object based on newly created recipe details
             this.recipe = new Recipe(this.getRecipeTitle(), this.getMealType(), this.getRecipeDetails());
+            this.recipe.setImageLink(this.getImageLink());
             // Create RecipeDisplay Object to show Recipe in the Recipe List
             this.recipeDisplay = new RecipeDisplay(this);
             this.recipeDisplay.setRecipeDisplayName(this.recipe);
@@ -261,7 +263,6 @@ class RecipeDetails extends BorderPane {
 
     public void setImageLink(String link) {
         this.imageLink = link;
-        this.details.setDetails(this.details.getDetails() + link);
         System.out.println(this.imageLink);
     }
 }

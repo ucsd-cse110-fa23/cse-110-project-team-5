@@ -38,7 +38,9 @@ public class RecipePresenter {
         recipeDetails.register(this);
         recipeDetails.setTitleAndDetails(newRecipe);
         System.out.println(recipeDetails.getRecipeTitle());
-        recipeDetails.setImageLink(model.sendImageRetrieveRequest(recipeDetails.getRecipeTitle()));
+        String l = model.sendImageRetrieveRequest(recipeDetails.getRecipeTitle());
+        recipeDetails.setImageLink(l);
+        recipeDetails.getDetails().uploadImage(recipeDetails.getImageLink());
         recipeDetails.setMealtype(this.mealType);
         scene = new Scene(recipeDetails);
         scene.setRoot(recipeDetails);

@@ -95,6 +95,7 @@ public class Model {
     public String sendPostRecipeRequest(String username, Recipe recipe) {
         try {
             System.out.println("SENDING POST REQUEST");
+            System.out.println(recipe.getImageLink());
             String route = "recipe";
             String method = "POST";
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +

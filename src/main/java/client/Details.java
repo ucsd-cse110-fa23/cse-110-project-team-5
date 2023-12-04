@@ -1,8 +1,16 @@
 package client;
 
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.File;
+
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 // The Details class represents a VBox containing TextArea components for title and details of a recipe
 class Details extends VBox {
@@ -10,6 +18,7 @@ class Details extends VBox {
     private TextArea title;
     private TextField mealType;
     private TextArea details;
+    private ImageView imageView;
 
     // Constructor for Details class
     Details() {
@@ -47,6 +56,13 @@ class Details extends VBox {
         details.prefWidthProperty().bind(this.widthProperty()); // Make details TextArea match the width of the VBox
         details.prefHeightProperty().bind(this.heightProperty()); // Make details TextArea match the height of the VBox
         this.getChildren().add(details); // Add details TextArea to the VBox
+
+        imageView = new ImageView();
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+        HBox imageBox = new HBox(imageView);
+        imageBox.setAlignment(Pos.CENTER);
+        this.getChildren().add(imageBox);
     }
 
     // Method to extract the title from a given recipe string
@@ -89,5 +105,10 @@ class Details extends VBox {
 
     public String getMealType() {
         return this.mealType.getText();
+    }
+
+    public void uploadImage(String link) {
+        Image image = new Image(link);
+        imageView.setImage(image);
     }
 }
