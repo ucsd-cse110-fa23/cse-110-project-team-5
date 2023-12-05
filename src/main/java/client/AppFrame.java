@@ -201,8 +201,12 @@ class AppFrame extends BorderPane {
         loadData = new LoadData(User.getUsername(), recipeList);
         loadData.retrieveRecipes();
         loadData.populateRecipes();
+        ScrollPane listPane = new ScrollPane(recipeList);
+        listPane.setFitToWidth(true); 
+        listPane.setFitToHeight(true); 
+        listPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); 
         this.setTop(header);
-        this.setCenter(recipeList);
+        this.setCenter(listPane);
         this.setBottom(footer);
     }
 
