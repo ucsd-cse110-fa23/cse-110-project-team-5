@@ -12,9 +12,7 @@ import javafx.scene.layout.HBox;
 // Window that shows newly created Recipes
 class RecipeDetails extends BorderPane {
     private ArrayList<RecipePresenter> obs;
-    private RecipeList recipeList;
-    private Recipe recipe;
-    
+
     private Header header;
     private Footer footer;
     private Details details;
@@ -25,7 +23,9 @@ class RecipeDetails extends BorderPane {
     private Button shareButton;
     private Button regenerateButton;
 
+    private RecipeList recipeList;
     private RecipeDisplay recipeDisplay;
+    private Recipe recipe;
 
     private Model model;
 
@@ -38,7 +38,7 @@ class RecipeDetails extends BorderPane {
         // Initialise the header Object
         header = new Header();
         // Create a details Object to hold the recipe details
-        details = new Details(recipe);
+        details = new Details();
         // Initialise the Footer Object
         footer = new Footer();
         // Initialise ScrollPane Object
@@ -179,6 +179,18 @@ class RecipeDetails extends BorderPane {
 
         shareButton.setOnAction(e -> {
         });
+
+        regenerateButton.setOnAction(e -> {
+            notifyRegenerate();
+        });
+    }
+
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+    }
+
+    public void setRecipeDisplay(RecipeDisplay recipeDisplay){
+        this.recipeDisplay = recipeDisplay;
     }
 
     // Set Title and Details of Details VBox
@@ -187,13 +199,8 @@ class RecipeDetails extends BorderPane {
         details.setDetails(details.extractDetails(recipeString));
     }
 
-    public void register(RecipePresenter recipePresenter) {
-        this.obs.add(recipePresenter);
-    }
-
-    public void notifySave() {
-        for (RecipePresenter ob: obs)
-            ob.notifySave();
+    public void setMealtype(String mealType) {
+        details.setMealType(mealType);
     }
 
     // Method to update title and details from a given recipe
@@ -216,9 +223,18 @@ class RecipeDetails extends BorderPane {
         this.footer.getChildren().remove(this.regenerateButton);
     }
 
+    public void register(RecipePresenter recipePresenter) {
+        obs.add(recipePresenter);
+    }
+
     public void notifyRegenerate() {
         for (RecipePresenter ob : obs)
             ob.notifyRegenerate();
+    }
+
+    public void notifySave() {
+        for (RecipePresenter ob : obs)
+            ob.notifySave();
     }
 
     public String getRecipeTitle() {

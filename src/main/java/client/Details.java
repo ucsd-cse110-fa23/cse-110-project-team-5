@@ -21,7 +21,7 @@ class Details extends VBox {
     private ImageView imageView;
 
     // Constructor for Details class
-    Details(Recipe recipe) {
+    Details() {
         // Set up the VBox properties
         this.setPrefSize(500, 500);
         this.setStyle("-fx-background-color: #F0F8FF;");
@@ -34,7 +34,6 @@ class Details extends VBox {
         title.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
         title.setWrapText(true); // Enable text wrapping
         title.setEditable(false);
-        title.setText(recipe.getRecipeName());
         this.getChildren().add(title); // Add title TextArea to the VBox
 
         // Create and configure title TextArea
@@ -44,7 +43,6 @@ class Details extends VBox {
                 "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
         mealType.setPadding(new Insets(10, 0, 10, 20)); // Add padding to the title text field
         mealType.setEditable(false);
-        mealType.setText(recipe.getMealType());
         this.getChildren().add(mealType); // Add title TextArea to the VBox
 
         // Set up the TextArea for the details
@@ -57,7 +55,6 @@ class Details extends VBox {
         details.setEditable(false);
         details.prefWidthProperty().bind(this.widthProperty()); // Make details TextArea match the width of the VBox
         details.prefHeightProperty().bind(this.heightProperty()); // Make details TextArea match the height of the VBox
-        details.setText(recipe.getRecipeDetails());
         this.getChildren().add(details); // Add details TextArea to the VBox
 
         imageView = new ImageView();
@@ -66,6 +63,19 @@ class Details extends VBox {
         HBox imageBox = new HBox(imageView);
         imageBox.setAlignment(Pos.CENTER);
         this.getChildren().add(imageBox);
+    }
+
+    // Method to extract the title from a given recipe string
+    public String extractTitle(String recipeString) {
+        System.out.println(recipeString);
+        int firstNewlineInd = recipeString.indexOf("\n");
+        return recipeString.substring(0, firstNewlineInd);
+    }
+
+    // Method to extract the details from a given recipe string
+    public String extractDetails(String recipeString) {
+        int firstNewlineInd = recipeString.indexOf("\n");
+        return recipeString.substring(firstNewlineInd + 1, recipeString.length());
     }
 
     public void makeTextEditable() {
