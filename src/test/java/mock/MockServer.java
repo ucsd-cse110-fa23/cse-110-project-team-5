@@ -9,12 +9,15 @@ public class MockServer {
     // Instances of MockGptRequestHandler and MockWhisperRequestHandler for simulating request handling
     MockGptRequestHandler gpt;
     MockWhisperRequestHandler whisper;
-    MockAccountRequestHandler account;
+    MockAccountRequestHandler account;    
+    MockRecipeRequestHandler recipe;
+
     // Constructor to initialize the MockGptRequestHandler and MockWhisperRequestHandler instances
     public MockServer() {
         gpt = new MockGptRequestHandler();
         whisper = new MockWhisperRequestHandler();
         account = new MockAccountRequestHandler();
+        recipe = new MockRecipeRequestHandler();
     }
 
     // Method to route requests based on the provided route
@@ -29,6 +32,8 @@ public class MockServer {
             response = whisper.handle(method, route, query);
         } else if(route.equals("saveUser")) {
             response = account.handle(method, route, query);
+        } else if (route.equals("recipe")) {
+            response = recipe.handle(method, route, query);
         }
 
         // Return the response after handling the request

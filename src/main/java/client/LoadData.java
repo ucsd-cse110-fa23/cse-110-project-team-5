@@ -3,6 +3,7 @@ package client;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class LoadData {
     private Model model;
@@ -46,5 +47,12 @@ public class LoadData {
             recipeList.getChildren().add(recipeDisplay);
             recipeList.updateRecipeIndices();
         }
+    }
+
+    public void loadRecipesForUser(String username, RecipeList recipeList) {
+        this.username = username;
+        this.recipeList = recipeList;
+        this.retrieveRecipes();
+        this.populateRecipes();
     }
 }

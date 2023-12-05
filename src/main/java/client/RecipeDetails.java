@@ -2,11 +2,13 @@ package client;
 
 import java.util.ArrayList;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
+import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
 // Window that shows newly created Recipes
@@ -26,6 +28,8 @@ class RecipeDetails extends BorderPane {
     private RecipeList recipeList;
     private RecipeDisplay recipeDisplay;
     private Recipe recipe;
+
+    private Share share;
 
     private Model model;
 
@@ -178,6 +182,21 @@ class RecipeDetails extends BorderPane {
         });
 
         shareButton.setOnAction(e -> {
+            this.share = new Share(User.getUsername(), recipe.getRecipeName());
+            // this.share = new Share("temp username", "temp recipe name");
+            Share root = this.share;
+            Stage shareStage = new Stage();
+
+            Scene viewShareScene = new Scene(root, 500, 600);
+            shareStage.setScene(viewShareScene);
+
+            shareStage.show();
+
+            // RecipeList root = this.recipeList;
+            // Stage shareStage = new Stage();
+            // Scene viewShareScene = new Scene(root, 500, 600);
+            // shareStage.setScene(viewShareScene);
+            // shareStage.show();
         });
 
         regenerateButton.setOnAction(e -> {
