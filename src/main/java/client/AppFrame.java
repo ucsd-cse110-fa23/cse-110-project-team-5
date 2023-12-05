@@ -1,5 +1,6 @@
 package client;
 
+import javafx.beans.binding.StringBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,6 +18,10 @@ class AppFrame extends BorderPane {
     private Header header;
     private Footer footer;
     private RecipeList recipeList;
+    private Sort sort;
+    private Filter filter;
+    private ComboBox<String> sortComboBox;
+    private ComboBox<String> filterComboBox;
     private Button createButton;
     private Button logoutButton;
     private RecipePresenter recipePresenter;
@@ -44,6 +49,10 @@ class AppFrame extends BorderPane {
         //this.setBottom(footer);
         //showLoginScreen();
         //showRecipeList();
+        this.sort = header.getSort();
+        this.filter = header.getFilter();
+        this.sortComboBox = header.getSortComboBox();
+        this.filterComboBox = header.getFilterComboBox();
         
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
@@ -65,37 +74,47 @@ class AppFrame extends BorderPane {
 
     // App Header
     class Header extends HBox {
-        private ComboBox<String> sort;
         private Sort sorter;
+        private Filter filt;
+        ComboBox<String> sort;
+        ComboBox<String> filter;
 
         // Constructor for Header
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #A4C3B2;");
-            // Add "Sort By" Dropdown
+            // Add Dropdowns
             sort = new ComboBox<>();
+            filter = new ComboBox<>();
             sort.setPromptText("Sort By");
+            filter.setPromptText("Filter Recipes");
             sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
-            HBox.setMargin(sort, new Insets(0,10,0,10));
+            filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All");
+            HBox.setMargin(sort, new Insets(0, 10, 0, 10));
+            HBox.setMargin(filter, new Insets(0, 10, 0, 10));
             // Add "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
             titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
             // Create containers for elements
-            HBox sortBox = new HBox(sort);
             HBox titleBox = new HBox(titleText);
-
+            HBox filterBox = new HBox(filter);
+            HBox sortBox = new HBox(sort);
             logoutButton = new Button("Logout");
             logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white;"); // Styling the logout button
             HBox.setMargin(logoutButton, new Insets(0,10,0,10));
-            this.getChildren().add(logoutButton); // Add logout button to the header
+            this.getChildren().add(logoutButton); // A
             // Set alignments for elements
+            titleBox.setAlignment(Pos.CENTER);
             sortBox.setAlignment(Pos.CENTER_LEFT);
             sort.setStyle("-fx-background-radius: 5;");
-            titleBox.setAlignment(Pos.CENTER);
+            filterBox.setAlignment(Pos.CENTER_RIGHT);
+            filter.setStyle("-fx-background-radius: 5;");
             // Add elements to the header
-            this.getChildren().addAll(sortBox, titleBox);
+            this.getChildren().addAll(sortBox, titleBox, filterBox);
             HBox.setHgrow(titleBox, Priority.ALWAYS);
             this.sorter = new Sort();
+            this.filt = new Filter();
+
             // Add sort option functionality
             sort.setOnAction(e -> {
                 String selectedOption = sort.getSelectionModel().getSelectedItem();
@@ -117,6 +136,34 @@ class AppFrame extends BorderPane {
                     sorter.sortZA(recipeList);
                 }
             });
+            filter.setOnAction(e -> {
+                String selectedOption = filter.getSelectionModel().getSelectedItem();
+                if (selectedOption == "Breakfast") {
+                    filt.filter(recipeList, "Breakfast");
+                } else if (selectedOption == "Lunch") {
+                    filt.filter(recipeList, "Lunch");
+                } else if (selectedOption == "Dinner") {
+                    filt.filter(recipeList, "Dinner");
+                } else if (selectedOption == "All") {
+                    filt.filter(recipeList, "All");
+                }
+            });
+        }
+
+        private Sort getSort() {
+            return this.sorter;
+        }
+
+        private Filter getFilter() {
+            return this.filt;
+        }
+
+        private ComboBox<String> getSortComboBox() {
+            return this.sort;
+        }
+
+        private ComboBox<String> getFilterComboBox() {
+            return this.filter;
         }
 
         public Button getLogoutButton() {
@@ -132,7 +179,7 @@ class AppFrame extends BorderPane {
         // Constructor for Footer
         Footer() {
             this.setPrefSize(500, 60);
-            this.setStyle("-fx-background-color: #A4C3B2;"); //#F0F8FF
+            this.setStyle("-fx-background-color: #A4C3B2;"); // #F0F8FF
             this.setSpacing(15);
 
             // set a default style for buttons - background color, font size, italics
@@ -155,6 +202,12 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
+            // ComboBox<String> sortComboBox = getSortComboBox();
+            // ComboBox<String> filterComboBox;
+            sortComboBox.setValue("Newest to Oldest");
+            filterComboBox.setValue("All");
+            sort.sortNewToOld(recipeList);
+            filter.filter(recipeList, "All");
             if (this.serverError.checkServerAvailability()) {
                 recipePresenter = new RecipePresenter(recipeList);
             }
@@ -170,7 +223,6 @@ class AppFrame extends BorderPane {
     }
 
     public void showRecipeList() {
-        
         if (User.getSavedUsername().length() > 0) {
             loadData = new LoadData(User.getSavedUsername(), recipeList);
             System.out.println("showRecipeList: " + User.getSavedUsername());
@@ -178,7 +230,6 @@ class AppFrame extends BorderPane {
             loadData = new LoadData(User.getUsername(), recipeList);
             System.out.println("showRecipeList: " + User.getUsername());
         }
-        
         loadData.retrieveRecipes();
         loadData.populateRecipes();
         this.setTop(header);
