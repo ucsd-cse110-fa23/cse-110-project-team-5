@@ -65,22 +65,44 @@ public class ShareRequestHandler implements HttpHandler {
                     // retrieve recipe data from database
                     Document recipe;
                     recipe = db.readRecipe(username, recipeName);
+
+                    if (recipe.getString("recipe_name") == null) {
+                        return "No recipe found";
+                    }
+
                     res.put("recipe_name", recipe.getString("recipe_name"));
                     res.put("recipe_tag", recipe.getString("recipe_tag"));
                     res.put("recipe_details", recipe.getString("recipe_details"));
                     res.put("creation_time", recipe.getString("creation_time"));
                     res.put("image_link", recipe.get("image_link"));
+
+                    StringBuilder htmlBuilder = new StringBuilder();
+                    htmlBuilder
+                            .append("<html>")
+                            .append("<body>")
+                            .append("<h1>")
+                            .append(recipe.getString("recipe_name"))
+                            .append("</h1>")
+                            .append("<h3>")
+                            .append(recipe.getString("recipe_tag"))
+                            .append("</h3>")
+                            .append("<p>")
+                            .append(recipe.getString("recipe_details"))
+                            .append("</p>")
+                            .append("<img src=\"" + recipe.getString("image_link") + "\">")
+                            .append("</body>")
+                            .append("</html>");
+
+                    // encode HTML content
+                    response = htmlBuilder.toString();
                 } catch (Exception e) {
-                    response = "Error with chatgpt";
+                    response = "Error";
                 }
             } else {
                 response = "No message query found";
             }
         }
 
-        if (res.toString().equals("{}")) {
-            return "No recipe found";
-        }
-        return res.toString();
+        return response;
     }
 }
