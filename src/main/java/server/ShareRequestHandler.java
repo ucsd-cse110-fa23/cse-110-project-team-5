@@ -77,6 +77,10 @@ public class ShareRequestHandler implements HttpHandler {
                 response = "No message query found";
             }
         }
+
+        if (res.toString().equals("{}")) {
+            return "No recipe found";
+        }
         return res.toString();
     }
 }
