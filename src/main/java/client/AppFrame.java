@@ -23,6 +23,7 @@ class AppFrame extends BorderPane {
     private ComboBox<String> sortComboBox;
     private ComboBox<String> filterComboBox;
     private Button createButton;
+    private Button logoutButton;
     private RecipePresenter recipePresenter;
     private ServerError serverError;
     private LoginScreen loginScreen;
@@ -43,24 +44,32 @@ class AppFrame extends BorderPane {
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Configure layout of the BorderPane
-        // this.setTop(header);
-        // this.setCenter(loginScreen);
-        // this.setBottom(footer);
-        showLoginScreen();
-        // showRecipeList();
-
+        //this.setTop(header);
+        //this.setCenter(loginScreen);
+        //this.setBottom(footer);
+        //showLoginScreen();
+        //showRecipeList();
         this.sort = header.getSort();
         this.filter = header.getFilter();
         this.sortComboBox = header.getSortComboBox();
         this.filterComboBox = header.getFilterComboBox();
-
+        
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
 
         // Check for Server Error
         this.serverError = new ServerError(this.createButton);
-        this.serverError.checkServerAvailability();
+
+        if (this.serverError.checkServerAvailability()) {
+            if (User.isRemembered()) {
+                // Auto-login
+                recipeList.setUsername(User.getSavedUsername());
+                showRecipeList();
+            } else {
+                showLoginScreen();
+            }
+        }
     }
 
     // App Header
@@ -90,6 +99,10 @@ class AppFrame extends BorderPane {
             HBox titleBox = new HBox(titleText);
             HBox filterBox = new HBox(filter);
             HBox sortBox = new HBox(sort);
+            logoutButton = new Button("Logout");
+            logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white;"); // Styling the logout button
+            HBox.setMargin(logoutButton, new Insets(0,10,0,10));
+            this.getChildren().add(logoutButton); // A
             // Set alignments for elements
             titleBox.setAlignment(Pos.CENTER);
             sortBox.setAlignment(Pos.CENTER_LEFT);
@@ -152,6 +165,10 @@ class AppFrame extends BorderPane {
         private ComboBox<String> getFilterComboBox() {
             return this.filter;
         }
+
+        public Button getLogoutButton() {
+            return logoutButton;
+        }
     }
 
     // App Footer
@@ -195,10 +212,24 @@ class AppFrame extends BorderPane {
                 recipePresenter = new RecipePresenter(recipeList);
             }
         });
+
+        header.getLogoutButton().setOnAction(e -> {
+            this.recipeList.removeAll();
+            this.setTop(null); // Remove the header
+            this.setCenter(loginScreen); // Set the center to the login screen
+            this.setBottom(null); // Remove the footer
+            User.saveLoginState(false);
+        });
     }
 
     public void showRecipeList() {
-        loadData = new LoadData(User.getUsername(), recipeList);
+        if (User.getSavedUsername().length() > 0) {
+            loadData = new LoadData(User.getSavedUsername(), recipeList);
+            System.out.println("showRecipeList: " + User.getSavedUsername());
+        } else {
+            loadData = new LoadData(User.getUsername(), recipeList);
+            System.out.println("showRecipeList: " + User.getUsername());
+        }
         loadData.retrieveRecipes();
         loadData.populateRecipes();
         ScrollPane listPane = new ScrollPane(recipeList);

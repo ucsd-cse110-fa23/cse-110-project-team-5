@@ -27,6 +27,8 @@ class LoginScreen extends BorderPane {
     private AppFrame appFrame;
     private Model model;
     static User user;
+    private Button backToLoginButton;
+    private Text invalidFieldText;
 
     // Constructor for LoginScreen
     LoginScreen(AppFrame appFrame) {
@@ -49,6 +51,9 @@ class LoginScreen extends BorderPane {
         registerButton = new Button("Register"); // New button for registration
         registerButton.setVisible(false);
 
+        backToLoginButton = new Button("Back to Log in");
+        backToLoginButton.setVisible(false); // Initially invisi
+
         registrationText = new Text("Your account has been registered!");
         registrationText.setStyle("-fx-fill: red;");
         registrationText.setVisible(false);
@@ -61,11 +66,15 @@ class LoginScreen extends BorderPane {
         usernameTakenText.setStyle("-fx-fill: red;");
         usernameTakenText.setVisible(false);
 
+        invalidFieldText = new Text("Please make sure the username and password fields have been filled. Try again...");
+        invalidFieldText.setStyle("-fx-fill: red;");
+        invalidFieldText.setVisible(false);
+
 
         // Configure layout of the BorderPane
         VBox vbox = new VBox(10); // spacing between components
         vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
-        loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText);
+        loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText, backToLoginButton, invalidFieldText);
         vbox.setAlignment(Pos.CENTER);
 
         this.setCenter(vbox);
@@ -86,7 +95,9 @@ class LoginScreen extends BorderPane {
             String loginRequest = model.sendLoginRequest(username, password);
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
                 denyLoginText.setVisible(false);
+                User.saveLoginState(rememberMe);
                 appFrame.showRecipeList();
+                registrationText.setVisible(false);
             } else {
                 denyLoginText.setVisible(true);
             }
@@ -104,28 +115,43 @@ class LoginScreen extends BorderPane {
             // You can open a new window or navigate to another scene for account creation
             switchToRegistrationMode();
             System.out.println("Create an account button clicked");
+            denyLoginText.setVisible(false);
         });
 
         registerButton.setOnAction(e -> {
            
             // Implement registration logic here
             // You can open a new window or navigate to another scene for registration
-            registrationText.setVisible(true);
+            //registrationText.setVisible(true);
             String username = usernameField.getText();
             String password = passwordField.getText();
             System.out.println(username);
             System.out.println(password);
-            if (model.sendSignupRequest(username, password).equals("registererror")) { 
+            
+            if ((password.length() == 0) || username.length() == 0) {
+                invalidFieldText.setVisible(true);
+            } 
+            else if (model.sendSignupRequest(username, password).equals("registererror")) { 
                 usernameTakenText.setVisible(true);
                 registrationText.setVisible(false);
+                invalidFieldText.setVisible(false);
                 System.out.println("registererror");
-            } else {
+            }
+            else {
                 usernameTakenText.setVisible(false);
                 registrationText.setVisible(true);
+                invalidFieldText.setVisible(false);
                 // Reset to original Log In screen
                 resetToOriginalState();
             }
             System.out.println("Register button clicked");
+        });
+
+        backToLoginButton.setOnAction(e -> {
+            resetToOriginalState();
+            usernameTakenText.setVisible(false);
+            registrationText.setVisible(false);
+            invalidFieldText.setVisible(false);
         });
     }
 
@@ -138,6 +164,7 @@ class LoginScreen extends BorderPane {
         registerButton.setVisible(true);
         usernameTakenText.setVisible(false);
         registrationText.setVisible(false);
+        backToLoginButton.setVisible(true);
     }
 
     private void resetToOriginalState() {
@@ -146,7 +173,10 @@ class LoginScreen extends BorderPane {
         loginButton.setVisible(true);
         createAccountButton.setVisible(true);
         registerButton.setVisible(false);
+        backToLoginButton.setVisible(false);
     }
+
+   
 
     
 }

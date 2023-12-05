@@ -69,5 +69,20 @@ public class ServerTest {
         String response = login.handle("GET", "/login", "username=testUser");
         assertEquals("Invalid GET request", response);
     }
-}
+    @Test
+    public void dallETest() {
+        // Perform a Whisper request and check the response
+        String response = model.performRequest("GET", "dalle", "beef_curry");
+        final String correctResponse = "successfully generated image";
+        assertEquals(response, correctResponse); // Assert that the response matches the expected value
+    }
 
+    // Test case for recipe route
+    @Test
+    public void RecipeTest() {
+        String response = model.performRequest("GET", "recipe", "username,recipe_name"); 
+                                                    // CHANGE QUERY ONCE READ RECIPE IS IMPLEMENTED
+        final String correctResponse = "{\"recipe_tag\":\"Dinner\",\"recipe_name\":\"Beef Curry\",\"recipe_details\":\"default response for recipe details\"}";        // CHANGE LATER ONCE READ RECIPE IS IMPLEMENTED
+        assertEquals(response, correctResponse);
+    }
+}
