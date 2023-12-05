@@ -21,7 +21,6 @@ public class LoadData {
 
     public void retrieveRecipes() {
         String response = model.sendRecipeRetrieveRequest(username);
-        //Type listType = new TypeToken<ArrayList<Recipe>>(){}.getType();
         recipes = (ArrayList<?>) gson.fromJson(response, ArrayList.class);
     }
 

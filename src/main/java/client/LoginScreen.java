@@ -92,6 +92,7 @@ class LoginScreen extends BorderPane {
                 denyLoginText.setVisible(false);
                 User.saveLoginState(rememberMe);
                 appFrame.showRecipeList();
+                registrationText.setVisible(false);
             } else {
                 denyLoginText.setVisible(true);
             }
@@ -109,6 +110,7 @@ class LoginScreen extends BorderPane {
             // You can open a new window or navigate to another scene for account creation
             switchToRegistrationMode();
             System.out.println("Create an account button clicked");
+            denyLoginText.setVisible(false);
         });
 
         registerButton.setOnAction(e -> {
@@ -133,7 +135,11 @@ class LoginScreen extends BorderPane {
             System.out.println("Register button clicked");
         });
 
-        backToLoginButton.setOnAction(e -> resetToOriginalState());
+        backToLoginButton.setOnAction(e -> {
+            resetToOriginalState();
+            usernameTakenText.setVisible(false);
+            registrationText.setVisible(false);
+        });
     }
 
     // Method to update UI when switching to registration mode
