@@ -1,16 +1,21 @@
 package client;
 
 import javafx.animation.PauseTransition;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 // Login Screen class
 class LoginScreen extends BorderPane {
@@ -36,12 +41,24 @@ class LoginScreen extends BorderPane {
         model = new Model();
         // Initialize UI components
         Text loginText = new Text("Log In");
-        loginText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+        loginText.setFont(Font.font("Georgia", FontWeight.BOLD, 33));
+        // // Create a DropShadow effect
+        // Color color = olor.web("#A4C3B2");
+        // DropShadow dropShadow = new DropShadow();
+        // dropShadow.setRadius(5.0);
+        // dropShadow.setOffsetX(3.0);
+        // dropShadow.setOffsetY(0);
+        // dropShadow.setColor(color); // Set the color of the shadow
+
+        // Apply the DropShadow effect to the Text node
+        // loginText.setEffect(dropShadow);
 
         usernameField = new TextField();
+        usernameField.setMaxWidth(300);
         usernameField.setPromptText("Username");
 
         passwordField = new PasswordField();
+        passwordField.setMaxWidth(300);
         passwordField.setPromptText("Password");
 
         rememberMeCheckBox = new CheckBox("Remember me");
@@ -72,12 +89,24 @@ class LoginScreen extends BorderPane {
 
 
         // Configure layout of the BorderPane
-        VBox vbox = new VBox(10); // spacing between components
-        vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
+        VBox logBox = new VBox(loginText); // spacing between components
+        VBox fieldBox = new VBox(usernameField, passwordField);
+        VBox bottomBox = new VBox(rememberMeCheckBox, 
         loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText, backToLoginButton, invalidFieldText);
-        vbox.setAlignment(Pos.CENTER);
 
-        this.setCenter(vbox);
+        logBox.setAlignment(Pos.CENTER);
+        logBox.setPrefHeight(250);
+        fieldBox.setAlignment(Pos.CENTER);
+        fieldBox.setPrefHeight(50);
+        fieldBox.setSpacing(10);
+        fieldBox.setPadding(new Insets(0, 0, 10, 0)); 
+        bottomBox.setAlignment(Pos.CENTER);
+        bottomBox.setPrefHeight(50);
+        bottomBox.setSpacing(10);
+
+        VBox vBox = new VBox(logBox, fieldBox, bottomBox);
+        vBox.setStyle("-fx-background-color: #A4C3B2;");
+        this.setCenter(vBox);
 
         // Initialize and configure button
         addListeners(); // Set up event listeners for buttons
