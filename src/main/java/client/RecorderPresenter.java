@@ -66,7 +66,10 @@ public class RecorderPresenter {
             // this.ingredients = "chicken";
             this.ingredients = recorder.retrieveVoiceCommandResponse("voiceinstructions.wav");
             String newRecipe = recipeGenerate.fetchGeneratedRecipe(this.ingredients, this.mealType);
-            if (newRecipe.equals("NO INPUT")) {
+            if (newRecipe.equals("null")) {
+                recorderPage.setInstructions("Server Error. Please Repeat");
+            }
+            else if (newRecipe.equals("NO INPUT")) {
                 recorderPage.setInstructions("Please Repeat Ingredients");
             } else {
                 recipePresenter.notifyRecorder(newRecipe);
