@@ -1,6 +1,5 @@
 package client;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,14 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class RecorderPage {
     private Label recordingLabel;
     private Text instructions;
     private Button ingredientButton;
-    Stage recordingStage;
+    private Scene scene;
 
     private ServerError serverError;
 
@@ -44,18 +41,7 @@ public class RecorderPage {
         recordingPane.getChildren().add(instructions);
         recordingPane.setCenter(buttonBox);
 
-        Scene scene = new Scene(recordingPane, 500, 600);
-
-        recordingStage = new Stage();
-        recordingStage.setScene(scene);
-        recordingStage.setTitle("Recording Window");
-        recordingStage.show();
-        // Stops recording when the window is closed
-        recordingStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                recorderPresenter.stopRecording();
-            }
-        });
+        scene = new Scene(recordingPane, 500, 600);
 
         // Set up event handler for recordButton
         recordButton.setOnAction(e1 -> {
@@ -71,6 +57,10 @@ public class RecorderPage {
         });
     }
 
+    public Scene getScene() {
+        return this.scene;
+    }
+
     public void updateRecordingLabel(boolean isRecording) {
         recordingLabel.setVisible(isRecording);
     }
@@ -82,10 +72,6 @@ public class RecorderPage {
 
     public void setInstructions(String message) {
         instructions.setText(message);
-    }
-
-    public void close() {
-        recordingStage.close();
     }
 
     private boolean serverIsAvailable(Button button) {

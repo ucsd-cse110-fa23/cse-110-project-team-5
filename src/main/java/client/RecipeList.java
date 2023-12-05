@@ -8,7 +8,7 @@ class RecipeList extends VBox {
     RecipeList() {
         this.setSpacing(5); // sets spacing between recipes
         this.setPrefSize(500, 600);
-        this.setStyle("-fx-background-color: #F0F8FF;"); // sets background color
+        this.setStyle("-fx-background-color: #EAF4F4;"); // sets background color
     }
 
     // Updates Recipe Indices within the Recipe List

@@ -1,15 +1,24 @@
 package client;
 
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.File;
+
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 // The Details class represents a VBox containing TextArea components for title and details of a recipe
 class Details extends VBox {
     // Declare instance variables
     private TextArea title;
-    private TextArea mealType;
+    private TextField mealType;
     private TextArea details;
+    private ImageView imageView;
 
     // Constructor for Details class
     Details(Recipe recipe) {
@@ -29,12 +38,11 @@ class Details extends VBox {
         this.getChildren().add(title); // Add title TextArea to the VBox
 
         // Create and configure title TextArea
-        mealType = new TextArea();
-        mealType.setPrefSize(475, 20); // Set size of the title text field
+        mealType = new TextField();
+        mealType.setPrefSize(100, 20); // Set size of the title text field
         mealType.setStyle(
                 "-fx-font-size: 20px; -fx-font-weight: bold; -fx-background-color: #DAE5EA; -fx-border-width: 0;");
-        mealType.setPadding(new Insets(10, 0, 10, 0)); // Add padding to the title text field
-        mealType.setWrapText(true); // Enable text wrapping
+        mealType.setPadding(new Insets(10, 0, 10, 20)); // Add padding to the title text field
         mealType.setEditable(false);
         mealType.setText(recipe.getMealType());
         this.getChildren().add(mealType); // Add title TextArea to the VBox
@@ -51,6 +59,13 @@ class Details extends VBox {
         details.prefHeightProperty().bind(this.heightProperty()); // Make details TextArea match the height of the VBox
         details.setText(recipe.getRecipeDetails());
         this.getChildren().add(details); // Add details TextArea to the VBox
+
+        imageView = new ImageView();
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(200);
+        HBox imageBox = new HBox(imageView);
+        imageBox.setAlignment(Pos.CENTER);
+        this.getChildren().add(imageBox);
     }
 
     public void makeTextEditable() {
@@ -80,5 +95,10 @@ class Details extends VBox {
 
     public String getMealType() {
         return this.mealType.getText();
+    }
+
+    public void uploadImage(String link) {
+        Image image = new Image(link);
+        imageView.setImage(image);
     }
 }

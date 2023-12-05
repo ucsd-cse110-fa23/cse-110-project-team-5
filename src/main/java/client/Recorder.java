@@ -42,7 +42,7 @@ public class Recorder {
             targetLine = (TargetDataLine) AudioSystem.getLine(info);
             targetLine.open(format);
             targetLine.start();
-
+            // Create the output file where the audio data will be saved
             String filePath = "voiceinstructions.wav";
             // "src" + File.separator + "main" + File.separator + "java" + File.separator +
             outputFile = new File(filePath);

@@ -19,7 +19,6 @@ import java.util.*;
 public class MongoDB {
     JsonWriterSettings prettyPrint = JsonWriterSettings.builder().indent(true).build();
     String uri = "mongodb://rsaito:Nimono8871@ac-7nibm9a-shard-00-00.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-01.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-02.idfww8h.mongodb.net:27017/?ssl=true&replicaSet=atlas-12jat1-shard-0&authSource=admin&retryWrites=true&w=majority";
-
     public boolean createUser(String username, String password) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
@@ -64,7 +63,7 @@ public class MongoDB {
         }
     }
 
-    public void createAndUpdateRecipe(String username, String recipeName, String tag, String details) {
+    public void createAndUpdateRecipe(String username, String recipeName, String tag, String details, String time, String imageLink) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
             MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
@@ -75,6 +74,8 @@ public class MongoDB {
             recipe.append("recipe_name", recipeName);
             recipe.append("recipe_tag", tag);
             recipe.append("recipe_details", details);
+            recipe.append("creation_time", time);
+            recipe.append("image_link", imageLink);
 
             Bson update = Updates.addToSet("recipe_list", recipe);
             UpdateOptions option = new UpdateOptions().upsert(true);
