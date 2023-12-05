@@ -26,11 +26,13 @@ public class Server {
 
     // Define and create contexts for different endpoints, associating them with
     // their respective request handlers
-    // Example: HttpContext recipeContext = server.createContext("/recipe", new RequestHandler(data));
+    // Example: HttpContext recipeContext = server.createContext("/recipe", new
+    // RequestHandler(data));
+    HttpContext recipeContext = server.createContext("/recipe", new RecipeRequestHandler(data));
     HttpContext GptContext = server.createContext("/gpt", new GptRequestHandler(data));
     HttpContext whisperContext = server.createContext("/whisper", new WhisperRequestHandler(data));
     HttpContext accountContext = server.createContext("/userInfo", new AccountRequestHandler(data));
-    HttpContext recipeContext = server.createContext("/recipe", new RecipeRequestHandler(data));
+    HttpContext shareContext = server.createContext("/share", new ShareRequestHandler(data));
     HttpContext DallEContext = server.createContext("/dalle", new DallERequestHandler(data));
 
     HttpContext MockGptContext = server.createContext("/mockgpt", new MockGptRequestHandler(data));
