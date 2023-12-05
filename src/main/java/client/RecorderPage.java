@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class RecorderPage {
     private Label recordingLabel;
@@ -17,9 +18,10 @@ public class RecorderPage {
     private ServerError serverError;
 
     public RecorderPage(RecorderPresenter recorderPresenter) {
-        instructions = new Text("Specify Meal Type (Breakfast, Lunch, or Dinner)");
+        instructions = new Text("Specify Meal Type\n(Breakfast, Lunch, Dinner)");
         instructions.setLayoutX(130);
         instructions.setLayoutY(60);
+        instructions.setTextAlignment(TextAlignment.CENTER);
         
         Button recordButton = new Button("Record");
 

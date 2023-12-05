@@ -1,10 +1,13 @@
 package client;
 
 import java.util.ArrayList;
+
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
@@ -72,10 +75,11 @@ class RecipeDetails extends BorderPane {
     class Header extends HBox {
         Header() {
             this.setPrefSize(500, 60); // Size of the header
-            this.setStyle("-fx-background-color: #F0F8FF;");
+            this.setStyle("-fx-background-color: #A4C3B2;");
 
             Text titleText = new Text("Recipe Details"); // Text of the Header
-            titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+            titleText.setFont(Font.font("Georgia", FontWeight.BOLD, 22)); // Set Font and Size
+
             this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center
         }
@@ -91,7 +95,7 @@ class RecipeDetails extends BorderPane {
 
         Footer() {
             this.setPrefSize(500, 60);
-            this.setStyle("-fx-background-color: #F0F8FF;");
+            this.setStyle("-fx-background-color: #A4C3B2;");
             this.setSpacing(15);
 
             // set a default style for buttons - background color, font size, italics
@@ -183,7 +187,6 @@ class RecipeDetails extends BorderPane {
 
         shareButton.setOnAction(e -> {
             this.share = new Share(User.getUsername(), recipe.getRecipeName());
-            // this.share = new Share("temp username", "temp recipe name");
             Share root = this.share;
             Stage shareStage = new Stage();
 
@@ -191,12 +194,6 @@ class RecipeDetails extends BorderPane {
             shareStage.setScene(viewShareScene);
 
             shareStage.show();
-
-            // RecipeList root = this.recipeList;
-            // Stage shareStage = new Stage();
-            // Scene viewShareScene = new Scene(root, 500, 600);
-            // shareStage.setScene(viewShareScene);
-            // shareStage.show();
         });
 
         regenerateButton.setOnAction(e -> {
