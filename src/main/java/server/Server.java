@@ -34,7 +34,6 @@ public class Server {
     HttpContext accountContext = server.createContext("/userInfo", new AccountRequestHandler(data));
     HttpContext shareContext = server.createContext("/share", new ShareRequestHandler(data));
     HttpContext DallEContext = server.createContext("/dalle", new DallERequestHandler(data));
-
     HttpContext MockGptContext = server.createContext("/mockgpt", new MockGptRequestHandler(data));
     HttpContext MockwhisperContext = server.createContext("/mockwhisper", new MockWhisperRequestHandler(data));
 

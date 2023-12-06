@@ -1,14 +1,10 @@
 package client;
 
 import java.util.ArrayList;
-
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
@@ -295,6 +291,5 @@ class RecipeDetails extends BorderPane {
 
     public void setImageLink(String link) {
         this.imageLink = link;
-        System.out.println(this.imageLink);
     }
 }

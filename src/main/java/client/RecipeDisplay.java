@@ -3,13 +3,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Pos;
 
 // Represents the graphical display of a single recipe in the RecipeList

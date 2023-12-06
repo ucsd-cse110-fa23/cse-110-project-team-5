@@ -1,18 +1,9 @@
 package client;
 
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.io.File;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 

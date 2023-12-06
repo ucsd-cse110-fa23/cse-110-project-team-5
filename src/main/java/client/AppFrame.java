@@ -1,12 +1,10 @@
 package client;
 
-import javafx.beans.binding.StringBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
@@ -50,7 +48,7 @@ class AppFrame extends BorderPane {
         this.filter = header.getFilter();
         this.sortComboBox = header.getSortComboBox();
         this.filterComboBox = header.getFilterComboBox();
-        
+
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -61,6 +59,7 @@ class AppFrame extends BorderPane {
         if (this.serverError.checkServerAvailability()) {
             if (User.isRemembered()) {
                 // Auto-login
+
                 recipeList.setUsername(User.getSavedUsername());
                 showRecipeList();
             } else {
@@ -82,7 +81,9 @@ class AppFrame extends BorderPane {
             this.setStyle("-fx-background-color: #A4C3B2;");
             // Create Logout button
             logoutButton = new Button("Logout");
-            logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white; -fx-background-radius: 5;"); // Style logout button
+            logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white; -fx-background-radius: 5;"); // Style
+                                                                                                                     // logout
+                                                                                                                     // button
             // Create Sort Dropdown
             sort = new ComboBox<>();
             sort.setPromptText("Sort By");
@@ -218,7 +219,7 @@ class AppFrame extends BorderPane {
             this.setCenter(loginScreen); // Set the center to the login screen
             this.setBottom(null); // Remove the footer
             User.saveLoginState(false);
-            
+
         });
     }
 
@@ -233,9 +234,9 @@ class AppFrame extends BorderPane {
         loadData.retrieveRecipes();
         loadData.populateRecipes();
         ScrollPane listPane = new ScrollPane(recipeList);
-        listPane.setFitToWidth(true); 
-        listPane.setFitToHeight(true); 
-        listPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); 
+        listPane.setFitToWidth(true);
+        listPane.setFitToHeight(true);
+        listPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         this.setTop(header);
         this.setCenter(listPane);
         this.setBottom(footer);
