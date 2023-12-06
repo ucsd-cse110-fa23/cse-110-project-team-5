@@ -66,4 +66,4 @@ To share a recipe:
 -------------------------------------------------------------------------------------------
 
 ### Link to the project’s Github repo
-https://github.com/ucsd-cse110-fa23/cse-110-project-team-5.git/tree/MS2-Demo
+https://github.com/ucsd-cse110-fa23/cse-110-project-team-5.git
