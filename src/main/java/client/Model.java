@@ -64,6 +64,7 @@ public class Model {
         }
     }
 
+    // Send a signup request to the server
     public String sendSignupRequest(String username, String password) {
         try {
             String route = "userInfo";
@@ -78,6 +79,7 @@ public class Model {
         }
     }
 
+    // Send a login request to the server
     public String sendLoginRequest(String username, String password) {
         try {
             String route = "userInfo";
@@ -92,6 +94,7 @@ public class Model {
         }
     }
 
+    // Send a request to the server when adding recipes to the database
     public String sendPostRecipeRequest(String username, Recipe recipe) {
         try {
             System.out.println("SENDING POST REQUEST");
@@ -112,6 +115,7 @@ public class Model {
         }
     }
 
+    // Send a request to the server when logging into an existing account
     public String sendRecipeRetrieveRequest(String username) {
         try {
             String route = "recipe";
@@ -125,6 +129,7 @@ public class Model {
         }
     }
 
+    // Send a request to the server when deleting a recipe
     public String sendRecipeDeleteRequest(String username, Recipe recipe) {
         try {
             String route = "recipe";
@@ -132,13 +137,14 @@ public class Model {
             String query = "username=" + URLEncoder.encode(username, "UTF-8") +
                     "&Name=" + URLEncoder.encode(recipe.getRecipeName(), "UTF-8");
             return performRequest(method, route, query);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             return "Error: " + e.getMessage();
         }
     }
 
+    // Send a request to the server when generating an image for the recipe
     public String sendImageRetrieveRequest(String contents) {
         try {
             String route = "dalle";
