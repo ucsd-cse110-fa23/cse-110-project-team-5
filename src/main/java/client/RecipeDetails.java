@@ -183,6 +183,9 @@ class RecipeDetails extends BorderPane {
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
             this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
+
+            Stage stage = (Stage) this.getScene().getWindow(); // Get the stage
+            stage.close(); // Close the stage (window)
         });
 
         shareButton.setOnAction(e -> {

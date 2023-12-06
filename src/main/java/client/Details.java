@@ -1,6 +1,8 @@
 package client;
 
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
@@ -40,13 +42,13 @@ class Details extends VBox {
         mealType = new TextField();
         mealType.setPrefSize(65, 20); // Set size of the title text field
         mealType.setAlignment(Pos.CENTER); // Set alignment of index label
-        mealType.setStyle("-fx-background-color: #23AEFB; -fx-padding: 5px; -fx-background-radius: 10; -fx-font-weight: bold;");
+        mealType.setStyle("-fx-background-radius: 0 0 10 0; -fx-border-radius: 0 0 10 0; "
+                + "-fx-background-color: #A4C3B2; -fx-padding: 5px; -fx-font-weight: bold;");
         mealType.setPadding(new Insets(10, 0, 10, 10)); // Add padding to the title text field
-        mealType.setEditable(false); // Make the text field non-editable
-        mealType.setAlignment(Pos.CENTER);
-
+        // Create container for Mealtype
         HBox mealBox = new HBox(mealType);
-        mealBox.setStyle("-fx-background-color: #A4C3B2; -fx-margin-top: 0;");
+        mealBox.setStyle("-fx-background-color: #CCE3DE; -fx-margin-top: 0;");
+        VBox.setMargin(mealType, new Insets(0, 0, 0, 10));
         this.getChildren().add(mealBox);
         this.getChildren().add(title); 
 

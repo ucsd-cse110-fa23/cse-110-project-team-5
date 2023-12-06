@@ -30,7 +30,7 @@ public class LoadData {
             String name = recipeString.substring(recipeString.indexOf("recipe_name=") + 12, recipeString.indexOf("recipe_tag") - 2);
             String tag = recipeString.substring(recipeString.indexOf("recipe_tag=") + 11, recipeString.indexOf("recipe_details") - 2);
             String details = recipeString.substring(recipeString.indexOf("recipe_details=") + 15, recipeString.indexOf("creation_time") - 2);
-            String creationTime = recipeString.substring(recipeString.indexOf("creation_time") + 13, recipeString.length() - 1);
+            String imageLink = recipeString.substring(recipeString.indexOf("image_link=") + 11, recipeString.length() - 1);
 
             Recipe recipe = new Recipe(name, tag, details);
             RecipeDetails recipeDetails = new RecipeDetails(recipeList);
