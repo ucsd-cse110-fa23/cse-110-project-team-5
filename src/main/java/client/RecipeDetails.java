@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
@@ -72,10 +71,11 @@ class RecipeDetails extends BorderPane {
     class Header extends HBox {
         Header() {
             this.setPrefSize(500, 60); // Size of the header
-            this.setStyle("-fx-background-color: #F0F8FF;");
+            this.setStyle("-fx-background-color: #A4C3B2;");
 
             Text titleText = new Text("Recipe Details"); // Text of the Header
-            titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+            titleText.setFont(Font.font("Tahoma", FontWeight.BOLD, 22)); // Set Font and Size
+
             this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center
         }
@@ -91,7 +91,7 @@ class RecipeDetails extends BorderPane {
 
         Footer() {
             this.setPrefSize(500, 60);
-            this.setStyle("-fx-background-color: #F0F8FF;");
+            this.setStyle("-fx-background-color: #A4C3B2;");
             this.setSpacing(15);
 
             // set a default style for buttons - background color, font size, italics
@@ -159,7 +159,14 @@ class RecipeDetails extends BorderPane {
 
             this.disableRegenerate();
             this.notifySave();
-            this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
+            
+            if (User.getSavedUsername().length() > 0) {
+                this.model.sendPostRecipeRequest(User.getSavedUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getSavedUsername());
+            } else {
+                this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getUsername());
+            }
         });
 
         // Add button functionality for saveButton
@@ -178,12 +185,20 @@ class RecipeDetails extends BorderPane {
             this.saveChangesButton.setDisable(true);
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
-            this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
+            
+            if (User.getSavedUsername().length() > 0) {
+                this.model.sendRecipeDeleteRequest(User.getSavedUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getSavedUsername());
+            } else {
+                this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getUsername());
+            }
+            Stage stage = (Stage) this.getScene().getWindow(); // Get the stage
+            stage.close(); // Close the stage (window)
         });
 
         shareButton.setOnAction(e -> {
             this.share = new Share(User.getUsername(), recipe.getRecipeName());
-            // this.share = new Share("temp username", "temp recipe name");
             Share root = this.share;
             Stage shareStage = new Stage();
 
@@ -191,12 +206,6 @@ class RecipeDetails extends BorderPane {
             shareStage.setScene(viewShareScene);
 
             shareStage.show();
-
-            // RecipeList root = this.recipeList;
-            // Stage shareStage = new Stage();
-            // Scene viewShareScene = new Scene(root, 500, 600);
-            // shareStage.setScene(viewShareScene);
-            // shareStage.show();
         });
 
         regenerateButton.setOnAction(e -> {
@@ -282,6 +291,5 @@ class RecipeDetails extends BorderPane {
 
     public void setImageLink(String link) {
         this.imageLink = link;
-        System.out.println(this.imageLink);
     }
 }

@@ -1,16 +1,15 @@
 package client;
 
-import javafx.beans.binding.StringBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 // Main AppFrame for Pantry Pal App 
 class AppFrame extends BorderPane {
@@ -28,6 +27,7 @@ class AppFrame extends BorderPane {
     private ServerError serverError;
     private LoginScreen loginScreen;
     private LoadData loadData;
+    private ScrollPane listPane;
 
     // Constructor for AppFrame
     AppFrame() {
@@ -44,16 +44,11 @@ class AppFrame extends BorderPane {
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Configure layout of the BorderPane
-        //this.setTop(header);
-        //this.setCenter(loginScreen);
-        //this.setBottom(footer);
-        //showLoginScreen();
-        //showRecipeList();
         this.sort = header.getSort();
         this.filter = header.getFilter();
         this.sortComboBox = header.getSortComboBox();
         this.filterComboBox = header.getFilterComboBox();
-        
+
         // Initialize and configure button
         this.createButton = footer.getCreateButton();
         addListeners(); // Set up event listeners for buttons
@@ -64,6 +59,7 @@ class AppFrame extends BorderPane {
         if (this.serverError.checkServerAvailability()) {
             if (User.isRemembered()) {
                 // Auto-login
+
                 recipeList.setUsername(User.getSavedUsername());
                 showRecipeList();
             } else {
@@ -83,35 +79,41 @@ class AppFrame extends BorderPane {
         Header() {
             this.setPrefSize(500, 60); // Set size of the header
             this.setStyle("-fx-background-color: #A4C3B2;");
-            // Add Dropdowns
+            // Create Logout button
+            logoutButton = new Button("Logout");
+            logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white; -fx-background-radius: 5;"); // Style
+                                                                                                                     // logout
+                                                                                                                     // button
+            // Create Sort Dropdown
             sort = new ComboBox<>();
-            filter = new ComboBox<>();
             sort.setPromptText("Sort By");
+            sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A"); // Fill dropdown options
+            sort.setStyle("-fx-background-radius: 5;"); // Set Sort style
+            sort.setPrefWidth(134); // Set a preferred width for the sort dropdown
+            // Create Filter Dropdown
+            filter = new ComboBox<>();
             filter.setPromptText("Filter Recipes");
-            sort.getItems().addAll("Newest to Oldest", "Oldest to Newest", "A - Z", "Z - A");
-            filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All");
-            HBox.setMargin(sort, new Insets(0, 10, 0, 10));
-            HBox.setMargin(filter, new Insets(0, 10, 0, 10));
-            // Add "Recipe List" Title
+            filter.getItems().addAll("Breakfast", "Lunch", "Dinner", "All"); // Fill dropdown options
+            filter.setStyle("-fx-background-radius: 5;"); // Set Filter style
+            filter.setPrefWidth(134); // Set a preferred width for the sort dropdown
+            // Create "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
-            titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+            titleText.setFont(Font.font("Tahoma", FontWeight.BOLD, 23)); // Set Font and Size
             // Create containers for elements
+            VBox logoutAndSortBox = new VBox(logoutButton, sort);
             HBox titleBox = new HBox(titleText);
             HBox filterBox = new HBox(filter);
-            HBox sortBox = new HBox(sort);
-            logoutButton = new Button("Logout");
-            logoutButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white;"); // Styling the logout button
-            HBox.setMargin(logoutButton, new Insets(0,10,0,10));
-            this.getChildren().add(logoutButton); // A
+            // Configure spacing and padding
+            logoutAndSortBox.setPadding(new Insets(8, 10, 8, 10)); // Add padding to the VBox
+            logoutAndSortBox.setSpacing(5);
+            filterBox.setPadding(new Insets(38, 10, 8, 10)); // Add padding to the VBox
             // Set alignments for elements
+            logoutAndSortBox.setAlignment(Pos.CENTER_LEFT);
             titleBox.setAlignment(Pos.CENTER);
-            sortBox.setAlignment(Pos.CENTER_LEFT);
-            sort.setStyle("-fx-background-radius: 5;");
             filterBox.setAlignment(Pos.CENTER_RIGHT);
-            filter.setStyle("-fx-background-radius: 5;");
-            // Add elements to the header
-            this.getChildren().addAll(sortBox, titleBox, filterBox);
             HBox.setHgrow(titleBox, Priority.ALWAYS);
+            // Add elements to the header
+            this.getChildren().addAll(logoutAndSortBox, titleBox, filterBox);
             this.sorter = new Sort();
             this.filt = new Filter();
 
@@ -202,8 +204,6 @@ class AppFrame extends BorderPane {
     public void addListeners() {
         // Add button functionality
         createButton.setOnAction(e -> {
-            // ComboBox<String> sortComboBox = getSortComboBox();
-            // ComboBox<String> filterComboBox;
             sortComboBox.setValue("Newest to Oldest");
             filterComboBox.setValue("All");
             sort.sortNewToOld(recipeList);
@@ -219,6 +219,7 @@ class AppFrame extends BorderPane {
             this.setCenter(loginScreen); // Set the center to the login screen
             this.setBottom(null); // Remove the footer
             User.saveLoginState(false);
+
         });
     }
 
@@ -233,9 +234,9 @@ class AppFrame extends BorderPane {
         loadData.retrieveRecipes();
         loadData.populateRecipes();
         ScrollPane listPane = new ScrollPane(recipeList);
-        listPane.setFitToWidth(true); 
-        listPane.setFitToHeight(true); 
-        listPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); 
+        listPane.setFitToWidth(true);
+        listPane.setFitToHeight(true);
+        listPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         this.setTop(header);
         this.setCenter(listPane);
         this.setBottom(footer);

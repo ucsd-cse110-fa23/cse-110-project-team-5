@@ -50,7 +50,7 @@ public class RecorderPresenter {
             if (this.mealType != null) {
                 recorderPage.enableRecordIngredients();
             } else {
-                recorderPage.setInstructions("Please repeat the meal type (Breakfast, Lunch, or Dinner)");
+                recorderPage.setInstructions("Please repeat the meal type\n(Breakfast, Lunch, Dinner)");
             }
         }
     }

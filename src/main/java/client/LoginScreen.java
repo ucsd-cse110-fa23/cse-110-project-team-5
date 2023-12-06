@@ -1,16 +1,17 @@
 package client;
 
-import javafx.animation.PauseTransition;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 
 // Login Screen class
 class LoginScreen extends BorderPane {
@@ -36,12 +37,14 @@ class LoginScreen extends BorderPane {
         model = new Model();
         // Initialize UI components
         Text loginText = new Text("Log In");
-        loginText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+        loginText.setFont(Font.font("Tahoma", FontWeight.BOLD, 33));
 
         usernameField = new TextField();
+        usernameField.setMaxWidth(300);
         usernameField.setPromptText("Username");
 
         passwordField = new PasswordField();
+        passwordField.setMaxWidth(300);
         passwordField.setPromptText("Password");
 
         rememberMeCheckBox = new CheckBox("Remember me");
@@ -72,12 +75,24 @@ class LoginScreen extends BorderPane {
 
 
         // Configure layout of the BorderPane
-        VBox vbox = new VBox(10); // spacing between components
-        vbox.getChildren().addAll(loginText, usernameField, passwordField, rememberMeCheckBox, 
+        VBox logBox = new VBox(loginText); // spacing between components
+        VBox fieldBox = new VBox(usernameField, passwordField);
+        VBox bottomBox = new VBox(rememberMeCheckBox, 
         loginButton, createAccountButton, registerButton, registrationText, denyLoginText, usernameTakenText, backToLoginButton, invalidFieldText);
-        vbox.setAlignment(Pos.CENTER);
 
-        this.setCenter(vbox);
+        logBox.setAlignment(Pos.CENTER);
+        logBox.setPrefHeight(250);
+        fieldBox.setAlignment(Pos.CENTER);
+        fieldBox.setPrefHeight(50);
+        fieldBox.setSpacing(10);
+        fieldBox.setPadding(new Insets(0, 0, 10, 0)); 
+        bottomBox.setAlignment(Pos.CENTER);
+        bottomBox.setPrefHeight(50);
+        bottomBox.setSpacing(10);
+
+        VBox vBox = new VBox(logBox, fieldBox, bottomBox);
+        vBox.setStyle("-fx-background-color: #A4C3B2;");
+        this.setCenter(vBox);
 
         // Initialize and configure button
         addListeners(); // Set up event listeners for buttons
@@ -91,7 +106,12 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
-            user = new User(username, password);
+            if (username.length() == 0 || password.length() == 0) {
+                invalidFieldText.setVisible(true);
+                denyLoginText.setVisible(false);
+            } else {
+                invalidFieldText.setVisible(false);
+                user = new User(username, password);
             String loginRequest = model.sendLoginRequest(username, password);
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
                 denyLoginText.setVisible(false);
@@ -100,7 +120,10 @@ class LoginScreen extends BorderPane {
                 registrationText.setVisible(false);
             } else {
                 denyLoginText.setVisible(true);
+                invalidFieldText.setVisible(false);
             }
+            }
+            
             
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
@@ -116,6 +139,7 @@ class LoginScreen extends BorderPane {
             switchToRegistrationMode();
             System.out.println("Create an account button clicked");
             denyLoginText.setVisible(false);
+            invalidFieldText.setVisible(false);
         });
 
         registerButton.setOnAction(e -> {
@@ -152,12 +176,13 @@ class LoginScreen extends BorderPane {
             usernameTakenText.setVisible(false);
             registrationText.setVisible(false);
             invalidFieldText.setVisible(false);
+            denyLoginText.setVisible(false);
         });
     }
 
     // Method to update UI when switching to registration mode
     public void switchToRegistrationMode() {
-        ((Text) ((VBox) this.getCenter()).getChildren().get(0)).setText("Sign Up");
+        ((Text) ((VBox) ((VBox) this.getCenter()).getChildren().get(0)).getChildren().get(0)).setText("Sign Up");
         rememberMeCheckBox.setVisible(false);
         loginButton.setVisible(false);
         createAccountButton.setVisible(false);
@@ -165,15 +190,27 @@ class LoginScreen extends BorderPane {
         usernameTakenText.setVisible(false);
         registrationText.setVisible(false);
         backToLoginButton.setVisible(true);
+        rememberMeCheckBox.setManaged(false);
+        loginButton.setManaged(false);
+        createAccountButton.setManaged(false);
+        registerButton.setManaged(true);
+        usernameTakenText.setManaged(false);
+        registrationText.setManaged(false);
+        backToLoginButton.setManaged(true);
     }
 
     private void resetToOriginalState() {
-        ((Text) ((VBox) this.getCenter()).getChildren().get(0)).setText("Log In");
+        ((Text) ((VBox) ((VBox) this.getCenter()).getChildren().get(0)).getChildren().get(0)).setText("Log In");
         rememberMeCheckBox.setVisible(true);
         loginButton.setVisible(true);
         createAccountButton.setVisible(true);
         registerButton.setVisible(false);
         backToLoginButton.setVisible(false);
+        rememberMeCheckBox.setManaged(true);
+        loginButton.setManaged(true);
+        createAccountButton.setManaged(true);
+        registerButton.setManaged(false);
+        backToLoginButton.setManaged(false);
     }
 
    

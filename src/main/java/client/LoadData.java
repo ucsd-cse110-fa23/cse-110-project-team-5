@@ -1,9 +1,7 @@
 package client;
 
 import java.util.ArrayList;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class LoadData {
     private Model model;
@@ -11,11 +9,13 @@ public class LoadData {
     private RecipeList recipeList;
     private String username;
     private Gson gson;
+    private Sort sort;
 
     LoadData(String username, RecipeList recipeList) {
         this.model = new Model();
         this.recipeList = recipeList;
         this.gson = new Gson();
+        this.sort = new Sort();
         this.username = username;
     }
 
@@ -25,16 +25,22 @@ public class LoadData {
     }
 
     public void populateRecipes() {
-        for (int i = 0; i < recipes.size(); i++){
+        for (int i = 0; i < recipes.size(); i++) {
             String recipeString = recipes.get(i).toString();
-            String name = recipeString.substring(recipeString.indexOf("recipe_name=") + 12, recipeString.indexOf("recipe_tag") - 2);
-            String tag = recipeString.substring(recipeString.indexOf("recipe_tag=") + 11, recipeString.indexOf("recipe_details") - 2);
-            String details = recipeString.substring(recipeString.indexOf("recipe_details=") + 15, recipeString.indexOf("creation_time") - 2);
-            String creationTime = recipeString.substring(recipeString.indexOf("creation_time") + 13, recipeString.length() - 1);
+            String name = recipeString.substring(recipeString.indexOf("recipe_name=") + 12,
+                    recipeString.indexOf("recipe_tag") - 2);
+            String tag = recipeString.substring(recipeString.indexOf("recipe_tag=") + 11,
+                    recipeString.indexOf("recipe_details") - 2);
+            String details = recipeString.substring(recipeString.indexOf("recipe_details=") + 15,
+                    recipeString.indexOf("creation_time") - 2);
+            String imageLink = recipeString.substring(recipeString.indexOf("image_link=") + 11,
+                    recipeString.length() - 1);
 
             Recipe recipe = new Recipe(name, tag, details);
             RecipeDetails recipeDetails = new RecipeDetails(recipeList);
             recipeDetails.setRecipe(recipe);
+            recipeDetails.setImageLink(imageLink);
+            recipeDetails.getDetails().uploadImage(imageLink);
             RecipeDisplay recipeDisplay = new RecipeDisplay(recipeDetails);
             recipeDetails.setRecipeDisplay(recipeDisplay);
             recipeDetails.updateTitleAndDetails(recipe);
@@ -46,6 +52,7 @@ public class LoadData {
             recipeDisplay.setRecipeDisplayName(recipe);
             recipeList.getChildren().add(recipeDisplay);
             recipeList.updateRecipeIndices();
+            sort.sortNewToOld(recipeList);
         }
     }
 
