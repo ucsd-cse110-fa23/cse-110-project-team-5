@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.mongodb.client.model.Filters.eq;
 
 import org.bson.Document;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -112,5 +113,13 @@ public class ScenarioTests {
         } catch(Exception e){
             System.out.println("Something went wrong");
         }
+    }
+    @AfterAll
+    void cleanup() {
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
+            MongoCollection<Document> usersCollection = sampleTrainingDB.getCollection("Users");
+            usersCollection.deleteOne(eq("username", "Mike Ross"));
+        } catch (Exception e) {}
     }
 }
