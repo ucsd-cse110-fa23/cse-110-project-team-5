@@ -184,15 +184,27 @@ class LoginScreen extends BorderPane {
         usernameTakenText.setVisible(false);
         registrationText.setVisible(false);
         backToLoginButton.setVisible(true);
+        rememberMeCheckBox.setManaged(false);
+        loginButton.setManaged(false);
+        createAccountButton.setManaged(false);
+        registerButton.setManaged(true);
+        usernameTakenText.setManaged(false);
+        registrationText.setManaged(false);
+        backToLoginButton.setManaged(true);
     }
 
     private void resetToOriginalState() {
-        ((Text) ((VBox) this.getCenter()).getChildren().get(0)).setText("Log In");
+        ((Text) ((VBox) ((VBox) this.getCenter()).getChildren().get(0)).getChildren().get(0)).setText("Log In");
         rememberMeCheckBox.setVisible(true);
         loginButton.setVisible(true);
         createAccountButton.setVisible(true);
         registerButton.setVisible(false);
         backToLoginButton.setVisible(false);
+        rememberMeCheckBox.setManaged(true);
+        loginButton.setManaged(true);
+        createAccountButton.setManaged(true);
+        registerButton.setManaged(false);
+        backToLoginButton.setManaged(false);
     }
 
    

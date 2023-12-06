@@ -163,7 +163,14 @@ class RecipeDetails extends BorderPane {
 
             this.disableRegenerate();
             this.notifySave();
-            this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
+            
+            if (User.getSavedUsername().length() > 0) {
+                this.model.sendPostRecipeRequest(User.getSavedUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getSavedUsername());
+            } else {
+                this.model.sendPostRecipeRequest(User.getUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getUsername());
+            }
         });
 
         // Add button functionality for saveButton
@@ -182,8 +189,14 @@ class RecipeDetails extends BorderPane {
             this.saveChangesButton.setDisable(true);
             this.shareButton.setDisable(true);
             this.deleteButton.setDisable(true);
-            this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
-
+            
+            if (User.getSavedUsername().length() > 0) {
+                this.model.sendRecipeDeleteRequest(User.getSavedUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getSavedUsername());
+            } else {
+                this.model.sendRecipeDeleteRequest(User.getUsername(), this.recipe);
+                //System.out.println("showRecipeList: " + User.getUsername());
+            }
             Stage stage = (Stage) this.getScene().getWindow(); // Get the stage
             stage.close(); // Close the stage (window)
         });
