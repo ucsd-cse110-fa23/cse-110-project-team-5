@@ -45,11 +45,6 @@ class AppFrame extends BorderPane {
         scrollPane.setFitToHeight(true);
         scrollPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
 
-        // ScrollPane listPane = new ScrollPane(recipeList);
-        // listPane.setFitToWidth(true);
-        // listPane.setFitToHeight(true);
-        // listPane.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);
-
         // Configure layout of the BorderPane
         this.sort = header.getSort();
         this.filter = header.getFilter();
@@ -102,7 +97,7 @@ class AppFrame extends BorderPane {
             filter.setPrefWidth(134); // Set a preferred width for the sort dropdown
             // Create "Recipe List" Title
             Text titleText = new Text("Recipe List"); // Text of the Header
-            titleText.setFont(Font.font("Georgia", FontWeight.BOLD, 23)); // Set Font and Size
+            titleText.setFont(Font.font("Tahoma", FontWeight.BOLD, 23)); // Set Font and Size
             // Create containers for elements
             VBox logoutAndSortBox = new VBox(logoutButton, sort);
             HBox titleBox = new HBox(titleText);

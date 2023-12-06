@@ -23,7 +23,7 @@ public class RecorderPage {
     public RecorderPage(RecorderPresenter recorderPresenter) {
         // Create instructions
         instructions = new Text("Specify Meal Type\n(Breakfast, Lunch, Dinner)");
-        instructions.setFont(Font.font("Georgia", FontWeight.BOLD, 25)); // Set Instruction Style
+        instructions.setFont(Font.font("Tahoma", 25)); // Set Instruction Style
         instructions.setTextAlignment(TextAlignment.CENTER); // Center Text
         // Create container for instruction
         VBox instructBox = new VBox(instructions);

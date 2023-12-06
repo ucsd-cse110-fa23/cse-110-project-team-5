@@ -78,7 +78,7 @@ class RecipeDetails extends BorderPane {
             this.setStyle("-fx-background-color: #A4C3B2;");
 
             Text titleText = new Text("Recipe Details"); // Text of the Header
-            titleText.setFont(Font.font("Georgia", FontWeight.BOLD, 22)); // Set Font and Size
+            titleText.setFont(Font.font("Tahoma", FontWeight.BOLD, 22)); // Set Font and Size
 
             this.getChildren().add(titleText);
             this.setAlignment(Pos.CENTER); // Align the text to the Center

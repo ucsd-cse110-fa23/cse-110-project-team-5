@@ -45,6 +45,8 @@ class Details extends VBox {
         mealType.setStyle("-fx-background-radius: 0 0 10 0; -fx-border-radius: 0 0 10 0; "
                 + "-fx-background-color: #A4C3B2; -fx-padding: 5px; -fx-font-weight: bold;");
         mealType.setPadding(new Insets(10, 0, 10, 10)); // Add padding to the title text field
+        mealType.setEditable(false); // Make text non=editable
+
         // Create container for Mealtype
         HBox mealBox = new HBox(mealType);
         mealBox.setStyle("-fx-background-color: #CCE3DE; -fx-margin-top: 0;");

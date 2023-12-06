@@ -41,17 +41,7 @@ class LoginScreen extends BorderPane {
         model = new Model();
         // Initialize UI components
         Text loginText = new Text("Log In");
-        loginText.setFont(Font.font("Georgia", FontWeight.BOLD, 33));
-        // // Create a DropShadow effect
-        // Color color = olor.web("#A4C3B2");
-        // DropShadow dropShadow = new DropShadow();
-        // dropShadow.setRadius(5.0);
-        // dropShadow.setOffsetX(3.0);
-        // dropShadow.setOffsetY(0);
-        // dropShadow.setColor(color); // Set the color of the shadow
-
-        // Apply the DropShadow effect to the Text node
-        // loginText.setEffect(dropShadow);
+        loginText.setFont(Font.font("Tahoma", FontWeight.BOLD, 33));
 
         usernameField = new TextField();
         usernameField.setMaxWidth(300);
@@ -186,7 +176,7 @@ class LoginScreen extends BorderPane {
 
     // Method to update UI when switching to registration mode
     public void switchToRegistrationMode() {
-        ((Text) ((VBox) this.getCenter()).getChildren().get(0)).setText("Sign Up");
+        ((Text) ((VBox) ((VBox) this.getCenter()).getChildren().get(0)).getChildren().get(0)).setText("Sign Up");
         rememberMeCheckBox.setVisible(false);
         loginButton.setVisible(false);
         createAccountButton.setVisible(false);

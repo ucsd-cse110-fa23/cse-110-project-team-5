@@ -18,7 +18,6 @@ public class Recipe {
         this.recipeName = recipeName;
         this.mealType = mealType;
         this.recipeDetails = recipeDetails;
-        this.mealType = mealType;
         this.time = LocalDateTime.now();
         this.isDone = false; // By default, a recipe is not marked as done
     }
