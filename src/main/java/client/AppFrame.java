@@ -218,6 +218,7 @@ class AppFrame extends BorderPane {
             this.setCenter(loginScreen); // Set the center to the login screen
             this.setBottom(null); // Remove the footer
             User.saveLoginState(false);
+            
         });
     }
 

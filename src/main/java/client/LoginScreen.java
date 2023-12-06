@@ -110,7 +110,12 @@ class LoginScreen extends BorderPane {
             String username = usernameField.getText();
             String password = passwordField.getText();
             boolean rememberMe = rememberMeCheckBox.isSelected();
-            user = new User(username, password);
+            if (username.length() == 0 || password.length() == 0) {
+                invalidFieldText.setVisible(true);
+                denyLoginText.setVisible(false);
+            } else {
+                invalidFieldText.setVisible(false);
+                user = new User(username, password);
             String loginRequest = model.sendLoginRequest(username, password);
             if (!(loginRequest.equals("loginerror")) && loginRequest.equals(password)) {
                 denyLoginText.setVisible(false);
@@ -119,7 +124,10 @@ class LoginScreen extends BorderPane {
                 registrationText.setVisible(false);
             } else {
                 denyLoginText.setVisible(true);
+                invalidFieldText.setVisible(false);
             }
+            }
+            
             
             // Perform login validation or authentication here
             // You can call a method in your main application class to handle login logic
@@ -135,6 +143,7 @@ class LoginScreen extends BorderPane {
             switchToRegistrationMode();
             System.out.println("Create an account button clicked");
             denyLoginText.setVisible(false);
+            invalidFieldText.setVisible(false);
         });
 
         registerButton.setOnAction(e -> {
@@ -171,6 +180,7 @@ class LoginScreen extends BorderPane {
             usernameTakenText.setVisible(false);
             registrationText.setVisible(false);
             invalidFieldText.setVisible(false);
+            denyLoginText.setVisible(false);
         });
     }
 
