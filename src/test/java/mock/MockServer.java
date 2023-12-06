@@ -14,6 +14,7 @@ public class MockServer {
     MockLoginHandler login;
     MockRecipeRequestHandler recipe;
     MockDallERequestHandler dalle;
+    MockShareRequestHandler share;
 
     // Constructor to initialize the MockGptRequestHandler and MockWhisperRequestHandler instances
     public MockServer() {
@@ -23,6 +24,7 @@ public class MockServer {
         login = new MockLoginHandler();
         recipe = new MockRecipeRequestHandler();
         dalle = new MockDallERequestHandler();
+        share = new MockShareRequestHandler();
     }
 
     // Method to route requests based on the provided route
@@ -44,6 +46,8 @@ public class MockServer {
             response = recipe.handle(method, route, query);
         } else if (route.equals("dalle")) {
             response = dalle.handle(method, route, query);
+        } else if (route.equals("share")) {
+            response = share.handle(method, route, query);
         }
 
         // Return the response after handling the request
