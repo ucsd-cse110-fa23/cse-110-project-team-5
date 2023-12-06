@@ -1,54 +1,19 @@
-package server;
-import com.sun.net.httpserver.*;
-import java.io.*;
-import java.net.*;
-import java.net.http.HttpClient;
-import java.util.*;
+package mock;
 
 import org.bson.Document;
 import org.json.JSONObject;
 
-public class ShareRequestHandler implements HttpHandler {
-    // HTTP client for making requests
-    HttpClient client;
+import server.MongoDB;
+
+public class MockShareRequestHandler {
     MongoDB db;
 
-    // Constructor to initialize the handler with data
-    public ShareRequestHandler(Map<String, String> data) {
-        this.client = HttpClient.newHttpClient();
+    public MockShareRequestHandler() {
         db = new MongoDB();
     }
 
-    // Handle incoming HTTP requests
-    public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "Request Received";
-        String method = httpExchange.getRequestMethod();
-
-        try {
-            // Check the request method
-            if (method.equals("GET")) {
-                response = handleGet(httpExchange).toString();
-            } else {
-                throw new Exception("Not Valid Request Method");
-            }
-        } catch (Exception e) {
-            System.out.println("An erroneous request");
-            response = e.toString();
-            e.printStackTrace();
-        }
-
-        // Send the HTTP response
-        httpExchange.sendResponseHeaders(200, response.length());
-        OutputStream outStream = httpExchange.getResponseBody();
-        outStream.write(response.getBytes());
-        outStream.close();
-    }
-
-    // Handle GET requests
-    private String handleGet(HttpExchange httpExchange) throws IOException {
+    public String handle(String method, String route, String query) {
         String response = "Invalid GET request";
-        URI uri = httpExchange.getRequestURI();
-        String query = uri.getRawQuery();
 
         JSONObject res = new JSONObject();
 
@@ -105,4 +70,5 @@ public class ShareRequestHandler implements HttpHandler {
 
         return response;
     }
+    
 }
