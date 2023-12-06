@@ -7,7 +7,7 @@ import client.User;
 public class MockUser {
     String mockusername;
     String mockpassword;
-    private static final Preferences mockprefs = Preferences.userNodeForPackage(User.class);
+    private static final Preferences mockprefs = Preferences.userNodeForPackage(MockUser.class);
 
     public MockUser(String mockusername, String mockpassword) {
         this.mockusername = mockusername;
