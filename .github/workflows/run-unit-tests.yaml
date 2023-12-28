@@ -30,7 +30,10 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute gradle build
-        run: ./gradlew build
+        env: 
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: ./gradlew build "$OPENAI_API_KEY" "$MONGO_URI"
 
       - name: Publish test reports
         uses: mikepenz/action-junit-report@v3
