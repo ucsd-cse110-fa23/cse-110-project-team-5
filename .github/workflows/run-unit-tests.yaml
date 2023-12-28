@@ -33,7 +33,7 @@ jobs:
         env: 
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: ./gradlew build "$OPENAI_API_KEY" "$MONGO_URI"
+        run: ./gradlew build 
 
       - name: Publish test reports
         uses: mikepenz/action-junit-report@v3
