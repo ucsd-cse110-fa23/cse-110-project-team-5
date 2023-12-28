@@ -10,13 +10,16 @@ import org.json.*;
 
 import com.sun.net.httpserver.HttpExchange;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 // HTTP handler for processing Whisper requests
 public class WhisperRequestHandler implements HttpHandler {
+    Dotenv dotenv = Dotenv.load();
     
     // OpenAI Whisper API endpoint and authentication details
-    private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
-    private static final String TOKEN = "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";
-    private static final String MODEL = "whisper-1";
+    private final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
+    private final String TOKEN = dotenv.get("OPENAI_API_KEY");
+    private final String MODEL = "whisper-1";
 
     HttpClient client;
     private final Map<String, String> data;

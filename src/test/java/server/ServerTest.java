@@ -14,6 +14,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +30,9 @@ public class ServerTest {
     MockServer server;
     MockLoginHandler login;
 
-    String uri = "mongodb://rsaito:Nimono8871@ac-7nibm9a-shard-00-00.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-01.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-02.idfww8h.mongodb.net:27017/?ssl=true&replicaSet=atlas-12jat1-shard-0&authSource=admin&retryWrites=true&w=majority";
+    Dotenv dotenv = Dotenv.load();
+    String uri = dotenv.get("MONGO_URI");
+
     private MongoDB mongoDB;
 
     // Set up method to initialize objects before each test

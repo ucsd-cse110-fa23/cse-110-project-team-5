@@ -14,6 +14,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import mock.MockUser;
 
 import java.util.*;
@@ -21,8 +22,9 @@ import java.util.*;
 import server.MongoDB;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ScenarioTests {
+    Dotenv dotenv = Dotenv.load();
+    String uri = dotenv.get("MONGO_URI");
 
-    String uri = "mongodb://rsaito:Nimono8871@ac-7nibm9a-shard-00-00.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-01.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-02.idfww8h.mongodb.net:27017/?ssl=true&replicaSet=atlas-12jat1-shard-0&authSource=admin&retryWrites=true&w=majority";
     private MongoDB mongoDB;
     private Document user;
     private MockUser userinfo;

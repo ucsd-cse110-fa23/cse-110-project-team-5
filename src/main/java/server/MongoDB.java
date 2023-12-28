@@ -14,11 +14,15 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.util.*;
 
 public class MongoDB {
+    Dotenv dotenv = Dotenv.load();
+
     JsonWriterSettings prettyPrint = JsonWriterSettings.builder().indent(true).build();
-    String uri = "mongodb://rsaito:Nimono8871@ac-7nibm9a-shard-00-00.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-01.idfww8h.mongodb.net:27017,ac-7nibm9a-shard-00-02.idfww8h.mongodb.net:27017/?ssl=true&replicaSet=atlas-12jat1-shard-0&authSource=admin&retryWrites=true&w=majority";
+    String uri = dotenv.get("MONGO_URI");
     public boolean createUser(String username, String password) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");
