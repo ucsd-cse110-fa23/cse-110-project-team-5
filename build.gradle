@@ -58,4 +58,5 @@ application {
 }
 dependencies {
   implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+  implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 }
