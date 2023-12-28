@@ -1,8 +1,6 @@
 package server;
 import com.sun.net.httpserver.*;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
@@ -15,11 +13,10 @@ import org.json.JSONObject;
 
 // HTTP handler for processing GPT requests
 public class GptRequestHandler implements HttpHandler {
-    Dotenv dotenv = Dotenv.load();
-    
+
     // OpenAI GPT-3 API endpoint and authentication details
     private final String API_ENDPOINT = "https://api.openai.com/v1/completions";
-    private final String API_KEY = dotenv.get("OPENAI_API_KEY");
+    private final String API_KEY = System.getenv("OPENAI_API_KEY");
     private final String MODEL = "text-davinci-003";
 
     // HTTP client for making requests

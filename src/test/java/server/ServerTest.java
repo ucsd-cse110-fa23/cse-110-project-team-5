@@ -14,8 +14,6 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,8 +28,7 @@ public class ServerTest {
     MockServer server;
     MockLoginHandler login;
 
-    Dotenv dotenv = Dotenv.load();
-    String uri = dotenv.get("MONGO_URI");
+    String uri = System.getenv("MONGO_URI");
 
     private MongoDB mongoDB;
 

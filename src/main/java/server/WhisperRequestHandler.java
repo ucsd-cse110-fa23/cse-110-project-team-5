@@ -8,17 +8,12 @@ import java.util.*;
 
 import org.json.*;
 
-import com.sun.net.httpserver.HttpExchange;
-
-import io.github.cdimascio.dotenv.Dotenv;
-
 // HTTP handler for processing Whisper requests
 public class WhisperRequestHandler implements HttpHandler {
-    Dotenv dotenv = Dotenv.load();
     
     // OpenAI Whisper API endpoint and authentication details
     private final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
-    private final String TOKEN = dotenv.get("OPENAI_API_KEY");
+    private final String TOKEN = System.getenv("OPENAI_API_KEY");
     private final String MODEL = "whisper-1";
 
     HttpClient client;

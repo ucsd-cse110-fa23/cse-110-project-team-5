@@ -14,7 +14,6 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import mock.MockUser;
 
 import java.util.*;
@@ -22,8 +21,7 @@ import java.util.*;
 import server.MongoDB;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ScenarioTests {
-    Dotenv dotenv = Dotenv.load();
-    String uri = dotenv.get("MONGO_URI");
+    String uri = System.getenv("MONGO_URI");
 
     private MongoDB mongoDB;
     private Document user;

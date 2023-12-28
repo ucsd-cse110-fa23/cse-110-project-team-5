@@ -14,15 +14,13 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.*;
 
 public class MongoDB {
-    Dotenv dotenv = Dotenv.load();
 
     JsonWriterSettings prettyPrint = JsonWriterSettings.builder().indent(true).build();
-    String uri = dotenv.get("MONGO_URI");
+    String uri = System.getenv("MONGO_URI");
     public boolean createUser(String username, String password) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase sampleTrainingDB = mongoClient.getDatabase("Pantry_Pal");

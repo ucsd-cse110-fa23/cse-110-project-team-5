@@ -2,8 +2,6 @@ package server;
 
 import com.sun.net.httpserver.*;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
@@ -17,10 +15,9 @@ import java.util.*;
 import org.json.JSONObject;
 
 public class DallERequestHandler implements HttpHandler {
-    Dotenv dotenv = Dotenv.load();
 
     private final String API_ENDPOINT = "https://api.openai.com/v1/images/generations";
-    private final String API_KEY = dotenv.get("OPENAI_API_KEY");
+    private final String API_KEY = System.getenv("OPENAI_API_KEY");
     private final String MODEL = "dall-e-2";
     
     // HTTP client for making requests
