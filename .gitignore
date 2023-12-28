@@ -8,6 +8,8 @@ lib/
 # Ignore Java class files
 *.class
 
+.env
+
 .vscode
 .DS_Store
 
