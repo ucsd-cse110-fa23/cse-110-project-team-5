@@ -59,7 +59,6 @@ class AppFrame extends BorderPane {
         if (this.serverError.checkServerAvailability()) {
             if (User.isRemembered()) {
                 // Auto-login
-
                 recipeList.setUsername(User.getSavedUsername());
                 showRecipeList();
             } else {
