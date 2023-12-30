@@ -1,5 +1,6 @@
 package server;
 import com.sun.net.httpserver.*;
+
 import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
@@ -12,11 +13,11 @@ import org.json.JSONObject;
 
 // HTTP handler for processing GPT requests
 public class GptRequestHandler implements HttpHandler {
-    
+
     // OpenAI GPT-3 API endpoint and authentication details
-    private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
-    private static final String API_KEY = "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";
-    private static final String MODEL = "text-davinci-003";
+    private final String API_ENDPOINT = "https://api.openai.com/v1/completions";
+    private final String API_KEY = System.getenv("OPENAI_API_KEY");
+    private final String MODEL = "text-davinci-003";
 
     // HTTP client for making requests
     HttpClient client;

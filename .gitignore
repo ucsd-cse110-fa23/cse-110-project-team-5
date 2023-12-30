@@ -1,10 +1,18 @@
+# Ignore lib files
 lib/
-build/
-gradle/
+
+### Gradle ###
 .gradle
+/build/
+
+# Ignore Java class files
 *.class
+
+.env
+
 .vscode
 .DS_Store
+
 build.gradle
 settings.gradle
 gradlew
